@@ -1,0 +1,21 @@
+A gerer :
+
+- tokenisation 			: segmenter l'input et on execute partie par partie 
+
+- built in 				: commande coder dans le shell et independant de la variable d'env PATH 
+				(ne va pas s'exuceter avec execve)
+				ex = cd, echo, pwd
+
+
+- $?						: avec echo, renvoie le exit status avec errno (de ? jsp)
+
+- redirection 				: 
+							">" ecris dans le fichier et ecrase ce quil yavait dedans
+							">>" ecris dans le fichier a la suite du texte deja present
+							"<<" + stopword = here_doc
+							"<" redirige l'entree standard, on lit mtn depuis ce fihcier la 
+
+- variable d'environnement : 
+
+- syntax error				: pipe 
+
