@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:20:13 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/06 05:14:46 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/13 02:11:59 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	child(t_pipex *pipex, int i)
 {
 	char	*path;
 
+	free(pipex->prompt);
 	redirection(pipex, i);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
@@ -41,6 +42,7 @@ void	child(t_pipex *pipex, int i)
 	path = access_cmd(pipex, 0);
 	if (path)
 		execve(path, pipex->tab_cmd, NULL);
+	free_tab(pipex->cmd);
 	return (free(path), free_tab(pipex->tab_cmd), exit(1));
 }
 
@@ -79,17 +81,11 @@ void	init_struct(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->nbr_cmd = argc;
 }
 
-int	pipex(int argc, char **argv, char **envp)
+int	exec(int argc, char **envp, t_pipex *pipex)
 {
-	static t_pipex	pipex = {0};
-
-	init_struct(&pipex, argc, argv, envp);
-	if (pipex.here_doc == 1)
-		here_doc(argv[1], argv[2]);
-	piping_and_forking(&pipex);
-	if (pipex.here_doc == 1)
-		unlink(argv[1]);
-	close(pipex.fd[0]);
-	// free_tab(pipex.tab_cmd);
+	init_struct(pipex, argc, pipex->cmd, envp);
+	piping_and_forking(pipex);
+	close(pipex->fd[0]);
 	return (1);
 }
+	// free_tab(pipex.tab_cmd);

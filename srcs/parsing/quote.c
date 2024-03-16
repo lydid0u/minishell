@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:11:21 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/07 04:41:51 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:31:23 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ int	check_quotes(char *input)
 	return (0);
 }
 
+//mettre tout les char dans les quotes en negatifs pour traiter juste les quotes
+	//voir avec juju le cas des plusiuers quotes pq jai un char bizarre qui pop
 void	quote_negatif(char *input)
 {
-	//voir avec juju le cas des plusiuers quotes pq jai un char bizarre qui pop
-	int i;
-	char quote;
-	
+	int		i;
+	char	quote;
+
 	i = 0;
 	while (input[i])
 	{
@@ -68,20 +69,35 @@ void	quote_negatif(char *input)
 	printf("apres : {%s}\n", input);
 }
 
-int	parsing(char *input)
+void	quote_positif(char *input)
 {
-	char	*output;
+	int	i;
 
-	if (check_quotes(input))
+	i = 0;
+	while (input[i])
 	{
-		ft_printf("bash: error with the quotes\n");
-		return (1);
+		if (input[i] < 0)
+			input[i] *= -1;
+		i++;
 	}
-	output = add_spaces(input);
-	if (!output)
-		return (1);
-	if (check_token(input))
-		return (1);
-	// quote_negatif(input);
-	return (0);
 }
+
+void	handle_single_quote(char *input, int *i, int *count)
+{
+	if (input[*i] && input[*i] == '\'')
+	{
+		(*i)++;
+		(*count)++;
+		while (input[*i] && input[*i] != '\'')
+		{
+			(*i)++;
+			(*count)++;
+		}
+	}
+}
+
+//effacer les quotes pour gerer la string
+// int	suppresing_quote(char *input)
+// {
+// 	//
+// }

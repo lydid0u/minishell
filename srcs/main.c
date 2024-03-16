@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:40:48 by lboudiel          #+#    #+#             */
-/*   Updated: 2024/03/07 04:24:09 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/16 02:10:07 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*prompt;
-	char	**cmd;
-	int		nbcmd;
+	static t_pipex	pipex = {0};
+	char			*prompt;
+	int				nbcmd;
 
-	(void)envp;
-	(void)argc;
-	(void)argv;
 	while (1)
 	{
 		prompt = readline("minishell> ");
@@ -29,14 +26,18 @@ int	main(int argc, char **argv, char **envp)
 		if (!*prompt)
 			continue ;
 		add_history(prompt);
+		ft_expand(&pipex, prompt, envp);
 		if (parsing(prompt))
 			continue ;
-		cmd = ft_split(prompt, '|');
-		nbcmd = countword(prompt, '|');
-		pipex(nbcmd, cmd, envp);
-		free(prompt);
-		free_tab(cmd);
+		pipex.prompt = add_spaces(prompt);
+		if (!pipex.prompt)
+			break ;
+		pipex.cmd = ft_split(pipex.prompt, '|');
+		nbcmd = countword(pipex.prompt, '|');
+		printf("pipex.prompt {%s}\n", pipex.prompt);
+		exec(nbcmd, envp, &pipex);
+		free(pipex.prompt);
+		free_tab(pipex.cmd);
 	}
 	return (1);
 }
-//free cmd dans le pipex

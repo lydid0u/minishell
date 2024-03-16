@@ -19,7 +19,7 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	main.c  \
-				parsing/quote.c parsing/addspaces.c parsing/syntax_error.c\
+				parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c parsing/parsing.c\
 				exec/pipex1.c exec/pipex2.c \
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
@@ -38,7 +38,7 @@ ${NAME} : ${DIR_OBJS} ${OBJS}
 		${MAKE} -C ${LIBFT}
 		${MAKE} -C ${PRINTF}
 		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
-		@echo "\033[31;5msalammmmm\033[0m"
+		@echo "\033[31;5mmaxishell\033[0m"
 
 ${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
 	${CC} ${CFLAGS} ${HEAD} -c $< -o $@

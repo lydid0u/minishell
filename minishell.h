@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/07 04:32:59 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:42:43 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct pipex
 	int		prev;
 	int		here_doc;
 	char	*stop_word;
+	char	**cmd;
+	char	*prompt;
 }			t_pipex;
 
 //				pipex1				//
@@ -51,7 +53,7 @@ void		child(t_pipex *pipex, int i);
 void		piping_and_forking(t_pipex *pipex);
 void		init_struct(t_pipex *pipex, int argc, char **argv, char **envp);
 void		redirection(t_pipex *pipex, int i);
-int			pipex(int argc, char **argv, char **envp);
+int			exec(int argc, char **envp, t_pipex *pipex);
 
 //				pipex2				//
 char		*access_cmd(t_pipex *pipex, int i);
@@ -67,13 +69,26 @@ int			count_token(char *input);
 //				quote				//
 int			check_quotes(char *input);
 void		quote_negatif(char *input);
+void		quote_positif(char *input);
+void	handle_single_quote(char *input, int *i, int *count);
+
+//				parsing				//
 int			parsing(char *input);
+int			check_separator(char *input);
 
 //				syntax_error		//
 int			pipe_in_first(char *input);
 int			pipe_in_last(char *input, int i);
+int			redir_in_last(char *input, int i);
 int			double_pipe(char *input);
 int			redir_n_pipe(char *input);
-int			check_token(char *input);
+
+//				expand				//
+char		*ft_expand(t_pipex *pipex, char *str, char **envp);
+char		*get_value_from_key(char *key, char **envp);
+int			get_len_of_key(char *str);
+int			get_len_of_value_from_str(char *str, char **envp);
+
+// garbage collector ??
 
 #endif

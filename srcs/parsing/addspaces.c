@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:35 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/07 02:22:45 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/13 02:22:45 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,5 @@ char	*add_spaces(char *s)
 			output[j++] = s[i++];
 	}
 	output[j] = '\0';
-	printf("{%s}\n", output);
-	return (output);
+	return (free(s), output);
 }
