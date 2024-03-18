@@ -19,8 +19,8 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	main.c  \
-				parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c parsing/parsing.c\
-				exec/pipex1.c exec/pipex2.c \
+				parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c parsing/expand_2.c parsing/parsing.c\
+				exec/pipex1.c exec/pipex2.c exec/change_env.c\
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 

@@ -6,9 +6,6 @@ A gerer :
 				        (ne va pas s'exuceter avec execve)
                         — echo (option -n only)
                         — exit
-                        — env (with no options or arguments)
-                        — export (with no options)
-                        — unset (with no options)
                         — cd (qu'avec un absolute path ou un realtive (?))
                         — pwd
 

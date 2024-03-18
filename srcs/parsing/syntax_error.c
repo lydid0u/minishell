@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:54:53 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/16 01:42:03 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/18 04:43:38 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
     	if tab[dernier] == PIPE ou CHEVRON
     	if tab[i] == CHEVRON && tab[i + 1] == CHEVRON ou PIPE
 */
+
 int	pipe_in_first(char *input)
 {
 	int	i;

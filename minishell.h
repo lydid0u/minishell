@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/16 01:42:43 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:18:55 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ typedef struct pipex
 	char	*prompt;
 }			t_pipex;
 
+typedef struct s_copyenv
+{
+	char	*key;
+	char 	*value;
+	struct s_copyenv *next;
+}				t_copyenv;
+
 //				pipex1				//
 void		child(t_pipex *pipex, int i);
 void		piping_and_forking(t_pipex *pipex);
@@ -70,7 +77,6 @@ int			count_token(char *input);
 int			check_quotes(char *input);
 void		quote_negatif(char *input);
 void		quote_positif(char *input);
-void	handle_single_quote(char *input, int *i, int *count);
 
 //				parsing				//
 int			parsing(char *input);
@@ -84,10 +90,16 @@ int			double_pipe(char *input);
 int			redir_n_pipe(char *input);
 
 //				expand				//
-char		*ft_expand(t_pipex *pipex, char *str, char **envp);
 char		*get_value_from_key(char *key, char **envp);
 int			get_len_of_key(char *str);
 int			get_len_of_value_from_str(char *str, char **envp);
+int			total_expand(char *input, char **envp);
+char		*final_string(char *input, char **envp);
+
+//				expand_2	   		//
+void		handle_single_quote(char *input, int *i, int *count);
+void		write_single_quote(char *input, char *output, int *i, int *j);
+int			is_key_valid(char *key, char **envp);
 
 // garbage collector ??
 

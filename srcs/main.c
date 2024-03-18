@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:40:48 by lboudiel          #+#    #+#             */
-/*   Updated: 2024/03/16 02:10:07 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/18 05:11:51 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,21 @@ int	main(int argc, char **argv, char **envp)
 	char			*prompt;
 	int				nbcmd;
 
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
+		// copy_env();
 		prompt = readline("minishell> ");
 		if (!prompt)
 			break ;
 		if (!*prompt)
 			continue ;
 		add_history(prompt);
-		ft_expand(&pipex, prompt, envp);
-		if (parsing(prompt))
+		pipex.prompt = final_string(prompt, envp);
+		if (parsing(pipex.prompt))
 			continue ;
-		pipex.prompt = add_spaces(prompt);
+		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
 		pipex.cmd = ft_split(pipex.prompt, '|');

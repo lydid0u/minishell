@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:21:09 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/16 02:16:03 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/18 05:21:32 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,15 @@ int	total_expand(char *input, char **envp)
 	count = 0;
 	while (input[i])
 	{
-		handle_single_quote(&input[i], &i, &count);
+		handle_single_quote(input, &i, &count);
 		while (input[i] == '$')
 		{
 			i++;
+			if (is_key_valid(&input[i], envp))
+			{
+				i += get_len_of_key(&input[i]);
+				break ;
+			}
 			count += get_len_of_value_from_str(&input[i], envp);
 			i += get_len_of_key(&input[i]);
 		}
@@ -88,7 +93,7 @@ char	*get_value_from_key(char *key, char **envp)
 	int	len;
 
 	i = 0;
-	len = ft_strlen(key);
+	len = get_len_of_key(&key[i]);
 	while (envp[i])
 	{
 		if (ft_strncmp(key, envp[i], len) == 0)
@@ -100,36 +105,44 @@ char	*get_value_from_key(char *key, char **envp)
 
 char	*final_string(char *input, char **envp)
 {
-	int	i;
-	int	len;
-	char *value;
+	int		i;
+	int		j;
+	int		k;
+	char	*value;
+	char	*output;
 
 	i = 0;
-	len = 0;
-	value = 
+	j = 0;
+	output = malloc(sizeof(char) * (total_expand(input, envp) + 1));
 	while (input[i])
 	{
-		handle_single_quote(&input[i], &i, &len);
+		write_single_quote(input, output, &i, &j);
 		while (input[i] == '$')
 		{
 			i++;
-			len += get_len_of_value_from_str(&input[i], envp);
+			if (is_key_valid(&input[i], envp))
+			{
+				i += get_len_of_key(&input[i]);
+				break ;
+			}
+			value = get_value_from_key(&input[i], envp);
+			printf("VALUE {%s}\n", value);
+			k = 0;
+			while (value[k])
+			{
+				output[j] = value[k];
+				j++;
+				k++;
+			}
 			i += get_len_of_key(&input[i]);
 		}
 		if (input[i])
 		{
+			output[j] = input[i];
 			i++;
-			len++;
+			j++;
 		}
 	}
-	return (len);
-}
-
-
-char	*ft_expand(t_pipex *pipex, char *str, char **envp)
-{
-	char *new = malloc(sizeof(char) * total_expand(str, envp));
-	
-	new = 
-	// return (new);
+	output[j] = '\0';
+	return (free(input), output);
 }

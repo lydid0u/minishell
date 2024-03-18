@@ -6,13 +6,16 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:11:21 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/16 01:31:23 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/18 05:29:39 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
+
+""''''''''''gfhfg'gfh'lalalala"
+
 checkquotes
 	verifie si les quotes sont bien fermees
 	
@@ -44,7 +47,6 @@ int	check_quotes(char *input)
 }
 
 //mettre tout les char dans les quotes en negatifs pour traiter juste les quotes
-	//voir avec juju le cas des plusiuers quotes pq jai un char bizarre qui pop
 void	quote_negatif(char *input)
 {
 	int		i;
@@ -82,22 +84,8 @@ void	quote_positif(char *input)
 	}
 }
 
-void	handle_single_quote(char *input, int *i, int *count)
-{
-	if (input[*i] && input[*i] == '\'')
-	{
-		(*i)++;
-		(*count)++;
-		while (input[*i] && input[*i] != '\'')
-		{
-			(*i)++;
-			(*count)++;
-		}
-	}
-}
-
 //effacer les quotes pour gerer la string
 // int	suppresing_quote(char *input)
 // {
-// 	//
+	
 // }
