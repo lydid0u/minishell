@@ -15,6 +15,7 @@
 
 # include "./ft_printf/ft_printf.h"
 # include "./libft/libft.h"
+# include "srcs/gnl/gnl.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -100,6 +101,21 @@ char		*final_string(char *input, char **envp);
 void		handle_single_quote(char *input, int *i, int *count);
 void		write_single_quote(char *input, char *output, int *i, int *j);
 int			is_key_valid(char *key, char **envp);
+
+
+//				export_unset      	//
+void	copy_envp(char **envp, t_copyenv *lst);
+int	lstsize(t_copyenv *lst);
+void	free_lst(t_copyenv *lst);
+
+
+//				copy_envp			//
+t_copyenv *create_node(void);
+void key_env(t_copyenv *node, char *key);
+void value_env(t_copyenv *node, char *value);
+int	nbr_of_element_in_envp(char **envp);
+void looping_to_copy_env(t_copyenv *lst);
+void create_lst(char **envp);
 
 // garbage collector ??
 
