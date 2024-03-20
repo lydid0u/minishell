@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:40:48 by lboudiel          #+#    #+#             */
-/*   Updated: 2024/03/18 05:11:51 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/20 03:20:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex = {0};
+	t_copyenv		*copyenv;
 	char			*prompt;
 	int				nbcmd;
 
 	(void)argc;
 	(void)argv;
+	copyenv = create_lst(envp);
 	while (1)
 	{
-		// copy_env();
 		prompt = readline("minishell> ");
 		if (!prompt)
 			break ;
@@ -35,10 +36,18 @@ int	main(int argc, char **argv, char **envp)
 		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
+		built_export(pipex.prompt);
 		pipex.cmd = ft_split(pipex.prompt, '|');
 		nbcmd = countword(pipex.prompt, '|');
-		printf("pipex.prompt {%s}\n", pipex.prompt);
-		exec(nbcmd, envp, &pipex);
+		{
+			char **tab = ft_split(pipex.cmd[0], ' ');
+			if (strcmp(tab[0], "export") == 0)
+			{
+				printf("aa\n");
+				built_in_export(&tab[1], copyenv);
+			}
+		}
+		// exec(nbcmd, envp, &pipex);
 		free(pipex.prompt);
 		free_tab(pipex.cmd);
 	}

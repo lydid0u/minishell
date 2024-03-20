@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:11:21 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/18 05:29:39 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/20 00:25:09 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	quote_negatif(char *input)
 		if (input[i])
 			i++;
 	}
-	printf("apres : {%s}\n", input);
 }
 
 void	quote_positif(char *input)
@@ -87,5 +86,4 @@ void	quote_positif(char *input)
 //effacer les quotes pour gerer la string
 // int	suppresing_quote(char *input)
 // {
-	
 // }

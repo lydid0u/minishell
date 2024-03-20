@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/18 06:18:55 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/20 03:23:08 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,76 +30,92 @@
 
 typedef struct pipex
 {
-	char	**envp;
-	char	*infile;
-	char	*outfile;
-	int		nbr_cmd;
-	char	**arg_cmd;
-	int		infile_fd;
-	int		outfile_fd;
-	int		fd[2];
-	int		pid[1024];
-	char	**tab_cmd;
-	char	**args_path;
-	int		prev;
-	int		here_doc;
-	char	*stop_word;
-	char	**cmd;
-	char	*prompt;
-}			t_pipex;
+	char				**envp;
+	char				*infile;
+	char				*outfile;
+	int					nbr_cmd;
+	char				**arg_cmd;
+	int					infile_fd;
+	int					outfile_fd;
+	int					fd[2];
+	int					pid[1024];
+	char				**tab_cmd;
+	char				**args_path;
+	int					prev;
+	int					here_doc;
+	char				*stop_word;
+	char				**cmd;
+	char				*prompt;
+}						t_pipex;
 
 typedef struct s_copyenv
 {
-	char	*key;
-	char 	*value;
-	struct s_copyenv *next;
-}				t_copyenv;
+	char				*key;
+	char				*value;
+	int					written;
+	struct s_copyenv	*next;
+}						t_copyenv;
 
 //				pipex1				//
-void		child(t_pipex *pipex, int i);
-void		piping_and_forking(t_pipex *pipex);
-void		init_struct(t_pipex *pipex, int argc, char **argv, char **envp);
-void		redirection(t_pipex *pipex, int i);
-int			exec(int argc, char **envp, t_pipex *pipex);
+void					child(t_pipex *pipex, int i);
+void					piping_and_forking(t_pipex *pipex);
+void					init_struct(t_pipex *pipex, int argc, char **argv,
+							char **envp);
+void					redirection(t_pipex *pipex, int i);
+int						exec(int argc, char **envp, t_pipex *pipex);
 
 //				pipex2				//
-char		*access_cmd(t_pipex *pipex, int i);
-int			open_fd(t_pipex *pipex, int i);
-char		**get_path(char **envp);
-void		free_tab(char **tab);
-void		here_doc(char *infile, char *stop_word);
+char					*access_cmd(t_pipex *pipex, int i);
+int						open_fd(t_pipex *pipex, int i);
+char					**get_path(char **envp);
+void					free_tab(char **tab);
+void					here_doc(char *infile, char *stop_word);
 
 //				addspaces			//
-char		*add_spaces(char *input);
-int			count_token(char *input);
+char					*add_spaces(char *input);
+int						count_token(char *input);
 
 //				quote				//
-int			check_quotes(char *input);
-void		quote_negatif(char *input);
-void		quote_positif(char *input);
+int						check_quotes(char *input);
+void					quote_negatif(char *input);
+void					quote_positif(char *input);
 
 //				parsing				//
-int			parsing(char *input);
-int			check_separator(char *input);
+int						parsing(char *input);
+int						check_separator(char *input);
 
 //				syntax_error		//
-int			pipe_in_first(char *input);
-int			pipe_in_last(char *input, int i);
-int			redir_in_last(char *input, int i);
-int			double_pipe(char *input);
-int			redir_n_pipe(char *input);
+int						pipe_in_first(char *input);
+int						pipe_in_last(char *input, int i);
+int						redir_in_last(char *input, int i);
+int						double_pipe(char *input);
+int						redir_n_pipe(char *input);
 
 //				expand				//
-char		*get_value_from_key(char *key, char **envp);
-int			get_len_of_key(char *str);
-int			get_len_of_value_from_str(char *str, char **envp);
-int			total_expand(char *input, char **envp);
-char		*final_string(char *input, char **envp);
+char					*get_value_from_key(char *key, char **envp);
+int						get_len_of_key(char *str);
+int						get_len_of_value_from_str(char *str, char **envp);
+int						total_expand(char *input, char **envp);
+char					*final_string(char *input, char **envp);
 
-//				expand_2	   		//
-void		handle_single_quote(char *input, int *i, int *count);
-void		write_single_quote(char *input, char *output, int *i, int *j);
-int			is_key_valid(char *key, char **envp);
+//				expand_2				//
+void					handle_single_quote(char *input, int *i, int *count);
+void					write_single_quote(char *input, char *output, int *i,
+							int *j);
+int						is_key_valid(char *key, char **envp);
+
+//				export_unset      	//
+void					copy_envp(char **envp, t_copyenv *lst);
+void					free_lst(t_copyenv *lst);
+void					built_in_export(char **args, t_copyenv *lst);
+void					built_export(char *input);
+
+//				copy_envp			//
+t_copyenv				*create_node(void);
+void					key_env(t_copyenv *node, char *key);
+void					value_env(t_copyenv *node, char *value);
+int						nbr_of_element_in_envp(char **envp);
+t_copyenv				*create_lst(char **envp);
 
 // garbage collector ??
 
