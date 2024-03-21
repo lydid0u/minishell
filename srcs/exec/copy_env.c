@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/20 03:22:19 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/21 03:27:24 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_copyenv	*create_lst(char **envp)
 	head = NULL;
 	new = NULL;
 	current = NULL;
-	while (i < size - 2) // pq - 2??
+	while (i < size - 1) 
 	{
 		new = create_node();
 		if (head == NULL)
@@ -82,13 +82,12 @@ t_copyenv	*create_lst(char **envp)
 	t_copyenv *lst = head;
 	copy_envp(envp, lst);
 
-	lst = head;
-	while (lst != NULL)
-	{
-	    printf("KEY: {%s}\nVALUE: {%s}\n\n", lst->key, lst->value);
-	    lst = lst->next;
-	}
-
+	// lst = head;
+	// while (lst != NULL)
+	// {
+	//     printf("KEY: {%s}\nVALUE: {%s}\n\n", lst->key, lst->value);
+	//     lst = lst->next;
+	// }
 	return (head);
 	// free_lst(head);
 }

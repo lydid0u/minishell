@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/20 03:57:14 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/21 04:07:38 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,28 @@
 	- step 4 : ajouter le noeud a la fin
 */
 
-// int		parsing_export(char **args)
-// {
-	
-// }
-
-void	export_only(t_copyenv *head)
+void		parsing_export(char *str, t_copyenv *lst)
 {
 	int i;
-	int j;
-	int alpha;
-	char lettre;
-	t_copyenv *current;
+	t_copyenv	*node_export;
 	
-	current = head;
-	lettre = 'A';
-	alpha = 0;
-	while (alpha < 26)
+	i = 0;
+	node_export = create_node();
+	while (lst)
 	{
-		while (current)
+		printf("str : {%s} key : {%s}\n", str, lst->key);
+		if (ft_strncmp(str, lst->key, ft__strlen(lst->key)) == 0)
 		{
-			i = 0;
-			j = 0;
-			if (lettre == current->key[0] && current->written == 0)
-			{
-				current->written = 1;
-				printf("export %s=\"%s\"\n", current->key, current->value);
-			}
-			current = current->next;
+			printf("ls\n");
+			node_export->key = malloc(ft__strlen(lst->key) + 1);
+			strncpy(node_export->key, lst->key, ft__strlen(lst->key) + 1);
+			printf("key export {%s} key {%s} \n", node_export->key, lst->key);
+			i += ft__strlen(lst->key) + 1;
+			node_export->value = malloc(ft__strlen(lst->value) + 1); //la len est fausse -> a fix
+			strncpy(node_export->value, &str[i], ft__strlen(lst->key) + 1);
+			printf("value export {%s}\n", node_export->value);
 		}
-		current = head;
-		lettre++;
-		alpha++;
+		lst = lst->next;
 	}
 }
 
@@ -78,11 +68,12 @@ void	built_in_export(char **args, t_copyenv *lst) //t_pipex *pipex
 
 	i = 0;
 	// status = 0;
-	if (args[i] == NULL)
-		export_only(lst);
+	// if (args[i] == NULL)
+	// 	export_only(lst);
 	while (args[i])
 	{
 		printf("argument : {%s}\n", args[i]);
+		parsing_export(args[i], lst);
 		// if (parse(args[i]))
 			// continue ;
 		// export_value(args[i])
