@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:35 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/13 02:22:45 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/23 00:19:10 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 addspaces
 prend la chaine input en argument
 doit reproduire ce comportement:
-		input = "ls>a|>>a<b|c"
-		output= "ls > a >>|  a < b | c"
+		input = ls>a|>>a<b|c
+		output= ls > a >>|  a < b | c
 */
 
 int	count_token(char *input)

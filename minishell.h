@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/20 03:23:08 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/24 00:19:12 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_copyenv
 {
 	char				*key;
 	char				*value;
-	int					written;
 	struct s_copyenv	*next;
 }						t_copyenv;
 
@@ -104,18 +103,23 @@ void					write_single_quote(char *input, char *output, int *i,
 							int *j);
 int						is_key_valid(char *key, char **envp);
 
-//				export_unset      	//
-void					copy_envp(char **envp, t_copyenv *lst);
-void					free_lst(t_copyenv *lst);
-void					built_in_export(char **args, t_copyenv *lst);
-void					built_export(char *input);
-
 //				copy_envp			//
 t_copyenv				*create_node(void);
 void					key_env(t_copyenv *node, char *key);
 void					value_env(t_copyenv *node, char *value);
 int						nbr_of_element_in_envp(char **envp);
 t_copyenv				*create_lst(char **envp);
+
+//				export      	//
+void					copy_envp(char **envp, t_copyenv *lst);
+void					free_lst(t_copyenv *lst);
+void					built_in_export(char **args, t_copyenv *lst);
+// void					built_export(char *input);
+
+//				unset			//
+void					built_in_unset(char **args, t_copyenv *lst);
+void    				delete_last_node(t_copyenv *head);
+
 
 // garbage collector ??
 

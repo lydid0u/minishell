@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:54:53 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/18 04:43:38 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/23 00:27:50 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	pipe_in_first(char *input)
 
 int	pipe_in_last(char *input, int i)
 {
-	while (input[i])
+	while (i >= 0)
 	{
 		if (input[i] == '|')
 			return (1);
@@ -53,7 +53,7 @@ int	pipe_in_last(char *input, int i)
 
 int	redir_in_last(char *input, int i)
 {
-	while (input[i])
+	while (i >= 0)
 	{
 		if (input[i] == '<' || input[i] == '>')
 			return (1);

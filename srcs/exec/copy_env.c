@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/21 03:27:24 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/24 02:42:09 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_copyenv	*create_node(void)
 		return (NULL);
 	node->key = NULL;
 	node->value = NULL;
-	node->written = 0;
 	node->next = NULL;
 	return (node);
 }
@@ -32,7 +31,6 @@ void	key_env(t_copyenv *node, char *key)
 	{
 		node->key = malloc(ft__strlen(key) + 1);
 		strcpy(node->key, key);
-		printf("KEEEY {%s}\n", node->key);
 	}
 }
 
@@ -42,7 +40,6 @@ void	value_env(t_copyenv *node, char *value)
 	{
 		node->value = malloc(ft__strlen(value) + 1);
 		strcpy(node->value, value);
-		printf("VALUEEEE {%s}\n", node->value);
 	}
 }
 
@@ -81,13 +78,6 @@ t_copyenv	*create_lst(char **envp)
 	}
 	t_copyenv *lst = head;
 	copy_envp(envp, lst);
-
-	// lst = head;
-	// while (lst != NULL)
-	// {
-	//     printf("KEY: {%s}\nVALUE: {%s}\n\n", lst->key, lst->value);
-	//     lst = lst->next;
-	// }
 	return (head);
 	// free_lst(head);
 }
@@ -101,6 +91,7 @@ void	copy_envp(char **envp, t_copyenv *lst)
 	char		*key;
 	char		*value;
 	t_copyenv	*current;
+	int lentoalloc; 
 
 	i = 0;
 	current = lst;
@@ -120,14 +111,10 @@ void	copy_envp(char **envp, t_copyenv *lst)
 				key[k] = '\0';
 				key_env(current, key);
 				j++;
-				value = malloc(sizeof(char)
-						* (get_len_of_value_from_str(envp[i], envp) + 1));
+				lentoalloc = ft_strlen(&envp[i][j]);
+				value = malloc(sizeof(char) * (lentoalloc + 1));
 				while (envp[i][j])
-				{
-					value[v] = envp[i][j];
-					j++;
-					v++;
-				}
+					value[v++] = envp[i][j++];
 				value[v] = '\0';
 			}
 		}
@@ -145,12 +132,16 @@ void	copy_envp(char **envp, t_copyenv *lst)
 
 void	free_lst(t_copyenv *lst)
 {
+	t_copyenv *current;
 	t_copyenv *nxt;
 
-	while (lst)
+	current = lst;
+	while (current)
 	{
-		nxt = lst->next;
-		free(lst);
-		lst = nxt;
+		nxt = current->next;
+		free(current);
+		free(current->key);
+		free(current->value);
+		current = nxt;
 	}
 }
