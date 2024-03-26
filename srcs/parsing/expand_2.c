@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:20:48 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/18 05:21:39 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/26 03:29:17 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,42 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 	}
 }
 
-int	is_key_valid(char *key, char **envp)
+int	is_key_valid(char *key, t_copyenv *lst_envp)
 {
 	int	i;
 	int	len;
+	char	*key_env;
 
 	i = 0;
-	len = get_len_of_key(&key[i]);
-	while (envp[i])
+	key = get_key_expand(key);
+	while (lst_envp)
 	{
-		if (ft_strncmp(key, envp[i], len) == 0)
-			return (0);
-		i++;
+		key_env = get_key_expand(lst_envp->key);
+		len = get_len_of_key(key_env);
+		if (strcmp(key, key_env) == 0)
+			return (free(key_env), free(key), 0);
+		lst_envp = lst_envp->next;
+		free(key_env);
 	}
-	return (1);
+	return (free(key), 1);
+}
+
+char *get_key_expand(char *str)
+{
+	int	i;
+	int	j;
+	char *key;
+
+	i = 0;
+	j = 0;
+	key = malloc (sizeof(char) * (get_len_of_key(str) + 1));
+	if (!key)
+		return (NULL);
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		key[j++] = str[i++];
+	}
+	key[j] = '\0';
+	printf("STR {%s}\n", key);
+	return (key);
 }

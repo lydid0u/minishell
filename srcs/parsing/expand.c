@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:21:09 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/18 05:21:32 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/26 04:03:04 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,29 @@ value = lboudjel
 // avion $USER bla
 // USER bla
 
-int	get_len_of_value_from_str(char *input, char **envp)
+char	*get_value_from_key(char *key, t_copyenv *lst_envp)
+{
+	int	i;
+	int	len;
+	char	*key_env;
+
+	i = 0;
+	while (lst_envp)
+	{
+		key_env = get_key(lst_envp->key);
+		len = get_len_of_key(key_env);
+		if (ft_strcmp(key, key_env) == 0)
+		{
+			printf("LST VALUE %s", lst_envp->value);
+			return (free(key_env), lst_envp->value);
+		}
+		free(key_env);
+		lst_envp = lst_envp->next;
+	}
+	return (NULL);
+}
+
+int	get_len_of_value_from_str(char *input, t_copyenv *lst_envp)
 {
 	char	*value;
 	char	stock;
@@ -41,9 +63,10 @@ int	get_len_of_value_from_str(char *input, char **envp)
 	len_key = get_len_of_key(input);
 	stock = input[len_key];
 	input[len_key] = '\0';
-	value = get_value_from_key(input, envp);
+	value = get_value_from_key(input, lst_envp);
 	input[len_key] = stock;
 	value_len = ft__strlen(value);
+	printf("VALUE {%s}\n", value);
 	return (value_len);
 }
 
@@ -57,7 +80,7 @@ int	get_len_of_key(char *key)
 	return (i);
 }
 
-int	total_expand(char *input, char **envp)
+int	total_expand(char *input, t_copyenv *lst_envp)
 {
 	int	i;
 	int	count;
@@ -70,63 +93,56 @@ int	total_expand(char *input, char **envp)
 		while (input[i] == '$')
 		{
 			i++;
-			if (is_key_valid(&input[i], envp))
+			if (is_key_valid(&input[i], lst_envp))
 			{
+				printf("la\n");
 				i += get_len_of_key(&input[i]);
 				break ;
 			}
-			count += get_len_of_value_from_str(&input[i], envp);
+			count += get_len_of_value_from_str(&input[i], lst_envp);
 			i += get_len_of_key(&input[i]);
 		}
+		if (input[i] == '$')
+			continue;
 		if (input[i])
 		{
 			i++;
 			count++;
 		}
 	}
+	printf("COUNT {%i}\n", count);
 	return (count);
 }
 
-char	*get_value_from_key(char *key, char **envp)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = get_len_of_key(&key[i]);
-	while (envp[i])
-	{
-		if (ft_strncmp(key, envp[i], len) == 0)
-			return (&envp[i][len + 1]);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*final_string(char *input, char **envp)
+char	*final_string(char *input, t_copyenv *lst_envp)
 {
 	int		i;
 	int		j;
 	int		k;
 	char	*value;
 	char	*output;
+	char 	*key;
 
 	i = 0;
 	j = 0;
-	output = malloc(sizeof(char) * (total_expand(input, envp) + 1));
+	output = malloc(sizeof(char) * (total_expand(input, lst_envp) + 1));
+	if (!output)
+		return (NULL);
 	while (input[i])
 	{
 		write_single_quote(input, output, &i, &j);
 		while (input[i] == '$')
 		{
 			i++;
-			if (is_key_valid(&input[i], envp))
+			key = get_key_expand(&input[i]);
+			if (is_key_valid(key, lst_envp) != 0)
 			{
-				i += get_len_of_key(&input[i]);
+				printf("la string {%s}\n", key);
+				i += get_len_of_key(key);
+				free(key);
 				break ;
 			}
-			value = get_value_from_key(&input[i], envp);
-			printf("VALUE {%s}\n", value);
+			value = get_value_from_key(key, lst_envp);
 			k = 0;
 			while (value[k])
 			{
@@ -135,7 +151,10 @@ char	*final_string(char *input, char **envp)
 				k++;
 			}
 			i += get_len_of_key(&input[i]);
+			free(key);
 		}
+		if (input[i] == '$')
+			continue;
 		if (input[i])
 		{
 			output[j] = input[i];
@@ -146,3 +165,37 @@ char	*final_string(char *input, char **envp)
 	output[j] = '\0';
 	return (free(input), output);
 }
+
+
+	// while (input[i])
+	// {
+	// 	write_single_quote(input, output, &i, &j);
+	// 	while (input[i] == '$')
+	// 	{
+	// 		i++;
+	// 		if (is_key_valid(&input[i], envp))
+	// 		{
+	// 			printf("HERE dans le if is key valid\n");
+	// 			i += get_len_of_key(&input[i]);
+	// 			break ;
+	// 		}
+	// 		// ft_strjoin(&output[j], get_value_from_key(&input[i], envp));
+	// 		// printf("---------- %s\n", output);
+	// 		// while (output[j])
+	// 			// j++;
+	// 		value = malloc(sizeof(char) * (get_len_of_value_from_str(&input[i], envp) + 1));
+	// 		if (!value)
+	// 			return (NULL);
+	// 		value = get_value_from_key(&input[i], envp);
+	// 		printf("VALUE {%s}\n", value);
+	// 		k = 0;	
+	// 		while (value[k])
+	// 		{
+	// 			output[j] = value[k];
+	// 			j++;
+	// 			k++;
+	// 		}
+	// 		printf("INPUT I %s\n", &input[i]);
+	// 		i += get_len_of_key(&input[i]);
+	// 	}
+

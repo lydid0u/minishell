@@ -6,24 +6,11 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/24 02:42:09 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/26 00:17:26 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_copyenv	*create_node(void)
-{
-	t_copyenv	*node;
-
-	node = malloc(sizeof(t_copyenv));
-	if (node == NULL)
-		return (NULL);
-	node->key = NULL;
-	node->value = NULL;
-	node->next = NULL;
-	return (node);
-}
 
 void	key_env(t_copyenv *node, char *key)
 {
@@ -66,7 +53,7 @@ t_copyenv	*create_lst(char **envp)
 	head = NULL;
 	new = NULL;
 	current = NULL;
-	while (i < size - 1) 
+	while (i < size - 1)
 	{
 		new = create_node();
 		if (head == NULL)
@@ -76,72 +63,35 @@ t_copyenv	*create_lst(char **envp)
 		current = new;
 		i++;
 	}
-	t_copyenv *lst = head;
-	copy_envp(envp, lst);
+	current = head;
+	copy_envp(envp, current);
 	return (head);
-	// free_lst(head);
 }
 
 void	copy_envp(char **envp, t_copyenv *lst)
 {
 	int			i;
 	int			j;
-	int			k;
-	int			v;
-	char		*key;
-	char		*value;
+	int 		size;
 	t_copyenv	*current;
-	int lentoalloc; 
 
 	i = 0;
 	current = lst;
-	while (envp[i] && current != NULL)
+	while (envp[i] && current)
 	{
 		j = 0;
-		k = 0;
-		v = 0;
-		key = malloc(sizeof(char) * (get_len_of_key(envp[i]) + 1));
-		while (envp[i][j] && current)
+		current->key = get_key(envp[i]);
+		j += (ft__strlen(current->key) + 1);
+		size = ft__strlen(envp[i]);
+		current->value = malloc((sizeof(char) * size) + 1);
+		j = 0;
+		while (envp[i][j])
 		{
-			key[k] = envp[i][j];
+			current->value[j] = envp[i][j];
 			j++;
-			k++;
-			if (envp[i][j] == '=')
-			{
-				key[k] = '\0';
-				key_env(current, key);
-				j++;
-				lentoalloc = ft_strlen(&envp[i][j]);
-				value = malloc(sizeof(char) * (lentoalloc + 1));
-				while (envp[i][j])
-					value[v++] = envp[i][j++];
-				value[v] = '\0';
-			}
 		}
-		value_env(current, value);
-		free(key);
-		free(value);
-		// free(current->key);
-		// current->key = NULL;
-		// free(current->value);
-		// current->value = NULL;
+		current->value[j] = '\0';
 		current = current->next;
 		i++;
-	}
-}
-
-void	free_lst(t_copyenv *lst)
-{
-	t_copyenv *current;
-	t_copyenv *nxt;
-
-	current = lst;
-	while (current)
-	{
-		nxt = current->next;
-		free(current);
-		free(current->key);
-		free(current->value);
-		current = nxt;
 	}
 }

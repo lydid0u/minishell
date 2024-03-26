@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_solo.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/25 04:07:44 by lboudjel          #+#    #+#             */
+/*   Updated: 2024/03/25 04:08:24 by lboudjel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 // void	export_only(t_copyenv *head)
 // {
@@ -6,7 +17,6 @@
 // 	t_copyenv *current;
 // 	t_copyenv *first_sort;
 // 	t_copyenv *next;
-	
 // 	current = head;
 // 	first_sort = NULL;
 // 	next = NULL;
@@ -43,8 +53,9 @@
 //     } 
 // 	else 
 // 	{
-//         current = *head_ref;
-//         while (current->next != NULL && strcmp(current->next->key, new_node->key) < 0) 
+//      current = *head_ref;
+//      while (current->next != NULL 
+		// && strcmp(current->next->key, new_node->key) < 0) 
 // 		{
 //             current = current->next;
 //         }
@@ -59,8 +70,6 @@
 //     t_copyenv *current = head;
 //     t_copyenv *sorted = NULL;
 //     t_copyenv *next = NULL;
-	
-
 //     while (current != NULL) 
 // 	{
 // 		next = current->next;

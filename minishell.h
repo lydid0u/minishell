@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/24 00:19:12 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/26 03:41:05 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void					piping_and_forking(t_pipex *pipex);
 void					init_struct(t_pipex *pipex, int argc, char **argv,
 							char **envp);
 void					redirection(t_pipex *pipex, int i);
-int						exec(int argc, char **envp, t_pipex *pipex);
+int						exec(int argc, t_copyenv *lst_envp, t_pipex *pipex);
 
 //				pipex2				//
 char					*access_cmd(t_pipex *pipex, int i);
@@ -91,35 +91,43 @@ int						double_pipe(char *input);
 int						redir_n_pipe(char *input);
 
 //				expand				//
-char					*get_value_from_key(char *key, char **envp);
+char					*get_value_from_key(char *key, t_copyenv *lst_envp);
 int						get_len_of_key(char *str);
-int						get_len_of_value_from_str(char *str, char **envp);
-int						total_expand(char *input, char **envp);
-char					*final_string(char *input, char **envp);
+int						get_len_of_value_from_str(char *str, t_copyenv *lst_envp);
+int						total_expand(char *input, t_copyenv *lst_envp);
+char					*final_string(char *input, t_copyenv *lst_envp);
 
 //				expand_2				//
 void					handle_single_quote(char *input, int *i, int *count);
 void					write_single_quote(char *input, char *output, int *i,
 							int *j);
-int						is_key_valid(char *key, char **envp);
+int						is_key_valid(char *key, t_copyenv *lst_envp);
+char					*get_key_expand(char *str);
 
 //				copy_envp			//
-t_copyenv				*create_node(void);
 void					key_env(t_copyenv *node, char *key);
 void					value_env(t_copyenv *node, char *value);
 int						nbr_of_element_in_envp(char **envp);
 t_copyenv				*create_lst(char **envp);
+void					copy_envp(char **envp, t_copyenv *lst);
 
 //				export      	//
-void					copy_envp(char **envp, t_copyenv *lst);
-void					free_lst(t_copyenv *lst);
+int						export_key_already_existing(char *key, char *str,
+							t_copyenv *head);
+int						create_export_node(char *str, t_copyenv *head);
+int						wrong(char *str);
 void					built_in_export(char **args, t_copyenv *lst);
-// void					built_export(char *input);
 
 //				unset			//
+int						parsing_unset(char *str, t_copyenv *head);
 void					built_in_unset(char **args, t_copyenv *lst);
-void    				delete_last_node(t_copyenv *head);
 
+//				utils_export	//
+char					*get_key(char *str);
+void					add_node_export_back(t_copyenv *lst,
+							t_copyenv *new_node);
+void					free_lst(t_copyenv *lst);
+t_copyenv				*create_node(void);
 
 // garbage collector ??
 
