@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/26 04:30:03 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/26 22:58:23 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	create_export_node(char *str, t_copyenv *head)
 			node_export->value[j++] = str[i++];
 		node_export->value[j] = '\0';
 	}
-	printf("\n\nNODE VALUE %s\n\n", node_export->value);
 	add_node_export_back(head, node_export);
 	return (0);
 }

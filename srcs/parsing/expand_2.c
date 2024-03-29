@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:20:48 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/26 03:29:17 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/29 01:46:35 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 
 int	is_key_valid(char *key, t_copyenv *lst_envp)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*key_env;
 
 	i = 0;
@@ -62,15 +62,15 @@ int	is_key_valid(char *key, t_copyenv *lst_envp)
 	return (free(key), 1);
 }
 
-char *get_key_expand(char *str)
+char	*get_key_expand(char *str)
 {
-	int	i;
-	int	j;
-	char *key;
+	int		i;
+	int		j;
+	char	*key;
 
 	i = 0;
 	j = 0;
-	key = malloc (sizeof(char) * (get_len_of_key(str) + 1));
+	key = malloc(sizeof(char) * (get_len_of_key(str) + 1));
 	if (!key)
 		return (NULL);
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
@@ -78,6 +78,5 @@ char *get_key_expand(char *str)
 		key[j++] = str[i++];
 	}
 	key[j] = '\0';
-	printf("STR {%s}\n", key);
 	return (key);
 }

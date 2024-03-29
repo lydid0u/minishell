@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/26 00:17:26 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/29 01:05:23 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	copy_envp(char **envp, t_copyenv *lst)
 {
 	int			i;
 	int			j;
-	int 		size;
+	int			v;
 	t_copyenv	*current;
 
 	i = 0;
@@ -82,15 +82,15 @@ void	copy_envp(char **envp, t_copyenv *lst)
 		j = 0;
 		current->key = get_key(envp[i]);
 		j += (ft__strlen(current->key) + 1);
-		size = ft__strlen(envp[i]);
-		current->value = malloc((sizeof(char) * size) + 1);
-		j = 0;
+		current->value = malloc((sizeof(char) * ft__strlen(envp[i])) + 1);
+		v = 0;
 		while (envp[i][j])
 		{
-			current->value[j] = envp[i][j];
+			current->value[v] = envp[i][j];
+			v++;
 			j++;
 		}
-		current->value[j] = '\0';
+		current->value[v] = '\0';
 		current = current->next;
 		i++;
 	}

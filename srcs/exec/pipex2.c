@@ -57,16 +57,16 @@ int	open_fd(t_pipex *pipex, int i)
 	return (fd);
 }
 
-char	**get_path(char **envp)
+char	**get_path(t_copyenv *lst_envp)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (lst_envp)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (ft_split(envp[i] + 5, ':'));
-		i++;
+		if (ft_strcmp(lst_envp->key, "PATH") == 0)
+			return (ft_split(lst_envp->value, ':'));
+		lst_envp = lst_envp->next;
 	}
 	return (NULL);
 }

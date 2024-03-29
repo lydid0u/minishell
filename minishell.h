@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/26 03:41:05 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/27 01:23:10 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,21 @@
 
 # define SYNTAXERROR "bash: syntax error near unexpected token `%s"
 
+typedef struct s_copyenv
+{
+	char				*key;
+	char				*value;
+	struct s_copyenv	*next;
+}						t_copyenv;
+
 typedef struct pipex
 {
-	char				**envp;
+	t_copyenv			*envp;
 	char				*infile;
 	char				*outfile;
+	// char **infile outfile
 	int					nbr_cmd;
 	char				**arg_cmd;
-	int					infile_fd;
-	int					outfile_fd;
 	int					fd[2];
 	int					pid[1024];
 	char				**tab_cmd;
@@ -48,25 +54,18 @@ typedef struct pipex
 	char				*prompt;
 }						t_pipex;
 
-typedef struct s_copyenv
-{
-	char				*key;
-	char				*value;
-	struct s_copyenv	*next;
-}						t_copyenv;
-
 //				pipex1				//
 void					child(t_pipex *pipex, int i);
 void					piping_and_forking(t_pipex *pipex);
 void					init_struct(t_pipex *pipex, int argc, char **argv,
-							char **envp);
+							t_copyenv *lst_envp);
 void					redirection(t_pipex *pipex, int i);
 int						exec(int argc, t_copyenv *lst_envp, t_pipex *pipex);
 
 //				pipex2				//
 char					*access_cmd(t_pipex *pipex, int i);
 int						open_fd(t_pipex *pipex, int i);
-char					**get_path(char **envp);
+char					**get_path(t_copyenv *lst_envp);
 void					free_tab(char **tab);
 void					here_doc(char *infile, char *stop_word);
 
@@ -93,7 +92,8 @@ int						redir_n_pipe(char *input);
 //				expand				//
 char					*get_value_from_key(char *key, t_copyenv *lst_envp);
 int						get_len_of_key(char *str);
-int						get_len_of_value_from_str(char *str, t_copyenv *lst_envp);
+int						get_len_of_value_from_str(char *str,
+							t_copyenv *lst_envp);
 int						total_expand(char *input, t_copyenv *lst_envp);
 char					*final_string(char *input, t_copyenv *lst_envp);
 
