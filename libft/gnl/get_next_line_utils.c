@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_s.c                                          :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 17:18:38 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/30 04:31:58 by lboudjel         ###   ########.fr       */
+/*   Created: 2023/09/07 13:58:58 by lboudjel          #+#    #+#             */
+/*   Updated: 2024/03/30 04:31:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "ft_printf.h"
+#include "get_next_line.h"
 
-int	print_s(va_list args)
+int	check_malloc(char *buffer)
 {
-	char	*s;
+	if (!buffer)
+		return (0);
+	return (1);
+}
 
-	s = (char *)va_arg(args, char *);
-	if (s == NULL)
-		return (ft_putstr("(null)"));
-	return (ft_putstr(s));
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str)
+	{
+		while (str[i])
+		i++;
+		return (i);
+	}
+	return (0);
 }

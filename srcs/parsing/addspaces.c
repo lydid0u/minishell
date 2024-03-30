@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:35 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/23 00:19:10 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 04:31:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*add_spaces(char *s)
 	int		j;
 	char	*output;
 
-	output = malloc(sizeof(char) * (ft__strlen(s) + count_token(s) + 1));
+	output = malloc(sizeof(char) * (ft_strlen(s) + count_token(s) + 1));
 	if (!output)
 		return (NULL);
 	i = 0;

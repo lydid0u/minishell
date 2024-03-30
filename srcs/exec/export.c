@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/26 22:58:23 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 04:31:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 		printf("key {%s} head key {%s}\n", key, head->key);
 		if (ft_strcmp(key, head->key) == 0)
 		{
-			i += ft__strlen(head->key);
+			i += ft_strlen(head->key);
 			if (str[i] != '=')
 				break ;
 			i++;
@@ -75,8 +75,8 @@ int	create_export_node(char *str, t_copyenv *head)
 	while (str[i])
 	{
 		node_export->key = key;
-		i += (ft__strlen(key) + 1);
-		size = ft__strlen(&str[i]);
+		i += (ft_strlen(key) + 1);
+		size = ft_strlen(&str[i]);
 		node_export->value = malloc((sizeof(char) * size) + 1);
 		j = 0;
 		while (str[i])

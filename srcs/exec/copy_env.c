@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 05:07:28 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/29 01:05:23 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 04:31:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	key_env(t_copyenv *node, char *key)
 {
 	if (node != NULL)
 	{
-		node->key = malloc(ft__strlen(key) + 1);
+		node->key = malloc(ft_strlen(key) + 1);
 		strcpy(node->key, key);
 	}
 }
@@ -25,7 +25,7 @@ void	value_env(t_copyenv *node, char *value)
 {
 	if (node != NULL)
 	{
-		node->value = malloc(ft__strlen(value) + 1);
+		node->value = malloc(ft_strlen(value) + 1);
 		strcpy(node->value, value);
 	}
 }
@@ -81,8 +81,8 @@ void	copy_envp(char **envp, t_copyenv *lst)
 	{
 		j = 0;
 		current->key = get_key(envp[i]);
-		j += (ft__strlen(current->key) + 1);
-		current->value = malloc((sizeof(char) * ft__strlen(envp[i])) + 1);
+		j += (ft_strlen(current->key) + 1);
+		current->value = malloc((sizeof(char) * ft_strlen(envp[i])) + 1);
 		v = 0;
 		while (envp[i][j])
 		{

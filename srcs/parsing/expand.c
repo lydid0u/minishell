@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:21:09 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/29 04:00:12 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 07:07:13 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	get_len_of_value_from_str(char *input, t_copyenv *lst_envp)
 	input[len_key] = '\0';
 	value = get_value_from_key(input, lst_envp);
 	input[len_key] = stock;
-	value_len = ft__strlen(value);
+	value_len = ft_strlen(value);
 	return (value_len);
 }
 
@@ -125,7 +125,8 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 		write_single_quote(input, output, &i, &j);
 		while (input[i] == '$')
 		{
-			if (input[i + 1] == ' ' || input[i + 1] == '\t' || input[i + 1] == '\0')
+			if (input[i + 1] == ' ' || input[i + 1] == '\t'
+				|| input[i + 1] == '\0')
 			{
 				output[j++] = input[i++];
 				break ;
@@ -139,7 +140,7 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 				printf("ERROR WITH THE KEY {%s}\n", key);
 				i += get_len_of_key(key);
 				free(key);
-				continue;
+				continue ;
 			}
 			value = get_value_from_key(key, lst_envp);
 			k = 0;
@@ -172,7 +173,7 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 // 		// while (output[j])
 // 			// j++;
 // 		value = malloc(sizeof(char) * (get_len_of_value_from_str(&input[i],
-						// envp) + 1));
+// envp) + 1));
 // 		if (!value)
 // 			return (NULL);
 // 		value = get_value_from_key(&input[i], envp);

@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/27 01:23:10 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 08:07:02 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct s_copyenv
 	struct s_copyenv	*next;
 }						t_copyenv;
 
+	// char **infile outfile
 typedef struct pipex
 {
 	t_copyenv			*envp;
 	char				*infile;
 	char				*outfile;
-	// char **infile outfile
 	int					nbr_cmd;
 	char				**arg_cmd;
 	int					fd[2];
@@ -128,6 +128,16 @@ void					add_node_export_back(t_copyenv *lst,
 							t_copyenv *new_node);
 void					free_lst(t_copyenv *lst);
 t_copyenv				*create_node(void);
+
+//				built-in		//
+void					built_in_echo(char **str);
+void					built_in_pwd(t_copyenv *lst_envp);
+void					built_in_cd(char **tab, t_copyenv *lst_envp);
+char					*get_home(t_copyenv *lst_envp);
+void					built_in_env(t_copyenv *lst_envp);
+
+//				token	//
+int						is_a_redirection(char *str);
 
 // garbage collector ??
 

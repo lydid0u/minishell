@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_s.c                                          :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 17:18:38 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/30 04:31:58 by lboudjel         ###   ########.fr       */
+/*   Created: 2023/05/06 20:44:15 by lboudjel          #+#    #+#             */
+/*   Updated: 2023/12/01 13:16:55 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int	print_s(va_list args)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	char	*s;
-
-	s = (char *)va_arg(args, char *);
-	if (s == NULL)
-		return (ft_putstr("(null)"));
-	return (ft_putstr(s));
+	if (!lst || !del)
+		return ;
+	del(lst->content);
+	free(lst);
 }

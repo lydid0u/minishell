@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 18:20:13 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/27 01:22:52 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/03/30 07:05:47 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	redirection(t_pipex *pipex, int i)
 // 	//while (nbr de outfile)
 // 	//open & check
 // 	//dup2
-	
+
 // }
 
+	// redirection_chevron(pipex, i);
 void	child(t_pipex *pipex, int i)
 {
 	char	*path;
 
 	free(pipex->prompt);
 	redirection(pipex, i);
-	// redirection_chevron(pipex, i);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
 	pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
@@ -56,6 +56,8 @@ void	child(t_pipex *pipex, int i)
 	free_tab(pipex->cmd);
 	return (free(path), free_tab(pipex->tab_cmd), exit(1));
 }
+	// if(!pipex->tab_cmd[0])
+	// return (free_tab(pipex->tab_cmd));
 
 void	piping_and_forking(t_pipex *pipex)
 {
@@ -85,13 +87,13 @@ void	piping_and_forking(t_pipex *pipex)
 		waitpid(pipex->pid[i++], NULL, 0);
 }
 
+	//recup les infiles
+	//recup les outfiles
 void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
 {
 	pipex->envp = lst_envp;
 	pipex->arg_cmd = argv;
 	pipex->nbr_cmd = argc;
-	//recup les infiles
-	//recup les outfiles
 }
 
 int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
@@ -101,4 +103,4 @@ int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 	close(pipex->fd[0]);
 	return (1);
 }
-	// free_tab(pipex.tab_cmd);
+// free_tab(pipex.tab_cmd);
