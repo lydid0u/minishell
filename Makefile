@@ -21,8 +21,9 @@ DIR_OBJS		=	objs
 SRCS_NAMES		=	main.c \
 					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
 					parsing/expand_2.c parsing/parsing.c \
-					exec/pipex1.c exec/pipex2.c exec/export.c exec/copy_env.c \
-					exec/unset.c exec/utils_export.c exec/builtin.c \
+					exec/pipex1.c exec/pipex2.c exec/builtin/export.c exec/copy_env.c \
+					exec/builtin/unset.c exec/builtin/utils_export.c exec/builtin/built_in.c \
+					exec/builtin/echo_and_cd.c \
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 

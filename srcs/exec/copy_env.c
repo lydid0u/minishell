@@ -17,6 +17,8 @@ void	key_env(t_copyenv *node, char *key)
 	if (node != NULL)
 	{
 		node->key = malloc(ft_strlen(key) + 1);
+		if (!node->key)
+			return ;
 		strcpy(node->key, key);
 	}
 }
@@ -26,6 +28,8 @@ void	value_env(t_copyenv *node, char *value)
 	if (node != NULL)
 	{
 		node->value = malloc(ft_strlen(value) + 1);
+		if (!node->value)
+			return ;
 		strcpy(node->value, value);
 	}
 }
@@ -83,6 +87,8 @@ void	copy_envp(char **envp, t_copyenv *lst)
 		current->key = get_key(envp[i]);
 		j += (ft_strlen(current->key) + 1);
 		current->value = malloc((sizeof(char) * ft_strlen(envp[i])) + 1);
+		if (!current->value)
+			return ;
 		v = 0;
 		while (envp[i][j])
 		{

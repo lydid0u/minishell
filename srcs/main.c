@@ -23,13 +23,15 @@ void	handle_sigterm(void)
 	exit(EXIT_SUCCESS);
 }
 
+void	handle_built_in_no_pipe(t_pipex *pipex, t_copyenv *lst_envp)		;
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex = {0};
 	t_copyenv		*lst_envp;
 	char			*prompt;
 	int				nbcmd;
-	char			**tab;
 
 	(void)argc;
 	(void)argv;
@@ -52,42 +54,19 @@ int	main(int argc, char **argv, char **envp)
 		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
+		pipex.prompt = suppresing_quote(pipex.prompt);
 		quote_positif(pipex.prompt);
 		pipex.cmd = ft_split(pipex.prompt, '|');
 		nbcmd = countword(pipex.prompt, '|');
-		{
-			tab = ft_split(pipex.cmd[0], ' ');
-			if (strcmp(tab[0], "export") == 0)
-			{
-				built_in_export(&tab[1], lst_envp);
-			}
-			if (strcmp(tab[0], "unset") == 0)
-			{
-				built_in_unset(&tab[1], lst_envp);
-			}
-			if (strcmp(tab[0], "echo") == 0)
-			{
-				built_in_echo(&tab[1]);
-			}
-			if (strcmp(tab[0], "pwd") == 0)
-			{
-				built_in_pwd(lst_envp);
-			}
-			if (strcmp(tab[0], "cd") == 0)
-			{
-				built_in_cd(&tab[1], lst_envp);
-			}
-			if (strcmp(tab[0], "env") == 0)
-			{
-				built_in_env(lst_envp);
-			}
-			free_tab(tab);
-		}
-		exec(nbcmd, lst_envp, &pipex);
+		if (nbcmd == 1 && is_builtin(pipex.cmd[0]))
+			handle_built_in_no_pipe(&pipex, lst_envp);
+		else
+			exec(nbcmd, lst_envp, &pipex);
 		free(pipex.prompt);
 		free_tab(pipex.cmd);
 	}
-	printf("la\n");
 	free_lst(lst_envp);
 	return (1);
 }
+
+//leaks sur ls | cd

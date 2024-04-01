@@ -59,9 +59,6 @@ int	open_fd(t_pipex *pipex, int i)
 
 char	**get_path(t_copyenv *lst_envp)
 {
-	int	i;
-
-	i = 0;
 	while (lst_envp)
 	{
 		if (ft_strcmp(lst_envp->key, "PATH") == 0)

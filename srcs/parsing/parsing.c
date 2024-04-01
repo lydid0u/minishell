@@ -24,10 +24,8 @@ int	parsing(char *input)
 
 int	check_separator(char *input)
 {
-	int	i;
 	int	len;
 
-	i = 0;
 	len = ft_strlen(input) - 1;
 	if (pipe_in_first(input))
 		return (ft_printf(SYNTAXERROR, "|'\n"), 1);

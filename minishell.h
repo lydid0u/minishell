@@ -67,7 +67,6 @@ char					*access_cmd(t_pipex *pipex, int i);
 int						open_fd(t_pipex *pipex, int i);
 char					**get_path(t_copyenv *lst_envp);
 void					free_tab(char **tab);
-void					here_doc(char *infile, char *stop_word);
 
 //				addspaces			//
 char					*add_spaces(char *input);
@@ -77,6 +76,7 @@ int						count_token(char *input);
 int						check_quotes(char *input);
 void					quote_negatif(char *input);
 void					quote_positif(char *input);
+char					*suppresing_quote(char *input);
 
 //				parsing				//
 int						parsing(char *input);
@@ -130,11 +130,17 @@ void					free_lst(t_copyenv *lst);
 t_copyenv				*create_node(void);
 
 //				built-in		//
-void					built_in_echo(char **str);
-void					built_in_pwd(t_copyenv *lst_envp);
-void					built_in_cd(char **tab, t_copyenv *lst_envp);
-char					*get_home(t_copyenv *lst_envp);
+void					handle_built_in(t_pipex *pipex, t_copyenv *lst_envp);
+void					built_in_pwd(void);
 void					built_in_env(t_copyenv *lst_envp);
+int						handle_built_in_pipex(t_pipex *pipex, int i);
+int						is_builtin(char *cmd);
+
+//				echo_and_cd		//
+void					built_in_echo(char **str);
+int						echo_option_n(char *str);
+void					built_in_cd(char **tab, t_copyenv *lst_envp);
+char					*find_home(t_copyenv *lst_envp);
 
 //				token	//
 int						is_a_redirection(char *str);

@@ -13,16 +13,16 @@
 #include "minishell.h"
 
 /*
-	syntax error : 
-    	if tab[0] == PIPE
-    	if tab[i] == PIPE && tab[i + 1] == PIPE
-    	if tab[dernier] == PIPE ou CHEVRON
-    	if tab[i] == CHEVRON && tab[i + 1] == CHEVRON ou PIPE
+	syntax error :
+		if tab[0] == PIPE
+		if tab[i] == PIPE && tab[i + 1] == PIPE
+		if tab[dernier] == PIPE ou CHEVRON
+		if tab[i] == CHEVRON && tab[i + 1] == CHEVRON ou PIPE
 */
 
-int	pipe_in_first(char *input)
+int pipe_in_first(char *input)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (input[i])
@@ -32,12 +32,12 @@ int	pipe_in_first(char *input)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i++;
 		else
-			break ;
+			break;
 	}
 	return (0);
 }
 
-int	pipe_in_last(char *input, int i)
+int pipe_in_last(char *input, int i)
 {
 	while (i >= 0)
 	{
@@ -46,12 +46,12 @@ int	pipe_in_last(char *input, int i)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i--;
 		else
-			break ;
+			break;
 	}
 	return (0);
 }
 
-int	redir_in_last(char *input, int i)
+int redir_in_last(char *input, int i)
 {
 	while (i >= 0)
 	{
@@ -60,14 +60,14 @@ int	redir_in_last(char *input, int i)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i--;
 		else
-			break ;
+			break;
 	}
 	return (0);
 }
 
-int	double_pipe(char *input)
+int double_pipe(char *input)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (input[i])
@@ -82,7 +82,7 @@ int	double_pipe(char *input)
 				else if (input[i] == ' ' || input[i] == '\t')
 					i++;
 				else
-					break ;
+					break;
 			}
 		}
 		i++;
@@ -91,20 +91,21 @@ int	double_pipe(char *input)
 }
 
 // sadasd ads asd dsasad > asd >> a  | asd
-int	redir_n_pipe(char *input)
+int redir_n_pipe(char *input)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (input[i])
 	{
 		if (input[i] == '>' || input[i] == '<')
 		{
-			if ((input[i] == '>' && input[i + 1] == '<') || (input[i] == '<'
-					&& input[i + 1] == '>'))
+			if ((input[i] == '>' && input[i + 1] == '<') || (input[i] == '<' && input[i + 1] == '>'))
 				return (1);
 			i++;
-			((input[i] == '>' || input[i] == '<') && i++);
+			if (input[i] == '>' || input[i] == '<')
+				i++;
+
 			while (input[i])
 			{
 				if (input[i] == '|' || input[i] == '>' || input[i] == '<')
@@ -112,10 +113,11 @@ int	redir_n_pipe(char *input)
 				else if (input[i] == ' ' || input[i] == '\t')
 					i++;
 				else
-					break ;
+					break;
 			}
 		}
-		(input[i] && i++);
+		if (input[i])
+			i++;
 	}
 	return (0);
 }

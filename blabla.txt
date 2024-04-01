@@ -4,10 +4,10 @@ A gerer :
 
 - built in 				: commande coder dans le shell et independant de la variable d'env PATH 
 				        (ne va pas s'exuceter avec execve)
-                        — echo (option -n only)
-                        — exit
-                        — cd (qu'avec un absolute path ou un realtive (?))
-                        — pwd
+                        — echo (option -n only) QUE ECHO OK
+                        — exit VITEFAIT
+                        — cd (qu'avec un absolute path ou un realtive (?)) OK
+                        — pwd OK
 
 - $?						: avec echo, renvoie le exit status avec errno (de ? jsp)
 

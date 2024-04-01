@@ -37,8 +37,8 @@ void	redirection(t_pipex *pipex, int i)
 // 	//dup2
 
 // }
-
 	// redirection_chevron(pipex, i);
+
 void	child(t_pipex *pipex, int i)
 {
 	char	*path;
@@ -47,12 +47,17 @@ void	child(t_pipex *pipex, int i)
 	redirection(pipex, i);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
-	pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
-	if (!pipex->tab_cmd)
-		return (free_tab(pipex->tab_cmd));
-	path = access_cmd(pipex, 0);
-	if (path)
-		execve(path, pipex->tab_cmd, NULL);
+	if (handle_built_in_pipex(pipex, i) == 0)
+		return (free_tab(pipex->cmd), exit(1));
+	else 
+	{
+		pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
+		if (!pipex->tab_cmd)
+			return (free_tab(pipex->tab_cmd));
+		path = access_cmd(pipex, 0);
+		if (path)
+			execve(path, pipex->tab_cmd, NULL);
+	}
 	free_tab(pipex->cmd);
 	return (free(path), free_tab(pipex->tab_cmd), exit(1));
 }

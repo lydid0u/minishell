@@ -33,15 +33,16 @@ value = lboudjel
 
 char	*get_value_from_key(char *key, t_copyenv *lst_envp)
 {
-	int		i;
+	// int		i;
 	int		len;
 	char	*key_env;
 
-	i = 0;
+	// i = 0;
 	while (lst_envp)
 	{
 		key_env = get_key(lst_envp->key);
 		len = get_len_of_key(key_env);
+		(void)len;
 		if (ft_strcmp(key, key_env) == 0)
 			return (free(key_env), lst_envp->value);
 		free(key_env);

@@ -62,7 +62,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*ft_strjoin_slash(char const *s1, char const *s2)
+char	*ft_strjoin_slash(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
