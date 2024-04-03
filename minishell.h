@@ -52,6 +52,7 @@ typedef struct pipex
 	char				*stop_word;
 	char				**cmd;
 	char				*prompt;
+	char				**redir;
 }						t_pipex;
 
 //				pipex1				//

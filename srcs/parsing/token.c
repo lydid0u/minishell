@@ -39,12 +39,22 @@ int	is_a_redirection(char *str)
 // 	redir[r++] = tab[i + 1]
 // 	args[a++] = tab[i]
 
-// void	looping(char **cmd)
+// void	looping(char *cmd)
 // {
+// 	int	i;
+// 	int	nb_cmd;
 // 	char	**args;
 
+// 	i = 0;
+// 	while (cmd[i])
+// 	{
 
+// 	}
 // }
+
+
+
+
 
 /*
 boucler sur les cmd et en faire un tab d'args et des que je vois une redirection je dis que ca va avec en faisant :

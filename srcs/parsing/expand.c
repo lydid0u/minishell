@@ -90,6 +90,7 @@ int	total_expand(char *input, t_copyenv *lst_envp)
 		while (input[i] == '$')
 		{
 			i++;
+			count++;
 			if (is_key_valid(&input[i], lst_envp))
 			{
 				i += get_len_of_key(&input[i]);
@@ -151,7 +152,10 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 			free(key);
 		}
 		if (input[i])
-			output[j++] = input[i++];
+		{
+			output[j] = input[i++];
+			j++;
+		}
 	}
 	output[j] = '\0';
 	return (free(input), output);

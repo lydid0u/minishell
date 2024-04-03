@@ -23,7 +23,7 @@ void	handle_sigterm(void)
 	exit(EXIT_SUCCESS);
 }
 
-void	handle_built_in_no_pipe(t_pipex *pipex, t_copyenv *lst_envp)		;
+void	handle_built_in_no_exec(t_pipex *pipex, t_copyenv *lst_envp)		;
 
 
 int	main(int argc, char **argv, char **envp)
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		pipex.cmd = ft_split(pipex.prompt, '|');
 		nbcmd = countword(pipex.prompt, '|');
 		if (nbcmd == 1 && is_builtin(pipex.cmd[0]))
-			handle_built_in_no_pipe(&pipex, lst_envp);
+			handle_built_in_no_exec(&pipex, lst_envp);
 		else
 			exec(nbcmd, lst_envp, &pipex);
 		free(pipex.prompt);

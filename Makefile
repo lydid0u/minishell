@@ -41,7 +41,7 @@ ${NAME} : ${DIR_OBJS} ${OBJS}
 		${MAKE} -C ${LIBFT}
 		${MAKE} -C ${PRINTF}
 		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
-		@echo "\033[31;5mminishell de la solitude\033[0m"
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
 
 ${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
 	${CC} ${CFLAGS} ${HEAD} -c $< -o $@

@@ -24,32 +24,32 @@ int	handle_built_in_pipex(t_pipex *pipex, int i)
 		if (ft_strcmp(tab[j], "export") == 0)
 		{
 			built_in_export(&tab[j + 1], pipex->envp);
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "unset") == 0)
 		{
 			built_in_unset(&tab[j + 1], pipex->envp);
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "echo") == 0)
 		{
 			built_in_echo(&tab[j + 1]);
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "pwd") == 0)
 		{
 			built_in_pwd();
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "cd") == 0)
 		{
 			built_in_cd(&tab[j + 1], pipex->envp);
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "env") == 0)
 		{
 			built_in_env(pipex->envp);
-			return (0);
+			return (free_tab(tab), 0);
 		}
 		if (ft_strcmp(tab[j], "exit") == 0)
 		{
@@ -66,7 +66,7 @@ int	handle_built_in_pipex(t_pipex *pipex, int i)
 }
 
 //eske faut gerer les built in meme dans les pipes ? si oui mon parsing fonctionne pas ici 
-void	handle_built_in_no_pipe(t_pipex *pipex, t_copyenv *lst_envp)		
+void	handle_built_in_no_exec(t_pipex *pipex, t_copyenv *lst_envp)		
 {
 	char			**tab;
 
@@ -126,20 +126,20 @@ int		is_builtin(char *cmd)
 	tab = ft_split(cmd, ' ');
 	while (tab[i])
 	{
-		if (strcmp(tab[i], "export") == 0)
-			return(1);
-		if (strcmp(tab[i], "unset") == 0)
-			return(1);
-		if (strcmp(tab[i], "echo") == 0)
-			return(1);
-		if (strcmp(tab[i], "pwd") == 0)
-			return(1);
-		if (strcmp(tab[i], "cd") == 0)
-			return(1);
-		if (strcmp(tab[i], "env") == 0)
-			return(1);
-		if (strcmp(tab[i], "exit") == 0)
-			return(1);
+		if (ft_strcmp(tab[i], "export") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "unset") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "echo") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "pwd") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "cd") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "env") == 0)
+			return(free(tab), 1);
+		if (ft_strcmp(tab[i], "exit") == 0)
+			return(free(tab), 1);
 		i++;
 	}
 	return (free(tab), 0);

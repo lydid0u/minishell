@@ -34,7 +34,6 @@ void	built_in_echo(char **str)
 		else
 			break;
 	}
-	printf("{");
 	while (str[i])
 	{
 		printf("%s", str[i]);
@@ -42,31 +41,21 @@ void	built_in_echo(char **str)
 			printf(" ");
 		i++;
 	}
-	printf("}");
 	if (space != 1)
 		printf("\n");
 	// if (space)
 	// 	printf("{$}");
 }
 
-
 /*
-	-n : ok
-	
-	-nnnnn : ok 
-	-n-n : ca print -n-n
-	-n -n : ok
-
-	--> sur les 3 derniers le nombre de "n" n'importe pas 
----------------------------------------------------
-
 echoHola : leaks mais bon message
 echo-nHola : leaks mais bon message
 // jai pas le $ pour le \n
 rcho : leaks 
-echo $ : 3249324 invalid read
 EechoE : leaks 
 --> les leaks viennent surement de exec
+
+----------------------------------------
 
 e"cho hola" : doit renvoyer "echo hola: command not found"
 --> je renvoie hola
@@ -88,7 +77,6 @@ int	echo_option_n(char *str)
 	}
 	return (1);
 }
-
 
 char	*find_home(t_copyenv *lst_envp)
 {

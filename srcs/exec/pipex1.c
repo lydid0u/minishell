@@ -14,8 +14,26 @@
 
 #include "minishell.h"
 
+
+// INPUT : cat a | < b cat | cat > c | cat c
+/*
+
+	1) je prend ma string et je split au pipe
+	2) je check dans la string si ya redirection > si oui, jouvre le fd/le cree tout ca
+												>  si non, salam
+	3) je dup2 le dernier
+
+
+*/
+
+
 void	redirection(t_pipex *pipex, int i)
 {
+	int	j;
+	int	fd;
+
+	j = 0;
+	fd = 0;
 	if (i != 0)
 	{
 		dup2(pipex->prev, 0);
@@ -23,7 +41,43 @@ void	redirection(t_pipex *pipex, int i)
 	}
 	if (i != pipex->nbr_cmd - 1)
 		dup2(pipex->fd[1], 1);
+	pipex->redir = ft_split(pipex->arg_cmd[i], ' ');
+	if (!pipex->redir)
+		return;
+	// t_mycmd  *parse(pipex->redir[i])
+	// mycmd->cmd
+	// mycmd->args
+	// mycmd->filename
+	// mycmd->types
+
+	while (pipex->redir[j])
+	{
+		if (ft_strcmp(pipex->redir[j], ">>") == 0)
+			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
+		else if (ft_strcmp(pipex->redir[j], ">") == 0)
+			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
+		// if (ft_strcmp(pipex->redir[j], "<") == 0)
+		// {
+		// 	// 
+		// }
+		// if (ft_strcmp(pipex->redir[j], "<<") == 0)
+		// {
+		// 	// here doc
+		// }
+		if (ft_strcmp(pipex->redir[j], ">>") == 0 || ft_strcmp(pipex->redir[j], ">") == 0)
+		{
+			dup2(fd, 1);
+			close(fd);
+		}
+		j++;
+	}
+	free_tab(pipex->redir);
+	// ici redirection de fichier avec dup2
 }
+
+//si c'est redire jouvre le fd
+// boucler et fd = open sur chaque redirection et dup2 sur le dernier
+//apres avoir fais les pipes 
 
 // void	redirection_chevron(t_pipex *pipex, int i)
 // {
@@ -38,6 +92,29 @@ void	redirection(t_pipex *pipex, int i)
 
 // }
 	// redirection_chevron(pipex, i);
+
+// int	nbr_redir(char *input)
+// {
+// 	int i;
+// 	int	count;
+// 	char **tab;
+
+// 	count =
+// 	tab = ft_split(input, ' ');
+// 	while (tab[i])
+// 	{
+// 		if (ft_strcmp(tab[i], ">") == 0)
+// 			count++;
+// 		if (ft_strcmp(tab[i], ">>") == 0)
+// 			count = count + 2;
+// 		if (ft_strcmp(tab[i], "<") == 0)
+// 			return (3);
+// 		if (ft_strcmp(tab[i], "<<") == 0)
+// 			return (4);
+// 	}
+// 	free(tab);
+// }
+
 
 void	child(t_pipex *pipex, int i)
 {

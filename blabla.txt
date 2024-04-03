@@ -9,7 +9,7 @@ A gerer :
                         — cd (qu'avec un absolute path ou un realtive (?)) OK
                         — pwd OK
 
-- $?						: avec echo, renvoie le exit status avec errno (de ? jsp)
+- $?						: avec echo, renvoie le exit status avec errno 
 
 - redirection 				: 
 							">" ecris dans le fichier et ecrase ce quil yavait dedans
