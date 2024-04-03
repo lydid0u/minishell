@@ -43,7 +43,6 @@ int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 	i = 0;
 	while (head)
 	{
-		printf("key {%s} head key {%s}\n", key, head->key);
 		if (ft_strcmp(key, head->key) == 0)
 		{
 			i += ft_strlen(head->key);
@@ -106,7 +105,6 @@ int	wrong(char *str)
 	while ((str[i] && (ft_isalnum(str[i]) || str[i] == '_')))
 		i++;
 	*ret = '=';
-	printf("JE RETURN %c\n", str[i]);
 	return (str[i] != '=');
 }
 

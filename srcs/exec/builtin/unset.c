@@ -45,6 +45,8 @@ int	parsing_unset(char *str, t_copyenv *head)
 				prev->next = lst->next;
 			else
 				head = lst->next;
+			free(lst->key);
+			free(lst->value);
 			free(lst);
 			lst = NULL;
 		}

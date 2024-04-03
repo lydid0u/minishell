@@ -56,10 +56,8 @@ void	redirection(t_pipex *pipex, int i)
 			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
 		else if (ft_strcmp(pipex->redir[j], ">") == 0)
 			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
-		// if (ft_strcmp(pipex->redir[j], "<") == 0)
-		// {
-		// 	// 
-		// }
+		if (ft_strcmp(pipex->redir[j], "<") == 0)
+			fd = open(pipex->redir[j + 1], O_RDONLY);
 		// if (ft_strcmp(pipex->redir[j], "<<") == 0)
 		// {
 		// 	// here doc
@@ -67,6 +65,11 @@ void	redirection(t_pipex *pipex, int i)
 		if (ft_strcmp(pipex->redir[j], ">>") == 0 || ft_strcmp(pipex->redir[j], ">") == 0)
 		{
 			dup2(fd, 1);
+			close(fd);
+		}
+		if (ft_strcmp(pipex->redir[j], "<") == 0)
+		{
+			dup2(fd, 0);
 			close(fd);
 		}
 		j++;
@@ -115,8 +118,7 @@ void	redirection(t_pipex *pipex, int i)
 // 	free(tab);
 // }
 
-
-void	child(t_pipex *pipex, int i)
+void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
 {
 	char	*path;
 
@@ -136,12 +138,13 @@ void	child(t_pipex *pipex, int i)
 			execve(path, pipex->tab_cmd, NULL);
 	}
 	free_tab(pipex->cmd);
+	free(lst_export);
 	return (free(path), free_tab(pipex->tab_cmd), exit(1));
 }
 	// if(!pipex->tab_cmd[0])
 	// return (free_tab(pipex->tab_cmd));
 
-void	piping_and_forking(t_pipex *pipex)
+void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	int	i;
 
@@ -154,7 +157,7 @@ void	piping_and_forking(t_pipex *pipex)
 		if (pipex->pid[i] == -1)
 			return (ft_printf("Error: fork function\n"), exit(EXIT_FAILURE));
 		if (pipex->pid[i] == 0)
-			child(pipex, i);
+			child(pipex, lst_envp, i);
 		else
 		{
 			close(pipex->fd[1]);
@@ -181,8 +184,9 @@ void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
 int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 {
 	init_struct(pipex, argc, pipex->cmd, lst_envp);
-	piping_and_forking(pipex);
+	piping_and_forking(pipex, lst_envp);
 	close(pipex->fd[0]);
+	// free_lst(lst_envp);
 	return (1);
 }
 // free_tab(pipex.tab_cmd);

@@ -56,8 +56,8 @@ typedef struct pipex
 }						t_pipex;
 
 //				pipex1				//
-void					child(t_pipex *pipex, int i);
-void					piping_and_forking(t_pipex *pipex);
+void					child(t_pipex *pipex, t_copyenv *lst_envp, int i);
+void					piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp);
 void					init_struct(t_pipex *pipex, int argc, char **argv,
 							t_copyenv *lst_envp);
 void					redirection(t_pipex *pipex, int i);

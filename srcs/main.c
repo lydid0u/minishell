@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		quote_positif(pipex.prompt);
 		pipex.cmd = ft_split(pipex.prompt, '|');
 		nbcmd = countword(pipex.prompt, '|');
+		printf("NBR CMD : %i\n", nbcmd);
 		if (nbcmd == 1 && is_builtin(pipex.cmd[0]))
 			handle_built_in_no_exec(&pipex, lst_envp);
 		else

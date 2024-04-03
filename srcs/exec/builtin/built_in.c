@@ -65,32 +65,55 @@ int	handle_built_in_pipex(t_pipex *pipex, int i)
 	return (free_tab(tab), 1);
 }
 
-//eske faut gerer les built in meme dans les pipes ? si oui mon parsing fonctionne pas ici 
 void	handle_built_in_no_exec(t_pipex *pipex, t_copyenv *lst_envp)		
 {
-	char			**tab;
+	int		i;
+	char	**tab;
 
+	i = 0;
 	tab = ft_split(pipex->cmd[0], ' ');
-	if (strcmp(tab[0], "export") == 0)
-		built_in_export(&tab[1], lst_envp);
-	if (strcmp(tab[0], "unset") == 0)
-		built_in_unset(&tab[1], lst_envp);
-	if (strcmp(tab[0], "echo") == 0)
-		built_in_echo(&tab[1]);
-	if (strcmp(tab[0], "pwd") == 0)
-		built_in_pwd();
-	if (strcmp(tab[0], "cd") == 0)
-		built_in_cd(&tab[1], lst_envp);
-	if (strcmp(tab[0], "env") == 0)
-		built_in_env(lst_envp);
-	if (strcmp(tab[0], "exit") == 0)
+	while (tab[i])
 	{
-		// checker le comportement avec un autre arg ?
-		free(pipex->prompt);
-		free_tab(pipex->cmd);
-		free_tab(tab);
-		free_lst(lst_envp);	
-		exit(EXIT_SUCCESS);
+		if (ft_strcmp(tab[i], "export") == 0)
+		{
+			built_in_export(&tab[i + 1], lst_envp);
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "unset") == 0)
+		{
+			built_in_unset(&tab[i + 1], lst_envp);
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "echo") == 0)
+		{
+			built_in_echo(&tab[i + 1]);
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "pwd") == 0)
+		{
+			built_in_pwd();
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "cd") == 0)
+		{
+			built_in_cd(&tab[i + 1], lst_envp);
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "env") == 0)
+		{
+			built_in_env(lst_envp);
+			// free_tab(tab);
+		}
+		if (ft_strcmp(tab[i], "exit") == 0)
+		{
+			//checker le comportement avec un autre arg ?
+			free(pipex->prompt);
+			free_tab(pipex->cmd);
+			free_tab(tab);
+			free_lst(lst_envp);	
+			exit(EXIT_SUCCESS);
+		}
+		i++;
 	}
 	free_tab(tab);
 }
@@ -127,20 +150,20 @@ int		is_builtin(char *cmd)
 	while (tab[i])
 	{
 		if (ft_strcmp(tab[i], "export") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "unset") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "echo") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "pwd") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "cd") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "env") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		if (ft_strcmp(tab[i], "exit") == 0)
-			return(free(tab), 1);
+			return(free_tab(tab), 1);
 		i++;
 	}
-	return (free(tab), 0);
+	return (free_tab(tab), 0);
 }
