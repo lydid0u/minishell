@@ -63,7 +63,7 @@ t_copyenv	*create_node(void)
 	t_copyenv	*node;
 
 	node = malloc(sizeof(t_copyenv));
-	if (!node)	
+	if (!node)
 		return (NULL);
 	node->key = NULL;
 	node->value = NULL;

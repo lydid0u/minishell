@@ -39,3 +39,42 @@ int	check_separator(char *input)
 		return (ft_printf(SYNTAXERROR, "double separator'\n"), 1);
 	return (0);
 }
+
+int	double_separator(char *input, int *i)
+{
+	while (input[(*i)])
+	{
+		if (input[(*i)] == '|' || input[(*i)] == '>' || input[(*i)] == '<')
+			return (1);
+		else if (input[(*i)] == ' ' || input[(*i)] == '\t')
+			(*i)++;
+		else
+			break ;
+	}
+	return (0);
+}
+
+// sadasd ads asd dsasad > asd >> a  | asd
+int	redir_n_pipe(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '>' || input[i] == '<')
+		{
+			if ((input[i] == '>' && input[i + 1] == '<') || (input[i] == '<'
+					&& input[i + 1] == '>'))
+				return (1);
+			i++;
+			if (input[i] == '>' || input[i] == '<')
+				i++;
+			if (double_separator(input, &i))
+				return (1);
+		}
+		if (input[i])
+			i++;
+	}
+	return (0);
+}

@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex1.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/12/19 18:20:13 by lboudjel          #+#    #+#             */
 /*   Updated: 2024/03/30 07:05:47 by lboudjel         ###   ########.fr       */
 /*                                                                            */
@@ -14,26 +17,18 @@
 
 #include "minishell.h"
 
-
 // INPUT : cat a | < b cat | cat > c | cat c
 /*
 
 	1) je prend ma string et je split au pipe
-	2) je check dans la string si ya redirection > si oui, jouvre le fd/le cree tout ca
-												>  si non, salam
+	2) je check dans la string si ya redirection > si oui,
+	jouvre le fd/le cree tout ca
+	>  si non, salam
 	3) je dup2 le dernier
-
-
 */
-
 
 void	redirection(t_pipex *pipex, int i)
 {
-	int	j;
-	int	fd;
-
-	j = 0;
-	fd = 0;
 	if (i != 0)
 	{
 		dup2(pipex->prev, 0);
@@ -41,82 +36,9 @@ void	redirection(t_pipex *pipex, int i)
 	}
 	if (i != pipex->nbr_cmd - 1)
 		dup2(pipex->fd[1], 1);
-	pipex->redir = ft_split(pipex->arg_cmd[i], ' ');
-	if (!pipex->redir)
-		return;
-	// t_mycmd  *parse(pipex->redir[i])
-	// mycmd->cmd
-	// mycmd->args
-	// mycmd->filename
-	// mycmd->types
-
-	while (pipex->redir[j])
-	{
-		if (ft_strcmp(pipex->redir[j], ">>") == 0)
-			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
-		else if (ft_strcmp(pipex->redir[j], ">") == 0)
-			fd = open(pipex->redir[j + 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
-		if (ft_strcmp(pipex->redir[j], "<") == 0)
-			fd = open(pipex->redir[j + 1], O_RDONLY);
-		// if (ft_strcmp(pipex->redir[j], "<<") == 0)
-		// {
-		// 	// here doc
-		// }
-		if (ft_strcmp(pipex->redir[j], ">>") == 0 || ft_strcmp(pipex->redir[j], ">") == 0)
-		{
-			dup2(fd, 1);
-			close(fd);
-		}
-		if (ft_strcmp(pipex->redir[j], "<") == 0)
-		{
-			dup2(fd, 0);
-			close(fd);
-		}
-		j++;
-	}
-	free_tab(pipex->redir);
-	// ici redirection de fichier avec dup2
+	close(pipex->fd[0]);
+	close(pipex->fd[1]);
 }
-
-//si c'est redire jouvre le fd
-// boucler et fd = open sur chaque redirection et dup2 sur le dernier
-//apres avoir fais les pipes 
-
-// void	redirection_chevron(t_pipex *pipex, int i)
-// {
-
-// 	//while (nbr de infile)
-// 	//open & check
-// 	//dup2
-
-// 	//while (nbr de outfile)
-// 	//open & check
-// 	//dup2
-
-// }
-	// redirection_chevron(pipex, i);
-
-// int	nbr_redir(char *input)
-// {
-// 	int i;
-// 	int	count;
-// 	char **tab;
-
-// 	count =
-// 	tab = ft_split(input, ' ');
-// 	while (tab[i])
-// 	{
-// 		if (ft_strcmp(tab[i], ">") == 0)
-// 			count++;
-// 		if (ft_strcmp(tab[i], ">>") == 0)
-// 			count = count + 2;
-// 		if (ft_strcmp(tab[i], "<") == 0)
-// 			return (3);
-// 		if (ft_strcmp(tab[i], "<<") == 0)
-// 			return (4);
-// 	}
-// 	free(tab);
-// }
 
 void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
 {
@@ -124,11 +46,10 @@ void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
 
 	free(pipex->prompt);
 	redirection(pipex, i);
-	close(pipex->fd[0]);
-	close(pipex->fd[1]);
+	chevron(pipex, i);
 	if (handle_built_in_pipex(pipex, i) == 0)
 		return (free_tab(pipex->cmd), exit(1));
-	else 
+	else
 	{
 		pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
 		if (!pipex->tab_cmd)
@@ -139,10 +60,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
 	}
 	free_tab(pipex->cmd);
 	free(lst_export);
-	return (free(path), free_tab(pipex->tab_cmd), exit(1));
+	return (free(path), free_tab(pipex->tab_cmd), exit(127));
 }
-	// if(!pipex->tab_cmd[0])
-	// return (free_tab(pipex->tab_cmd));
 
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 {
@@ -172,8 +91,8 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 		waitpid(pipex->pid[i++], NULL, 0);
 }
 
-	//recup les infiles
-	//recup les outfiles
+//recup les infiles
+//recup les outfiles
 void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
 {
 	pipex->envp = lst_envp;
@@ -186,7 +105,5 @@ int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 	init_struct(pipex, argc, pipex->cmd, lst_envp);
 	piping_and_forking(pipex, lst_envp);
 	close(pipex->fd[0]);
-	// free_lst(lst_envp);
 	return (1);
 }
-// free_tab(pipex.tab_cmd);

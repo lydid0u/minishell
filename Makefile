@@ -23,7 +23,7 @@ SRCS_NAMES		=	main.c \
 					parsing/expand_2.c parsing/parsing.c \
 					exec/pipex1.c exec/pipex2.c exec/builtin/export.c exec/copy_env.c \
 					exec/builtin/unset.c exec/builtin/utils_export.c exec/builtin/built_in.c \
-					exec/builtin/echo_and_cd.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 

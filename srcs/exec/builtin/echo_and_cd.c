@@ -12,54 +12,44 @@
 
 #include "minishell.h"
 
-void	built_in_echo(char **str)
+//while (tab[(*i)])  && tab[(*i)] == words ??
+void	print_echo(char **tab, int *i)
+{
+	while (tab[(*i)])
+	{
+		printf("%s", tab[(*i)]);
+		if (tab[(*i) + 1])
+			printf(" ");
+		(*i)++;
+	}
+}
+
+void	built_in_echo(char **tab)
 {
 	int	i;
-	int space;
+	int	space;
 
 	i = 0;
 	space = 0;
-	while (str[i])
+	while (tab[i])
 	{
-		if (ft_strncmp(str[i], "-n", 2) == 0)
+		if (ft_strncmp(tab[i], "-n", 2) == 0)
 		{
-			if (echo_option_n(str[i]) == 1)
+			if (echo_option_n(tab[i]) == 1)
 			{
 				space = 1;
 				i++;
 			}
-			else			
-				break;
+			else
+				break ;
 		}
 		else
-			break;
+			break ;
 	}
-	while (str[i])
-	{
-		printf("%s", str[i]);
-		if (str[i + 1])
-			printf(" ");
-		i++;
-	}
+	print_echo(tab, &i);
 	if (space != 1)
 		printf("\n");
-	// if (space)
-	// 	printf("{$}");
 }
-
-/*
-echoHola : leaks mais bon message
-echo-nHola : leaks mais bon message
-// jai pas le $ pour le \n
-rcho : leaks 
-EechoE : leaks 
---> les leaks viennent surement de exec
-
-----------------------------------------
-
-e"cho hola" : doit renvoyer "echo hola: command not found"
---> je renvoie hola
-*/
 
 int	echo_option_n(char *str)
 {

@@ -91,11 +91,7 @@ void	copy_envp(char **envp, t_copyenv *lst)
 			return ;
 		v = 0;
 		while (envp[i][j])
-		{
-			current->value[v] = envp[i][j];
-			v++;
-			j++;
-		}
+			current->value[v++] = envp[i][j++];
 		current->value[v] = '\0';
 		current = current->next;
 		i++;

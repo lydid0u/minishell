@@ -12,19 +12,11 @@
 
 #include "minishell.h"
 
-void	handle_sigint(void)
-{
-	printf("\n"); // Affiche une nouvelle ligne
-}
-
 void	handle_sigterm(void)
 {
 	printf("\nExiting the shell.\n");
 	exit(EXIT_SUCCESS);
 }
-
-void	handle_built_in_no_exec(t_pipex *pipex, t_copyenv *lst_envp)		;
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -32,11 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	t_copyenv		*lst_envp;
 	char			*prompt;
 	int				nbcmd;
-
+	// static t_token	token = {0};
 	(void)argc;
 	(void)argv;
-	// signal(SIGINT, handle_sigint);
-	// signal(SIGTERM, handle_sigterm);
 	lst_envp = create_lst(envp);
 	if (!lst_envp)
 		return (1);
@@ -50,7 +40,10 @@ int	main(int argc, char **argv, char **envp)
 		add_history(prompt);
 		pipex.prompt = final_string(prompt, lst_envp);
 		if (parsing(pipex.prompt))
+		{
+			free(pipex.prompt);
 			continue ;
+		}
 		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
@@ -58,9 +51,11 @@ int	main(int argc, char **argv, char **envp)
 		quote_positif(pipex.prompt);
 		pipex.cmd = ft_split(pipex.prompt, '|');
 		nbcmd = countword(pipex.prompt, '|');
-		printf("NBR CMD : %i\n", nbcmd);
 		if (nbcmd == 1 && is_builtin(pipex.cmd[0]))
+		{
+			chevron_no_exec(&pipex);
 			handle_built_in_no_exec(&pipex, lst_envp);
+		}
 		else
 			exec(nbcmd, lst_envp, &pipex);
 		free(pipex.prompt);

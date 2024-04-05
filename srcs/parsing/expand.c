@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// une key est valide si:
+// une key est valide :
 // tant que il y a des lettres et/ou qu'il des tirets du bas et/ou chiffres
 // si elle commence par un chiffre
 
@@ -33,11 +33,9 @@ value = lboudjel
 
 char	*get_value_from_key(char *key, t_copyenv *lst_envp)
 {
-	// int		i;
 	int		len;
 	char	*key_env;
 
-	// i = 0;
 	while (lst_envp)
 	{
 		key_env = get_key(lst_envp->key);
@@ -152,44 +150,73 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 			free(key);
 		}
 		if (input[i])
-		{
-			output[j] = input[i++];
-			j++;
-		}
+			output[j++] = input[i++];
 	}
 	output[j] = '\0';
 	return (free(input), output);
 }
 
-// while (input[i])
+// // recup la value d'une variable d'env et l'ajouter à la string
+// void	copy_env_value(char *key, t_copyenv *lst_envp, char *output, int *j)
 // {
-// 	write_single_quote(input, output, &i, &j);
-// 	while (input[i] == '$')
+// 	int		k;
+// 	char	*value;
+
+// 	k = 0;
+// 	value = get_value_from_key(key, lst_envp);
+// 	while (value && value[k])
+// 		output[(*j)++] = value[k++];
+// 	free(key);
+// }
+
+// //l'expansion des variables d'environnement
+// void	expand_variable(char *input, char *output, int *i, int *j,
+//  t_copyenv *lst_envp)
+// {
+// 	char	*key;
+
+// 	while (input[*i])
 // 	{
-// 		i++;
-// 		if (is_key_valid(&input[i], envp))
+// 		write_single_quote(input, output, i, j);
+// 		while (input[*i] == '$')
 // 		{
-// 			printf("HERE dans le if is key valid\n");
-// 			i += get_len_of_key(&input[i]);
-// 			break ;
+// 			if (input[*i + 1] == ' ' || input[*i + 1] == '\t'
+//  || input[*i + 1] == '\0')
+// 			{
+// 				output[(*j)++] = input[(*i)++];
+// 				break ;
+// 			}
+// 			(*i)++;
+// 			key = get_key_expand(&input[*i]);
+// 			if (!key)
+// 				return ;
+// 			if (is_key_valid(key, lst_envp) != 0)
+// 			{
+// 				printf("ERROR WITH THE KEY {%s}\n", key);
+// 				(*i) += get_len_of_key(key);
+// 				continue ;
+// 			}
+// 			copy_env_value(key, lst_envp, output, j);
+// 			(*i) += get_len_of_key(&input[*i]);
 // 		}
-// 		// ft_strjoin(&output[j], get_value_from_key(&input[i], envp));
-// 		// printf("---------- %s\n", output);
-// 		// while (output[j])
-// 			// j++;
-// 		value = malloc(sizeof(char) * (get_len_of_value_from_str(&input[i],
-// envp) + 1));
-// 		if (!value)
-// 			return (NULL);
-// 		value = get_value_from_key(&input[i], envp);
-// 		printf("VALUE {%s}\n", value);
-// 		k = 0;
-// 		while (value[k])
-// 		{
-// 			output[j] = value[k];
-// 			j++;
-// 			k++;
-// 		}
-// 		printf("INPUT I %s\n", &input[i]);
-// 		i += get_len_of_key(&input[i]);
+// 		if (input[*i])
+// 			output[(*j)++] = input[(*i)++];
 // 	}
+// 	output[*j] = '\0';
+// }
+
+// //fonction principale 
+// char	*expand_variables(char *input, t_copyenv *lst_envp)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*output;
+
+// 	i = 0;
+// 	j = 0;
+// 	output = malloc(sizeof(char) * (total_expand(input, lst_envp) + 1));
+// 	if (!output)
+// 		return (NULL);
+// 	expand_variable(input, output, &i, &j, lst_envp);
+// 	return (output);
+// }

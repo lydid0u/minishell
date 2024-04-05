@@ -35,7 +35,20 @@ typedef struct s_copyenv
 	struct s_copyenv	*next;
 }						t_copyenv;
 
-	// char **infile outfile
+typedef struct s_token
+{
+	int				w;
+	int				a;
+	int				f;
+	int				c;
+	int				r;
+	char			**word;
+	char			**args;
+	char			**filename;
+	char			**cmd;
+	char			**redir;
+}					t_token;
+
 typedef struct pipex
 {
 	t_copyenv			*envp;
@@ -53,6 +66,7 @@ typedef struct pipex
 	char				**cmd;
 	char				*prompt;
 	char				**redir;
+	t_token				*token;
 }						t_pipex;
 
 //				pipex1				//
@@ -82,13 +96,14 @@ char					*suppresing_quote(char *input);
 //				parsing				//
 int						parsing(char *input);
 int						check_separator(char *input);
+int						double_separator(char *input, int *i);
+int						redir_n_pipe(char *input);
 
 //				syntax_error		//
 int						pipe_in_first(char *input);
 int						pipe_in_last(char *input, int i);
 int						redir_in_last(char *input, int i);
 int						double_pipe(char *input);
-int						redir_n_pipe(char *input);
 
 //				expand				//
 char					*get_value_from_key(char *key, t_copyenv *lst_envp);
@@ -118,6 +133,7 @@ int						export_key_already_existing(char *key, char *str,
 int						create_export_node(char *str, t_copyenv *head);
 int						wrong(char *str);
 void					built_in_export(char **args, t_copyenv *lst);
+void					bt_export_loop_to_create_node(char *arg, t_copyenv *head);
 
 //				unset			//
 int						parsing_unset(char *str, t_copyenv *head);
@@ -131,11 +147,17 @@ void					free_lst(t_copyenv *lst);
 t_copyenv				*create_node(void);
 
 //				built-in		//
-void					handle_built_in(t_pipex *pipex, t_copyenv *lst_envp);
+void					handle_built_in_no_exec(t_pipex *pipex,
+							t_copyenv *lst_envp);
 void					built_in_pwd(void);
 void					built_in_env(t_copyenv *lst_envp);
 int						handle_built_in_pipex(t_pipex *pipex, int i);
+
+//				built-in_utils		//
 int						is_builtin(char *cmd);
+void					free_handle_bt_no_exec(t_pipex *pipex,
+							t_copyenv *lst_envp, char **tab);
+void					free_handle_bt(t_pipex *pipex, char **tab);
 
 //				echo_and_cd		//
 void					built_in_echo(char **str);
@@ -143,8 +165,14 @@ int						echo_option_n(char *str);
 void					built_in_cd(char **tab, t_copyenv *lst_envp);
 char					*find_home(t_copyenv *lst_envp);
 
-//				token	//
+//				token			//
 int						is_a_redirection(char *str);
+
+//				redir_chevron		//
+void					chevron(t_pipex *pipex, int i);
+void					handle_redirection(char **redir);
+void					chevron_no_exec(t_pipex *pipex);
+void					handle_redirection_no_exec(char **redir, int entree, int sortie);
 
 // garbage collector ??
 

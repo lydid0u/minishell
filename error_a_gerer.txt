@@ -1,0 +1,27 @@
+- export 12=oui --> ne devrait pas export, rechecker la syntaxe de ce que jexporte
+
+
+/*
+echoHola : leaks mais bon message
+echo-nHola : leaks mais bon message
+// jai pas le $ pour le \n
+rcho : leaks 
+EechoE : leaks 
+--> les leaks viennent surement de exec
+
+----------------------------------------
+
+e"cho hola" : doit renvoyer "echo hola: command not found"
+--> je renvoie hola
+*/
+
+- gerer exit avec un autre argument apres ? genre "exit bjr"
+
+
+
+====================================================================================
+								[L][E][A][K][S]
+====================================================================================
+
+- leaks quand je change la value d'un node qui existe deja dans export
+- commande qui nexiste pas -> 10395349 leaks

@@ -24,7 +24,7 @@ int	is_a_redirection(char *str)
 		return (4);
 }
 
-// void	tokenisation(char **tab)
+// void	tokenisation(char **tab, t_pipex *pipex)
 // {
 // 	int	i;
 
@@ -32,10 +32,18 @@ int	is_a_redirection(char *str)
 // 	while (tab[i])
 // 	{
 // 		if (is_a_redirection(tab[i]) != 0)
-// 			type[r] = is_a_redirection(tab[i]);
+// 			pipex->token->redir[pipex->token->r++] = tab[i];
 // 		i++;
 // 	}
 // }
+
+// 	// t_mycmd  *parse(pipex->redir[i])
+	// mycmd->cmd
+	// mycmd->args
+	// mycmd->filename
+	// mycmd->types
+//
+
 // 	redir[r++] = tab[i + 1]
 // 	args[a++] = tab[i]
 
@@ -52,12 +60,9 @@ int	is_a_redirection(char *str)
 // 	}
 // }
 
-
-
-
-
 /*
-boucler sur les cmd et en faire un tab d'args et des que je vois une redirection je dis que ca va avec en faisant :
+boucler sur les cmd et en faire un tab d'args et des que je vois une redirection
+je dis que ca va avec en faisant :
 
 input : echo "oui" > a | cat Makefile 
 

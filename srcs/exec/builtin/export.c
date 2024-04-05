@@ -63,7 +63,6 @@ int	create_export_node(char *str, t_copyenv *head)
 	int			j;
 	t_copyenv	*node_export;
 	char		*key;
-	int			size;
 
 	i = 0;
 	j = 0;
@@ -75,11 +74,9 @@ int	create_export_node(char *str, t_copyenv *head)
 	{
 		node_export->key = key;
 		i += (ft_strlen(key) + 1);
-		size = ft_strlen(&str[i]);
-		node_export->value = malloc((sizeof(char) * size) + 1);
+		node_export->value = malloc((sizeof(char) * ft_strlen(&str[i])) + 1);
 		if (!node_export)
 			return (1);
-		j = 0;
 		while (str[i])
 			node_export->value[j++] = str[i++];
 		node_export->value[j] = '\0';
@@ -108,45 +105,32 @@ int	wrong(char *str)
 	return (str[i] != '=');
 }
 
-	// int status;
-	// status = 0;
-	// if (args[i] == NULL)
-	// 	export_only(head);
+void	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
+{
+	char	*key;
+
+	key = get_key(arg);
+	if (!key)
+		return ;
+	if (wrong(arg))
+	{
+		printf("WRONG ARG [%s]\n", arg);
+		return ;
+	}
+	if (export_key_already_existing(key, arg, head))
+		return ;
+	create_export_node(arg, head);
+	free(key);
+}
+
 void	built_in_export(char **args, t_copyenv *head)
 {
-	int		i;
-	char	*key;
+	int	i;
 
 	i = 0;
 	while (args[i])
 	{
-		key = get_key(args[i]);
-		if (!key)
-		{
-			i++;
-			continue ;
-		}
-		if (wrong(args[i]))
-		{
-			printf("WRONG ARG [%s]\n", args[i]);
-			i++;
-			continue ;
-		}
-		if (export_key_already_existing(key, args[i], head))
-		{
-			i++;
-			continue ;
-		}
-		else
-		{
-			if (create_export_node(args[i], head))
-			{
-				i++;
-				continue ;
-			}
-			i++;
-		}
-		free(key);
+		bt_export_loop_to_create_node(args[i], head);
+		i++;
 	}
 }
-	// return (status);

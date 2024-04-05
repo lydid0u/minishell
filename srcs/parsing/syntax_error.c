@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/03/07 02:54:53 by lboudjel          #+#    #+#             */
 /*   Updated: 2024/03/23 00:27:50 by lboudjel         ###   ########.fr       */
 /*                                                                            */
@@ -20,9 +23,9 @@
 		if tab[i] == CHEVRON && tab[i + 1] == CHEVRON ou PIPE
 */
 
-int pipe_in_first(char *input)
+int	pipe_in_first(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -32,12 +35,12 @@ int pipe_in_first(char *input)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i++;
 		else
-			break;
+			break ;
 	}
 	return (0);
 }
 
-int pipe_in_last(char *input, int i)
+int	pipe_in_last(char *input, int i)
 {
 	while (i >= 0)
 	{
@@ -46,12 +49,12 @@ int pipe_in_last(char *input, int i)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i--;
 		else
-			break;
+			break ;
 	}
 	return (0);
 }
 
-int redir_in_last(char *input, int i)
+int	redir_in_last(char *input, int i)
 {
 	while (i >= 0)
 	{
@@ -60,14 +63,14 @@ int redir_in_last(char *input, int i)
 		else if (input[i] == ' ' || input[i] == '\t')
 			i--;
 		else
-			break;
+			break ;
 	}
 	return (0);
 }
 
-int double_pipe(char *input)
+int	double_pipe(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -82,42 +85,10 @@ int double_pipe(char *input)
 				else if (input[i] == ' ' || input[i] == '\t')
 					i++;
 				else
-					break;
+					break ;
 			}
 		}
 		i++;
-	}
-	return (0);
-}
-
-// sadasd ads asd dsasad > asd >> a  | asd
-int redir_n_pipe(char *input)
-{
-	int i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '>' || input[i] == '<')
-		{
-			if ((input[i] == '>' && input[i + 1] == '<') || (input[i] == '<' && input[i + 1] == '>'))
-				return (1);
-			i++;
-			if (input[i] == '>' || input[i] == '<')
-				i++;
-
-			while (input[i])
-			{
-				if (input[i] == '|' || input[i] == '>' || input[i] == '<')
-					return (1);
-				else if (input[i] == ' ' || input[i] == '\t')
-					i++;
-				else
-					break;
-			}
-		}
-		if (input[i])
-			i++;
 	}
 	return (0);
 }
