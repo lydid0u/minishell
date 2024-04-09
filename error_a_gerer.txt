@@ -1,4 +1,4 @@
-- export 12=oui --> ne devrait pas export, rechecker la syntaxe de ce que jexporte
+- export 12=oui --> ne devrait pas export, rechecker la syntaxe (les nombres, _, etc) de ce que jexporte
 
 
 /*
@@ -25,3 +25,22 @@ e"cho hola" : doit renvoyer "echo hola: command not found"
 
 - leaks quand je change la value d'un node qui existe deja dans export
 - commande qui nexiste pas -> 10395349 leaks
+
+====================================================================================
+								[A]	[F][A][I][R][E]
+====================================================================================
+
+09.04 -> ou j'en suis avant de partir :
+
+	- faut je malloc le bon nombre de files et tout dans la tokenisation
+	- jai fais les token et je les ai stockes mais je les utilise pas encore
+	- je gere pas les leaks de la tokenisation, voir ou free
+	- voir le cas de echo et comment ca se passe pour pas print les trucs du debut en trop
+	- les builtins sont FOUILLIS de zinzins,
+	- replacer dans execve les tokens,
+	- quand je met des cmd dans des pipes : jai 1 milliards de leaks yesss
+	- quand pas d'exec : rechecker comment je gere le bail
+	- repasser sur les leaks que jai deja cite plus haut
+	- j'open 9 fd jen ferme 3 a la sortie
+
+

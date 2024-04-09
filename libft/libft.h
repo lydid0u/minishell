@@ -60,6 +60,11 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		countword(const char *s, char c);
 
+int		countword_v2(const char *s);
+char	*copystr_v2(const char *original);
+char	**ft_fill_tab_v2(char const *s, char **tab, int len_tab);
+char	**ft_split_v2(char *s);
+
 typedef struct s_list
 {
 	void				*content;

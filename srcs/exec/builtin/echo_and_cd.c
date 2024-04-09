@@ -15,9 +15,11 @@
 //while (tab[(*i)])  && tab[(*i)] == words ??
 void	print_echo(char **tab, int *i)
 {
+	// (*i)++;
+	// if ()
 	while (tab[(*i)])
 	{
-		printf("%s", tab[(*i)]);
+		printf("{%s}", tab[(*i)]);
 		if (tab[(*i) + 1])
 			printf(" ");
 		(*i)++;

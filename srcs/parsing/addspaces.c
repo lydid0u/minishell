@@ -70,5 +70,6 @@ char	*add_spaces(char *s)
 			output[j++] = s[i++];
 	}
 	output[j] = '\0';
-	return (free(s), output);
+	// return (free(s), output);
+	return (output);
 }

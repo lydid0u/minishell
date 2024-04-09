@@ -16,15 +16,6 @@
 // boucler et fd = open sur chaque redirection et dup2 sur le dernier
 //apres avoir fais les pipes
 
-void	chevron(t_pipex *pipex, int i)
-{
-	pipex->redir = ft_split(pipex->arg_cmd[i], ' ');
-	if (!pipex->redir)
-		return ;
-	handle_redirections(pipex->redir);
-	free_tab(pipex->redir);
-}
-
 void	handle_redirection(char **redir)
 {
 	int	i;
@@ -50,9 +41,19 @@ void	handle_redirection(char **redir)
 			dup2(fd, 0);
 			close(fd);
 		}
-		j++;
+		i++;
 	}
 }
+
+void	chevron(t_pipex *pipex, int i)
+{
+	pipex->redir = ft_split(pipex->arg_cmd[i], ' ');
+	if (!pipex->redir)
+		return ;
+	handle_redirection(pipex->redir);
+	free_tab(pipex->redir);
+}
+
 
 // if (ft_strcmp(redir[i], "<<") == 0)
 	//heredoc
@@ -96,10 +97,11 @@ void	chevron_no_exec(t_pipex *pipex)
 	pipex->redir = ft_split(pipex->cmd[0], ' ');
 	if (!pipex->redir)
 		return ;
-	handle_redirections(pipex->redir, entree, sortie);
+	handle_redirection_no_exec(pipex->redir, entree, sortie);
 	close(entree);
 	close(sortie);
 	free_tab(pipex->redir);
 }
 
 // 	fprintf(stderr, " ca pue sa mere \n");
+//5410938E

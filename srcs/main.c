@@ -21,10 +21,10 @@ void	handle_sigterm(void)
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex = {0};
+	static t_token	token = {0};
 	t_copyenv		*lst_envp;
 	char			*prompt;
 	int				nbcmd;
-	// static t_token	token = {0};
 	(void)argc;
 	(void)argv;
 	lst_envp = create_lst(envp);
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
+		tokenisation(pipex.prompt, &token);
 		pipex.prompt = suppresing_quote(pipex.prompt);
 		quote_positif(pipex.prompt);
 		pipex.cmd = ft_split(pipex.prompt, '|');

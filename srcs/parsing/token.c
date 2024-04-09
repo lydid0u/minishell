@@ -22,21 +22,51 @@ int	is_a_redirection(char *str)
 		return (3);
 	if (ft_strcmp(str, "<<") == 0)
 		return (4);
+	else
+		return (0);
 }
 
-// void	tokenisation(char **tab, t_pipex *pipex)
-// {
-// 	int	i;
+void tokenisation(char *input, t_token *token) 
+{
+    char **tab;
+    int flag;
+    int redir;
+    int i;
 
-// 	i = 0;
-// 	while (tab[i])
-// 	{
-// 		if (is_a_redirection(tab[i]) != 0)
-// 			pipex->token->redir[pipex->token->r++] = tab[i];
-// 		i++;
-// 	}
-// }
+	i = 0;
+	flag = 0;
+    tab = ft_split_v2(input);
+    if (!tab)
+        return ;
+    token->arg_count = 0;
+    token->file_count = 0;
+	redir = 0;
+    while (tab[i]) 
+    {
+        redir = is_a_redirection(tab[i]);
+        if (redir != 0) 
+        {
+            token->redir[token->file_count] = redir;
+            token->files[token->file_count++] = tab[i + 1];
+            i+=2;
+            continue;
+        } 
+        else 
+        {
+            if (flag == 0)
+            {
+                token->cmd = tab[i];
+                flag = 1;
+            }
+            else
+                token->args[token->arg_count++] = tab[i];
+        }
+        i++;
+    }
+	free_tab(tab);
+}
 
+//------------------------------------------------------------------//
 // 	// t_mycmd  *parse(pipex->redir[i])
 	// mycmd->cmd
 	// mycmd->args
@@ -46,20 +76,6 @@ int	is_a_redirection(char *str)
 
 // 	redir[r++] = tab[i + 1]
 // 	args[a++] = tab[i]
-
-// void	looping(char *cmd)
-// {
-// 	int	i;
-// 	int	nb_cmd;
-// 	char	**args;
-
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-
-// 	}
-// }
-
 /*
 boucler sur les cmd et en faire un tab d'args et des que je vois une redirection
 je dis que ca va avec en faisant :

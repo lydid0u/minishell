@@ -27,6 +27,8 @@
 # include <unistd.h>
 
 # define SYNTAXERROR "bash: syntax error near unexpected token `%s"
+#define MAX_TOKENS 100
+#define MAX_TOKEN_SIZE 100
 
 typedef struct s_copyenv
 {
@@ -37,16 +39,12 @@ typedef struct s_copyenv
 
 typedef struct s_token
 {
-	int				w;
-	int				a;
-	int				f;
-	int				c;
-	int				r;
-	char			**word;
-	char			**args;
-	char			**filename;
-	char			**cmd;
-	char			**redir;
+    char *cmd;
+    char *args[MAX_TOKENS];
+    int arg_count;
+    int redir[MAX_TOKENS]; // 1 for '>', 2 for '>>', 3 for '<', 4 for '<<'
+    char *files[MAX_TOKENS];
+    int file_count;
 }					t_token;
 
 typedef struct pipex
@@ -167,6 +165,8 @@ char					*find_home(t_copyenv *lst_envp);
 
 //				token			//
 int						is_a_redirection(char *str);
+void 					tokenisation(char *input, t_token *token);
+
 
 //				redir_chevron		//
 void					chevron(t_pipex *pipex, int i);
