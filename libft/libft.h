@@ -59,6 +59,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		countword(const char *s, char c);
+char	*ft_strcpy(char *s1, char *s2);
 
 int		countword_v2(const char *s);
 char	*copystr_v2(const char *original);

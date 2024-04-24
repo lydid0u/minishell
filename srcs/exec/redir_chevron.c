@@ -60,6 +60,8 @@ void	chevron(t_pipex *pipex, int i)
 
 void	handle_redirection_no_exec(char **redir, int entree, int sortie)
 {
+	(void)entree;
+	(void)sortie;
 	int	fd;
 	int	i;
 
@@ -75,19 +77,19 @@ void	handle_redirection_no_exec(char **redir, int entree, int sortie)
 			fd = open(redir[i + 1], O_RDONLY);
 		if (ft_strcmp(redir[i], ">>") == 0 || ft_strcmp(redir[i], ">") == 0)
 		{
-			dup2(fd, sortie);
+			dup2(fd, 1);
 			close(fd);
 		}
 		if (ft_strcmp(redir[i], "<") == 0)
 		{
-			dup2(fd, entree);
+			dup2(fd, 0);
 			close(fd);
 		}
 		i++;
 	}
 }
 
-void	chevron_no_exec(t_pipex *pipex)
+void	chevron_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	int	entree;
 	int	sortie;
@@ -98,6 +100,9 @@ void	chevron_no_exec(t_pipex *pipex)
 	if (!pipex->redir)
 		return ;
 	handle_redirection_no_exec(pipex->redir, entree, sortie);
+	handle_built_in_no_exec(pipex, lst_envp);
+	dup2(sortie,1);
+	dup2(entree,0);
 	close(entree);
 	close(sortie);
 	free_tab(pipex->redir);

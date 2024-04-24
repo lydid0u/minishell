@@ -49,6 +49,7 @@ int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 			if (str[i] != '=')
 				break ;
 			i++;
+			free(head->value);
 			head->value = ft_strdup(&str[i]);
 			return (1);
 		}
@@ -118,7 +119,10 @@ void	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 		return ;
 	}
 	if (export_key_already_existing(key, arg, head))
+	{
+		free(key);
 		return ;
+	}
 	create_export_node(arg, head);
 	free(key);
 }

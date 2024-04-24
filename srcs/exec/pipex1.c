@@ -40,7 +40,7 @@ void	redirection(t_pipex *pipex, int i)
 	close(pipex->fd[1]);
 }
 
-void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
+void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char	*path;
 
@@ -59,7 +59,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_export, int i)
 			execve(path, pipex->tab_cmd, NULL);
 	}
 	free_tab(pipex->cmd);
-	free(lst_export);
+	free_lst(lst_envp);
 	return (free(path), free_tab(pipex->tab_cmd), exit(127));
 }
 
@@ -91,8 +91,6 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 		waitpid(pipex->pid[i++], NULL, 0);
 }
 
-//recup les infiles
-//recup les outfiles
 void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
 {
 	pipex->envp = lst_envp;

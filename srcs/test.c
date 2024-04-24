@@ -33,18 +33,40 @@ char	*copystr_v2(const char *original)
 {
 	char	*copy;
 	int		i;
+    char    quote;
 
 	i = 0;
 	while (original[i] != '\0' && original[i] != ' ' && original[i] != '\t')
-		i++;
+    {
+        if (original[i] == '"' || original[i] == '\'')
+        {
+            quote = original[i];
+            while (original[i] != quote)
+                i++;
+        }
+        if (original[i] != '\0' && original[i] != ' ' && original[i] != '\t')
+		    i++;
+    }
 	copy = malloc(sizeof(char) * (i + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;
 	while (original[i] &&  original[i] != ' ' && original[i] != '\t')
 	{
-		copy[i] = original[i];
-		i++;
+        if (original[i] == '"' || original[i] == '\'')
+        {
+            quote = original[i];
+            while (original[i] != quote)
+            {
+                copy[i] = original[i];
+                i++;
+            }
+        }
+        if (original[i] != '\0' && original[i] != ' ' && original[i] != '\t')
+        {
+    		copy[i] = original[i];
+	    	i++;
+        }
 	}
 	copy[i] = '\0';
 	return (copy);
@@ -89,19 +111,19 @@ char	**ft_split_v2(char *s)
 	return (ft_fill_tab_v2(s, tab, len_tab));
 }
 
-int is_a_redirection(char *str) 
-{
-    if (strcmp(str, ">") == 0)
-        return (1);
-    else if (strcmp(str, ">>") == 0)
-        return (2);
-    else if (strcmp(str, "<") == 0)
-        return (3);
-    else if (strcmp(str, "<<") == 0)
-        return (4);
-    else
-        return (0);
-}
+// int is_a_redirection(char *str) 
+// {
+//     if (strcmp(str, ">") == 0)
+//         return (1);
+//     else if (strcmp(str, ">>") == 0)
+//         return (2);
+//     else if (strcmp(str, "<") == 0)
+//         return (3);
+//     else if (strcmp(str, "<<") == 0)
+//         return (4);
+//     else
+//         return (0);
+// }
 
 void parse(char *input, Command *cmd) 
 {
@@ -142,23 +164,23 @@ void parse(char *input, Command *cmd)
     }
 }
 
-int main() 
-{
-    char *input = malloc(100000);
-    printf("INPUT : ");
-    input = " <out			ls -l	    -a ";
-    Command cmd;
-    parse(input, &cmd);
-    printf("\nCommand: %s\n", cmd.cmd);
-    for (int i = 0; i < cmd.arg_count; i++) 
-    {
-        printf( "argument : %s\n", cmd.args[i]);
-    }
-    printf("\n");
-    for (int i = 0; i < cmd.file_count; i++) 
-    {
-        printf("Redirection: %d\n", cmd.redir[i]);
-        printf("File: %s\n", cmd.files[i]);
-    }
-    return 0;
-}
+// int main() 
+// {
+//     char *input = malloc(100000);
+//     printf("INPUT : ");
+//     input = " <out			ls -l	    -a ";
+//     Command cmd;
+//     parse(input, &cmd);
+//     printf("\nCommand: %s\n", cmd.cmd);
+//     for (int i = 0; i < cmd.arg_count; i++) 
+//     {
+//         printf( "argument : %s\n", cmd.args[i]);
+//     }
+//     printf("\n");
+//     for (int i = 0; i < cmd.file_count; i++) 
+//     {
+//         printf("Redirection: %d\n", cmd.redir[i]);
+//         printf("File: %s\n", cmd.files[i]);
+//     }
+//     return 0;
+// }

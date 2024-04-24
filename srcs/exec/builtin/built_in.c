@@ -27,7 +27,7 @@ int	handle_built_in_pipex(t_pipex *pipex, int i)
 		if (ft_strcmp(tab[j], "unset") == 0)
 			return (built_in_unset(&tab[j + 1], pipex->envp), free_tab(tab), 0);
 		if (ft_strcmp(tab[j], "echo") == 0)
-			return (built_in_echo(&tab[j + 1]), free_tab(tab), 0);
+			return (built_in_echo(&tab[i + 1], pipex), free_tab(tab), 0);
 		if (ft_strcmp(tab[j], "pwd") == 0)
 			return (built_in_pwd(), free_tab(tab), 0);
 		if (ft_strcmp(tab[j], "cd") == 0)
@@ -50,12 +50,13 @@ void	handle_built_in_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
 	tab = ft_split(pipex->cmd[0], ' ');
 	while (tab[i])
 	{
+		// printf("%s\n", tab[i + 1]);
 		if (ft_strcmp(tab[i], "export") == 0)
 			built_in_export(&tab[i + 1], lst_envp);
 		if (ft_strcmp(tab[i], "unset") == 0)
 			built_in_unset(&tab[i + 1], lst_envp);
 		if (ft_strcmp(tab[i], "echo") == 0)
-			built_in_echo(&tab[i + 1]);
+			built_in_echo(&tab[i + 1], pipex);
 		if (ft_strcmp(tab[i], "pwd") == 0)
 			built_in_pwd();
 		if (ft_strcmp(tab[i], "cd") == 0)

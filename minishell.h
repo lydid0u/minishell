@@ -37,7 +37,7 @@ typedef struct s_copyenv
 	struct s_copyenv	*next;
 }						t_copyenv;
 
-typedef struct s_token
+typedef struct token
 {
     char *cmd;
     char *args[MAX_TOKENS];
@@ -65,6 +65,7 @@ typedef struct pipex
 	char				*prompt;
 	char				**redir;
 	t_token				*token;
+	t_copyenv			*lst_envp_pipex;
 }						t_pipex;
 
 //				pipex1				//
@@ -158,20 +159,21 @@ void					free_handle_bt_no_exec(t_pipex *pipex,
 void					free_handle_bt(t_pipex *pipex, char **tab);
 
 //				echo_and_cd		//
-void					built_in_echo(char **str);
+void					built_in_echo(char **str, t_pipex *pipex);
+void					print_echo(char **tab, int *i, t_pipex *pipex);
 int						echo_option_n(char *str);
 void					built_in_cd(char **tab, t_copyenv *lst_envp);
 char					*find_home(t_copyenv *lst_envp);
 
 //				token			//
 int						is_a_redirection(char *str);
-void 					tokenisation(char *input, t_token *token);
+void 					tokenisation(char *input, t_pipex *pipex);
 
 
 //				redir_chevron		//
 void					chevron(t_pipex *pipex, int i);
 void					handle_redirection(char **redir);
-void					chevron_no_exec(t_pipex *pipex);
+void					chevron_no_exec(t_pipex *pipex, t_copyenv *lst_envp);
 void					handle_redirection_no_exec(char **redir, int entree, int sortie);
 
 // garbage collector ??

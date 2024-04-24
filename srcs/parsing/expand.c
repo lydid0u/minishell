@@ -117,7 +117,7 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 
 	i = 0;
 	j = 0;
-	output = malloc(sizeof(char) * (total_expand(input, lst_envp) + 1));
+	output = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
 	if (!output)
 		return (NULL);
 	while (input[i])

@@ -100,7 +100,7 @@ char	*suppresing_quote(char *input)
 	{
 		if (input[i] == '\'' || input[i] == '"')
 		{
-			quote = input[i++];
+			quote = input[i];
 			i++;
 			while (input[i] && input[i] != quote)
 				output[j++] = input[i++];
