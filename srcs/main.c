@@ -38,26 +38,23 @@ void free_token(t_pipex *pipex)
 	int i;
 	
 	i = 0;
-	free(pipex->token->cmd);
-	// printf("files %d args %d\n", pipex->token->file_count, pipex->token->arg_count);
-	if (pipex->token->arg_count > 0)
+	while (i != pipex->token->arg_count)
 	{
-		while (i <= pipex->token->arg_count)
-    	{
-			printf("free args\n");
-			free(pipex->token->args[i]);
-			i++;
-		}	
+		free(pipex->token->tabargs[i]);
+		i++;
 	}
+	if (pipex->token->arg_count)
+		free(pipex->token->tabargs);
 	i = 0;
-	if (pipex->token->file_count > 0)
+	while (i != pipex->token->file_count)
 	{
-		while (i <= pipex->token->file_count)
-	    {
-			printf("free files\n");
-			free(pipex->token->files[i]);
-			i++;
-	    }
+		free(pipex->token->tabfiles[i]);
+		i++;
+	}
+	if (pipex->token->arg_count)
+	{
+		free(pipex->token->tabfiles);
+		free(pipex->token->tabredir);
 	}
 	free(pipex->token); 
 }
@@ -65,7 +62,7 @@ void free_token(t_pipex *pipex)
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex = {0};
-	// static t_token	token = {0};
+	t_token			*token;
 	t_copyenv		*lst_envp;
 	char			*prompt;
 	int				nbcmd;
@@ -91,7 +88,6 @@ int	main(int argc, char **argv, char **envp)
 		pipex.prompt = add_spaces(pipex.prompt);
 		if (!pipex.prompt)
 			break ;
-		tokenisation(pipex.prompt, &pipex);
 		// print_token(&pipex);
 		pipex.prompt = suppresing_quote(pipex.prompt);
 		quote_positif(pipex.prompt);
@@ -99,15 +95,16 @@ int	main(int argc, char **argv, char **envp)
 		nbcmd = countword(pipex.prompt, '|');
 		if (nbcmd == 1 && is_builtin(pipex.cmd[0]))
 		{
-			// printf("prompt %s\n", pipex.prompt);
-			chevron_no_exec(&pipex, lst_envp);
+			token = tokenisation(pipex.cmd[0]);
+			chevron_no_exec(&pipex, token, lst_envp);
+			pipex.token = token;
+			free_token(&pipex);
 		}
 		else
 			exec(nbcmd, lst_envp, &pipex);
 		free(pipex.prompt);
 		free_tab(pipex.cmd);
 	}
-	free_token(&pipex);
 	free_lst(lst_envp);
 	return (1);
 }

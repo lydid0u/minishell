@@ -45,6 +45,11 @@ typedef struct token
     int redir[MAX_TOKENS]; // 1 for '>', 2 for '>>', 3 for '<', 4 for '<<'
     char *files[MAX_TOKENS];
     int file_count;
+	// faut allouer chef
+	char **tabargs;
+	int *tabredir;
+	char **tabfiles;
+
 }					t_token;
 
 typedef struct pipex
@@ -146,17 +151,15 @@ void					free_lst(t_copyenv *lst);
 t_copyenv				*create_node(void);
 
 //				built-in		//
-void					handle_built_in_no_exec(t_pipex *pipex,
-							t_copyenv *lst_envp);
+void	handle_built_in_no_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp);
 void					built_in_pwd(void);
 void					built_in_env(t_copyenv *lst_envp);
-int						handle_built_in_pipex(t_pipex *pipex, int i);
+int	handle_built_in_pipex(t_token *cmd, t_pipex *pipex);
 
 //				built-in_utils		//
 int						is_builtin(char *cmd);
-void					free_handle_bt_no_exec(t_pipex *pipex,
-							t_copyenv *lst_envp, char **tab);
-void					free_handle_bt(t_pipex *pipex, char **tab);
+void	free_handle_bt_no_exec(t_pipex *pipex, t_copyenv *lst_envp);
+void					free_handle_bt(t_pipex *pipex);
 
 //				echo_and_cd		//
 void					built_in_echo(char **str, t_pipex *pipex);
@@ -167,15 +170,17 @@ char					*find_home(t_copyenv *lst_envp);
 
 //				token			//
 int						is_a_redirection(char *str);
-void 					tokenisation(char *input, t_pipex *pipex);
+t_token 					*tokenisation(char *input);
 
 
 //				redir_chevron		//
-void					chevron(t_pipex *pipex, int i);
-void					handle_redirection(char **redir);
-void					chevron_no_exec(t_pipex *pipex, t_copyenv *lst_envp);
+void					handle_redirection(t_token *cmd);
+void					chevron_no_exec(t_pipex *pipex,t_token *token, t_copyenv *lst_envp);
 void					handle_redirection_no_exec(char **redir, int entree, int sortie);
-
+void	print_tokenexec(t_token *token);
 // garbage collector ??
+
+void free_token(t_pipex *pipex);
+t_token *allocstruct(char **tab);
 
 #endif

@@ -33,14 +33,13 @@ void	print_echo(char **tab, int *i, t_pipex *pipex)
 	int j;
 
 	j = 0;
+	(void)tab;
+	(void)i;
 	while (j < pipex->token->arg_count)
 	{
-		// if (is_a_redirection(tab[(*i)]))
-		// 	break;
 		printf("%s", pipex->token->args[j]);
-		if (tab[(*i) + 1])
+		if (pipex->token->args[j + 1])
 			printf(" ");
-		(*i)++;
 		j++;
 	}
 }
@@ -80,24 +79,28 @@ void	built_in_echo(char **tab, t_pipex *pipex)
 	int	i;
 	int	space;
 
+	(void)pipex;
 	i = 0;
 	space = 0;
 	while (tab[i])
 	{
-		if (ft_strncmp(tab[i], "-n", 2) == 0)
-		{
-			if (echo_option_n(tab[i]) == 1)
-			{
-				space = 1;
-				i++;
-			}
-			else
-				break ;
-		}
-		else
-			break ;
+		printf("%s", tab[i]);
+		if (tab[i + 1])
+			printf(" ");
+		// if (ft_strncmp(tab[i], "-n", 2) == 0)
+		// {
+		// 	if (echo_option_n(tab[i]) == 1)
+		// 	{
+		// 		space = 1;
+		i++;
+		// 	}
+		// 	else
+		// 		break ;
+		// }
+		// else
+		// 	break ;
 	}
-	print_echo(tab, &i, pipex);
+	// print_echo(tab, &i, pipex);
 	if (space != 1)
 		printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 02:41:15 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/04/05 02:42:56 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:17:27 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,17 @@ int	is_builtin(char *cmd)
 	return (free_tab(tab), 0);
 }
 
-void	free_handle_bt(t_pipex *pipex, char **tab)
+void	free_handle_bt(t_pipex *pipex)
 {
 	free_tab(pipex->cmd);
-	free_tab(tab);
 	free_lst(pipex->envp);
 	exit(EXIT_SUCCESS);
 }
 
-void	free_handle_bt_no_exec(t_pipex *pipex, t_copyenv *lst_envp, char **tab)
+void	free_handle_bt_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	free(pipex->prompt);
 	free_tab(pipex->cmd);
-	free_tab(tab);
 	free_lst(pipex->envp);
 	free_lst(lst_envp);
 	exit(EXIT_SUCCESS);

@@ -28,3 +28,6 @@ e"cho hola" : doit renvoyer "echo hola: command not found"
 - les builtins sont FOUILLIS de zinzins,
 - replacer dans execve les tokens,
 - quand pas d'exec : rechecker comment je gere le bail
+
+
+--> la je dois recup ma struct de token et trier au pipe

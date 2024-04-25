@@ -16,42 +16,33 @@
 // boucler et fd = open sur chaque redirection et dup2 sur le dernier
 //apres avoir fais les pipes
 
-void	handle_redirection(char **redir)
+void	handle_redirection(t_token *cmd)
 {
 	int	i;
 	int	fd;
 
 	i = 0;
 	fd = 0;
-	while (redir[i])
+	while (i < cmd->file_count)
 	{
-		if (ft_strcmp(redir[i], ">>") == 0)
-			fd = open(redir[i + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
-		if (ft_strcmp(redir[i], ">") == 0)
-			fd = open(redir[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
-		if (ft_strcmp(redir[i], "<") == 0)
-			fd = open(redir[i + 1], O_RDONLY);
-		if (ft_strcmp(redir[i], ">>") == 0 || ft_strcmp(redir[i], ">") == 0)
+		if (cmd->tabredir[i] == 1)
+			fd = open(cmd->tabfiles[i], O_CREAT | O_RDWR | O_APPEND, 0666);
+		if (cmd->tabredir[i] == 2)
+			fd = open(cmd->tabfiles[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
+		if (cmd->tabredir[i] == 3)
+			fd = open(cmd->tabfiles[i], O_RDONLY);
+		if (cmd->tabredir[i] == 1 || cmd->tabredir[i] == 2)
 		{
 			dup2(fd, 1);
 			close(fd);
 		}
-		if (ft_strcmp(redir[i], "<") == 0)
+		if (cmd->tabredir[i] == 3)
 		{
 			dup2(fd, 0);
 			close(fd);
 		}
 		i++;
 	}
-}
-
-void	chevron(t_pipex *pipex, int i)
-{
-	pipex->redir = ft_split(pipex->arg_cmd[i], ' ');
-	if (!pipex->redir)
-		return ;
-	handle_redirection(pipex->redir);
-	free_tab(pipex->redir);
 }
 
 
@@ -89,7 +80,7 @@ void	handle_redirection_no_exec(char **redir, int entree, int sortie)
 	}
 }
 
-void	chevron_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
+void	chevron_no_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 {
 	int	entree;
 	int	sortie;
@@ -100,7 +91,7 @@ void	chevron_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
 	if (!pipex->redir)
 		return ;
 	handle_redirection_no_exec(pipex->redir, entree, sortie);
-	handle_built_in_no_exec(pipex, lst_envp);
+	handle_built_in_no_exec(pipex, token, lst_envp);
 	dup2(sortie,1);
 	dup2(entree,0);
 	close(entree);
