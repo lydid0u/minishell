@@ -163,7 +163,7 @@ void					free_handle_bt(t_pipex *pipex);
 
 //				echo_and_cd		//
 void					built_in_echo(char **str, t_pipex *pipex);
-void					print_echo(char **tab, int *i, t_pipex *pipex);
+void				print_echo(char **tab);
 int						echo_option_n(char *str);
 void					built_in_cd(char **tab, t_copyenv *lst_envp);
 char					*find_home(t_copyenv *lst_envp);
@@ -180,7 +180,7 @@ void					handle_redirection_no_exec(char **redir, int entree, int sortie);
 void	print_tokenexec(t_token *token);
 // garbage collector ??
 
-void free_token(t_pipex *pipex);
+void free_token(t_token *token);
 t_token *allocstruct(char **tab);
 
 #endif

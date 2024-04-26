@@ -1,0 +1,483 @@
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell ls > moha -R -l ../ > lydia | cat < Makefile |  grep > copyMakefile a | echo bonjour
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re
+CFLAGS  = -Wall -Wextra -Werror -g3 
+FT_LIBFT        = libft/libft.a
+FT_PRINTF       = ft_printf/libftprintf.a
+SRCS_NAMES		=	main.c test.c \
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
+					parsing/expand_2.c parsing/parsing.c parsing/token.c \
+					exec/builtin/echo_and_cd.c  exec/builtin/built_in_utils.c exec/redir_chevron.c\
+SRCS			=	$(addprefix $(DIR_SRCS)/,$(SRCS_NAMES))
+OBJS			=	$(addprefix $(DIR_OBJS)/,$(OBJS_NAMES))
+all : ${NAME}
+		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
+		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+	mkdir -p objs/parsing
+leaks : all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
+clean :
+	make clean -C libft
+	make clean -C ft_printf
+fclean : clean
+	make fclean -C libft
+	make fclean -C ft_printf
+re : fclean all
+.PHONY : all clean fclean leaks re

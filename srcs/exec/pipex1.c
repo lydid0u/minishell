@@ -79,13 +79,11 @@ t_token *allocstruct(char **tab)
 		}
 		i++;
 	}
-
 	tok->tabargs = ft_calloc(sizeof(char *), a + 1);
 	tok->tabfiles = ft_calloc(sizeof(char *), r + 1);
 	tok->tabredir = ft_calloc(sizeof(int), r + 1);
 	return (tok);
 }
-
 
 t_token *tokenisation(char *input)
 {
@@ -105,48 +103,42 @@ t_token *tokenisation(char *input)
 			token->tabfiles[r++] = suppresing_quote(ft_strdup(tab[i]));
 		}
 		else
-		{
 			token->tabargs[a++] = suppresing_quote(ft_strdup(tab[i]));
-		}
 		i++;
 	}
 	free_tab(tab);
 	token->cmd = token->tabargs[0];
 	token->arg_count = a;
 	token->file_count = r;
-	print_tokenexec(token);
+	// print_tokenexec(token);
 	return (token);
 }
 
 
 void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
-	// char	*path;
+	char	*path;
 	t_token *mycmd;
 
 	free(pipex->prompt);
 	redirection(pipex, i);
-	// ici parsing
 	mycmd =	tokenisation(pipex->arg_cmd[i]);
-	// chevron(pipex, i);/
 	handle_redirection(mycmd);
 	if (handle_built_in_pipex(mycmd, pipex) == 0)
-		return (free_tab(pipex->cmd), exit(1));
+		return (free_tab(pipex->cmd));
 	else
 	{
-		// pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
-		// if (!pipex->tab_cmd)
-			// return (free_tab(pipex->tab_cmd));
-		// path = access_cmd(pipex, 0);
-		// if (path)
-		fprintf(stderr, "cjef\n");
-		execvp(mycmd->cmd, mycmd->tabargs);
+		pipex->tab_cmd = ft_split(pipex->arg_cmd[i], ' ');
+		if (!pipex->tab_cmd)
+			return (free_tab(pipex->tab_cmd));
+		path = access_cmd(pipex, 0);
+		if (path)
+			execve(path, mycmd->tabargs, NULL);
 	}
 	free_tab(pipex->cmd);
 	free_lst(lst_envp);
-	pipex->token = mycmd;
-	free_token(pipex);
-	return (exit(127));
+	free_token(mycmd);
+	// return (exit(127));
 }
 
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
@@ -188,6 +180,7 @@ int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 {
 	init_struct(pipex, argc, pipex->cmd, lst_envp);
 	piping_and_forking(pipex, lst_envp);
+	printf("O++++++++++++++++++++++++++++++++++++++\n");
 	close(pipex->fd[0]);
 	return (1);
 }

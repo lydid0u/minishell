@@ -111,20 +111,6 @@ char	**ft_split_v2(char *s)
 	return (ft_fill_tab_v2(s, tab, len_tab));
 }
 
-// int is_a_redirection(char *str) 
-// {
-//     if (strcmp(str, ">") == 0)
-//         return (1);
-//     else if (strcmp(str, ">>") == 0)
-//         return (2);
-//     else if (strcmp(str, "<") == 0)
-//         return (3);
-//     else if (strcmp(str, "<<") == 0)
-//         return (4);
-//     else
-//         return (0);
-// }
-
 void parse(char *input, Command *cmd) 
 {
     char **token;

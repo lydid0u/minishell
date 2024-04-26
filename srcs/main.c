@@ -33,29 +33,50 @@ void	print_token(t_pipex *pipex)
     }
 }
 
-void free_token(t_pipex *pipex)
+void free_token(t_token *token)
 {
 	int i;
 	
-	i = 0;
-	while (i != pipex->token->arg_count)
+	i = 1;
+	while (i <= token->arg_count)
 	{
-		free(pipex->token->tabargs[i]);
+		free(token->tabargs[i]);
 		i++;
 	}
-	if (pipex->token->arg_count)
-		free(pipex->token->tabargs);
 	i = 0;
-	while (i != pipex->token->file_count)
+	while (i != token->file_count)
 	{
-		free(pipex->token->tabfiles[i]);
+		free(token->tabfiles[i]);
 		i++;
 	}
-	if (pipex->token->arg_count)
-	{
-		free(pipex->token->tabfiles);
-		free(pipex->token->tabredir);
-	}
+	free(token->tabargs);
+	free(token->tabfiles);
+	free(token->tabredir);
+	free(token); 
+}
+
+void free_token_exec(t_pipex *pipex)
+{
+	// int i;
+	
+	// i = 1;
+	// free(pipex->token->cmd);
+	// printf("argcount {%d} i {%d}\n", token->arg_count, i);
+	// while (i != token->arg_count)
+	// {
+	// 	printf("argcount {%d} i {%d}\n", token->arg_count, i);
+	// 	free(token->tabargs[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (i != token->file_count)
+	// {
+	// 	free(token->tabfiles[i]);
+	// 	i++;
+	// }
+	free(pipex->token->tabargs);
+	free(pipex->token->tabfiles);
+	free(pipex->token->tabredir);
 	free(pipex->token); 
 }
 
@@ -97,16 +118,16 @@ int	main(int argc, char **argv, char **envp)
 		{
 			token = tokenisation(pipex.cmd[0]);
 			chevron_no_exec(&pipex, token, lst_envp);
-			pipex.token = token;
-			free_token(&pipex);
+			free_token(token);
 		}
 		else
+		{
 			exec(nbcmd, lst_envp, &pipex);
+			// free_token_exec(&pipex);
+		}
 		free(pipex.prompt);
 		free_tab(pipex.cmd);
 	}
 	free_lst(lst_envp);
 	return (1);
 }
-
-//leaks sur ls | cd

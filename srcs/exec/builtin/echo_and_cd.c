@@ -12,95 +12,43 @@
 
 #include "minishell.h"
 
-// //while (tab[(*i)])  && tab[(*i)] == words ??
-// void	print_echo(char **tab, int *i)
-// {
-// 	// (*i)++;
-// 	// if ()
-// 	while (tab[(*i)])
-// 	{
-// 		if (is_a_redirection(tab[(*i)]))
-// 			break;
-// 		printf("{%s}", tab[(*i)]);
-// 		if (tab[(*i) + 1])
-// 			printf(" ");
-// 		(*i)++;
-// 	}
-// }
-
-void	print_echo(char **tab, int *i, t_pipex *pipex)
+void	print_echo(char **tab)
 {
 	int j;
 
 	j = 0;
-	(void)tab;
-	(void)i;
-	while (j < pipex->token->arg_count)
+	while (tab[j])
 	{
-		printf("%s", pipex->token->args[j]);
-		if (pipex->token->args[j + 1])
+		printf("%s", tab[j]);
+		if (tab[j + 1])
 			printf(" ");
 		j++;
 	}
 }
 
-// int	countword_v2(const char *s)
-// {
-// 	int	i;
-// 	int	len;
-//     // char quote;
-
-// 	i = 0;
-// 	len = 0;
-// 	while (s[i])
-// 	{
-// 		while (s[i] != '\0' && (s[i] == ' ' || s[i] == '\t'))
-// 			i++;
-// 		if (s[i] != '\0')
-// 			len++;
-// 		while (s[i] != '\0' && s[i] != ' ' && s[i] != '\t')
-//         {
-//             printf("countword {%s}\n", &s[i]);
-//             // if (s[i] == '"' || s[i] == '\'')
-//             // {
-//             //     quote = s[i];
-//             //     while (s[i] != quote)
-//             //         i++;
-//             // }
-// 			i++;
-//         }
-// 	}
-//     printf("LA LEN %d\n", len);
-// 	return (len);
-// }
-
 void	built_in_echo(char **tab, t_pipex *pipex)
 {
 	int	i;
 	int	space;
-
 	(void)pipex;
 	i = 0;
 	space = 0;
 	while (tab[i])
 	{
-		printf("%s", tab[i]);
-		if (tab[i + 1])
-			printf(" ");
-		// if (ft_strncmp(tab[i], "-n", 2) == 0)
-		// {
-		// 	if (echo_option_n(tab[i]) == 1)
-		// 	{
-		// 		space = 1;
-		i++;
-		// 	}
-		// 	else
-		// 		break ;
-		// }
-		// else
-		// 	break ;
+		if (ft_strncmp(tab[i], "-n", 2) == 0)
+		{
+			if (echo_option_n(tab[i]) == 1)
+			{
+				space = 1;
+				i++;
+			}
+			else
+				break ;
+		}
+		else
+			break ;
 	}
-	// print_echo(tab, &i, pipex);
+	print_echo(&tab[i]);
 	if (space != 1)
 		printf("\n");
 }

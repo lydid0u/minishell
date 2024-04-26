@@ -17,17 +17,7 @@ e"cho hola" : doit renvoyer "echo hola: command not found"
 
 09.04 -> ou j'en suis avant de partir :
 
-- repasser sur les leaks que jai deja cite plus haut
-- faut je malloc le bon nombre de files et tout dans la tokenisation
-- quand je met des cmd dans des pipes : jai 1 milliards de leaks yesss
-
-- jai fais les token et je les ai stockes mais je les utilise pas encore
-
 - je gere pas les leaks de la tokenisation, voir ou free
-- voir le cas de echo et comment ca se passe pour pas print les trucs du debut en trop
 - les builtins sont FOUILLIS de zinzins,
-- replacer dans execve les tokens,
-- quand pas d'exec : rechecker comment je gere le bail
-
 
 --> la je dois recup ma struct de token et trier au pipe

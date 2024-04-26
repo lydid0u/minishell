@@ -26,37 +26,6 @@ int	is_a_redirection(char *str)
 		return (0);
 }
 
-// void tokenisation(char *input) 
-// {
-// 	t_token *token;
-	
-// 	int r = 0;
-// 	int a = 0;
-// 	char **tab = ft_split_v2(input);
-// 	token = allocstruct(tab);
-
-// 	int i = 0;
-// 	while (tab[i])
-// 	{
-// 		if (is_a_redirection(tab[i]))
-// 		{
-// 			token->tabredir[r] = is_a_redirection(tab[i++]);
-// 			token->tabfiles[r++] = suppresing_quote(ft_strdup(tab[i]));
-// 		}
-// 		else
-// 		{
-// 			token->tabargs[a++] = suppresing_quote(ft_strdup(tab[i]));
-// 		}
-// 		i++;
-// 	}
-// 	token->cmd = token->tabargs[0];
-// 	token->arg_count = a;
-// 	token->file_count = r;
-// 	print_tokenexec(token);
-// 	return (token);
-// }
-
-// >> ?
 //------------------------------------------------------------------//
 // 	// t_mycmd  *parse(pipex->redir[i])
 	// mycmd->cmd
@@ -87,6 +56,3 @@ mot[3] = non
 
 et j'affilie a '>' le fichier non en faisant mot[i + 1]
 */
-
-// e"cho|hola"
-// echo hola
