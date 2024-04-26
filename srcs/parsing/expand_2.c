@@ -44,15 +44,16 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 
 int	is_key_valid(char *key, t_copyenv *lst_envp)
 {
-	int		len;
+	// int		len;
 	char	*key_env;
 
 	key = get_key_expand(key);
 	while (lst_envp)
 	{
 		key_env = get_key_expand(lst_envp->key);
-		len = get_len_of_key(key_env);
-		(void)len;
+		// // len = get_len_of_key(key_env);
+		// len = ft_strlen(key_env);
+		// (void)len;
 		if (strcmp(key, key_env) == 0)
 			return (free(key_env), free(key), 0);
 		lst_envp = lst_envp->next;
@@ -72,7 +73,7 @@ char	*get_key_expand(char *str)
 	key = malloc(sizeof(char) * (get_len_of_key(str) + 1));
 	if (!key)
 		return (NULL);
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
 	{
 		key[j++] = str[i++];
 	}

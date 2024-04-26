@@ -115,7 +115,7 @@ void parse(char *input, Command *cmd)
 {
     char **token;
     char *input2 = add_spaces(input);
-    printf("%s\n", input2);
+    printf("[[[%s]]]\n", input2);
     token = ft_split_v2(input2);
     if (!token)
         return ;

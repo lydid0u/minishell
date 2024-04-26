@@ -16,13 +16,10 @@
 // boucler et fd = open sur chaque redirection et dup2 sur le dernier
 //apres avoir fais les pipes
 
-void	handle_redirection(t_token *cmd)
+int	handle_redirection(t_token *cmd)
 {
-	int	i;
-	int	fd;
-
-	i = 0;
-	fd = 0;
+	int (i) = 0;
+	int (fd) = 0;
 	while (i < cmd->file_count)
 	{
 		if (cmd->tabredir[i] == 1)
@@ -31,6 +28,8 @@ void	handle_redirection(t_token *cmd)
 			fd = open(cmd->tabfiles[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
 		if (cmd->tabredir[i] == 3)
 			fd = open(cmd->tabfiles[i], O_RDONLY);
+		if (fd == -1)
+			return (perror(cmd->tabfiles[i]), 1);
 		if (cmd->tabredir[i] == 1 || cmd->tabredir[i] == 2)
 		{
 			dup2(fd, 1);
@@ -43,61 +42,33 @@ void	handle_redirection(t_token *cmd)
 		}
 		i++;
 	}
+	return (0);
 }
-
 
 // if (ft_strcmp(redir[i], "<<") == 0)
 	//heredoc
-
-void	handle_redirection_no_exec(char **redir, int entree, int sortie)
-{
-	(void)entree;
-	(void)sortie;
-	int	fd;
-	int	i;
-
-	i = 0;
-	fd = 0;
-	while (redir[i])
-	{
-		if (ft_strcmp(redir[i], ">>") == 0)
-			fd = open(redir[i + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
-		if (ft_strcmp(redir[i], ">") == 0)
-			fd = open(redir[i + 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
-		if (ft_strcmp(redir[i], "<") == 0)
-			fd = open(redir[i + 1], O_RDONLY);
-		if (ft_strcmp(redir[i], ">>") == 0 || ft_strcmp(redir[i], ">") == 0)
-		{
-			dup2(fd, 1);
-			close(fd);
-		}
-		if (ft_strcmp(redir[i], "<") == 0)
-		{
-			dup2(fd, 0);
-			close(fd);
-		}
-		i++;
-	}
-}
 
 void	chevron_no_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 {
 	int	entree;
 	int	sortie;
-
+// #if DEBUG 
+// 	printf("executing builtion no fork!!!!\n");
+// #endif
 	entree = dup(0);
 	sortie = dup(1);
-	pipex->redir = ft_split(pipex->cmd[0], ' ');
-	if (!pipex->redir)
+	if (handle_redirection(token))
+	{
+		dup2(sortie, 1);
+		dup2(entree, 0);
+		close(entree);
+		close(sortie);
+		pipex->status_code = 1;
 		return ;
-	handle_redirection_no_exec(pipex->redir, entree, sortie);
-	handle_built_in_no_exec(pipex, token, lst_envp);
-	dup2(sortie,1);
-	dup2(entree,0);
+	}
+	pipex->status_code = handle_built_in_no_exec(pipex, token, lst_envp);
+	dup2(sortie, 1);
+	dup2(entree, 0);
 	close(entree);
 	close(sortie);
-	free_tab(pipex->redir);
 }
-
-// 	fprintf(stderr, " ca pue sa mere \n");
-//5410938E

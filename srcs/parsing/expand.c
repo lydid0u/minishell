@@ -70,7 +70,7 @@ int	get_len_of_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_'))
+	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_')) 
 		i++;
 	return (i);
 }
@@ -106,7 +106,7 @@ int	total_expand(char *input, t_copyenv *lst_envp)
 	return (count);
 }
 
-char	*final_string(char *input, t_copyenv *lst_envp)
+char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 {
 	int		i;
 	int		j;
@@ -126,18 +126,36 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 		while (input[i] == '$')
 		{
 			if (input[i + 1] == ' ' || input[i + 1] == '\t'
-				|| input[i + 1] == '\0')
+				|| input[i + 1] == '\0' || input[i + 1] == '"')
 			{
 				output[j++] = input[i++];
 				break ;
 			}
 			i++;
+
+			#if DEBUG
+			printf("{%c}\n", input[i]);
+			#endif
+			if (input[i] == '?')
+			{
+				char *v = ft_itoa(pipex->status_code);
+				for (int r = 0; v[r]; r++)
+					output[j++] = v[r];
+				free(v);
+				i++;
+				continue ;
+			}
 			key = get_key_expand(&input[i]);
 			if (!key)
 				return (NULL);
+				#if DEBUG
+			printf("key {%s}\n", key);
+				#endif
 			if (is_key_valid(key, lst_envp) != 0)
 			{
-				printf("ERROR WITH THE KEY {%s}\n", key);
+				#if DEBUG
+					printf("ERROR WITH THE KEY {%s}\n", key);
+				#endif
 				i += get_len_of_key(key);
 				free(key);
 				continue ;
@@ -155,68 +173,3 @@ char	*final_string(char *input, t_copyenv *lst_envp)
 	output[j] = '\0';
 	return (free(input), output);
 }
-
-// // recup la value d'une variable d'env et l'ajouter à la string
-// void	copy_env_value(char *key, t_copyenv *lst_envp, char *output, int *j)
-// {
-// 	int		k;
-// 	char	*value;
-
-// 	k = 0;
-// 	value = get_value_from_key(key, lst_envp);
-// 	while (value && value[k])
-// 		output[(*j)++] = value[k++];
-// 	free(key);
-// }
-
-// //l'expansion des variables d'environnement
-// void	expand_variable(char *input, char *output, int *i, int *j,
-//  t_copyenv *lst_envp)
-// {
-// 	char	*key;
-
-// 	while (input[*i])
-// 	{
-// 		write_single_quote(input, output, i, j);
-// 		while (input[*i] == '$')
-// 		{
-// 			if (input[*i + 1] == ' ' || input[*i + 1] == '\t'
-//  || input[*i + 1] == '\0')
-// 			{
-// 				output[(*j)++] = input[(*i)++];
-// 				break ;
-// 			}
-// 			(*i)++;
-// 			key = get_key_expand(&input[*i]);
-// 			if (!key)
-// 				return ;
-// 			if (is_key_valid(key, lst_envp) != 0)
-// 			{
-// 				printf("ERROR WITH THE KEY {%s}\n", key);
-// 				(*i) += get_len_of_key(key);
-// 				continue ;
-// 			}
-// 			copy_env_value(key, lst_envp, output, j);
-// 			(*i) += get_len_of_key(&input[*i]);
-// 		}
-// 		if (input[*i])
-// 			output[(*j)++] = input[(*i)++];
-// 	}
-// 	output[*j] = '\0';
-// }
-
-// //fonction principale 
-// char	*expand_variables(char *input, t_copyenv *lst_envp)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*output;
-
-// 	i = 0;
-// 	j = 0;
-// 	output = malloc(sizeof(char) * (total_expand(input, lst_envp) + 1));
-// 	if (!output)
-// 		return (NULL);
-// 	expand_variable(input, output, &i, &j, lst_envp);
-// 	return (output);
-// }

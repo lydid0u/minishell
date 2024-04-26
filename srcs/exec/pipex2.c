@@ -12,49 +12,31 @@
 
 #include "minishell.h"
 
-char	*access_cmd(t_pipex *pipex, int i)
+char	*access_cmd(t_pipex *pipex, t_token *mycmd)
 {
-	int		j;
+	int		i;
 	char	*check_access;
 
-	j = 0;
-	pipex->args_path = get_path(pipex->envp);
-	if (ft_strchr(pipex->tab_cmd[i], '/'))
+	i = 0;
+	if (ft_strchr(mycmd->cmd, '/'))
 	{
-		if (access(pipex->tab_cmd[i], F_OK | X_OK) != -1)
-			return (ft_strdup(pipex->tab_cmd[i]));
+		if (access(mycmd->cmd, F_OK | X_OK) != -1)
+			return (ft_strdup(mycmd->cmd));
 		return (NULL);
 	}
+	pipex->args_path = get_path(pipex->envp);
 	if (!pipex->args_path)
-		return (free_tab(pipex->args_path), NULL);
-	while (pipex->args_path[j])
+		return (NULL);
+	while (pipex->args_path[i])
 	{
-		check_access = ft_strjoin_slash(pipex->args_path[j], pipex->tab_cmd[i]);
+		check_access = ft_strjoin_slash(pipex->args_path[i], mycmd->cmd);
 		if (access(check_access, F_OK | X_OK) == 0)
-			return (check_access);
+			return (free_tab(pipex->args_path), check_access);
 		free(check_access);
-		j++;
+		i++;
 	}
-	ft_printf("command not found : %s \n", pipex->tab_cmd[i]);
+	ft_printf("command not found : %s \n", mycmd->cmd);
 	return (free_tab(pipex->args_path), NULL);
-}
-
-int	open_fd(t_pipex *pipex, int i)
-{
-	int	fd;
-
-	fd = -1;
-	if (i == pipex->nbr_cmd - 1)
-	{
-		fd = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			close(pipex->fd[0]);
-			return (close(pipex->prev), close(pipex->fd[1]),
-				perror("open outfile"), exit(1), fd);
-		}
-	}
-	return (fd);
 }
 
 char	**get_path(t_copyenv *lst_envp)
@@ -68,15 +50,15 @@ char	**get_path(t_copyenv *lst_envp)
 	return (NULL);
 }
 
-void	free_tab(char **tab)
+void	redirection(t_pipex *pipex, int i)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
+	if (i != 0)
 	{
-		free(tab[i]);
-		i++;
+		dup2(pipex->prev, 0);
+		close(pipex->prev);
 	}
-	free(tab);
+	if (i != pipex->nbr_cmd - 1)
+		dup2(pipex->fd[1], 1);
+	close(pipex->fd[0]);
+	close(pipex->fd[1]);
 }

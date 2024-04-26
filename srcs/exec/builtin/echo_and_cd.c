@@ -14,23 +14,23 @@
 
 void	print_echo(char **tab)
 {
-	int j;
+	int	i;
 
-	j = 0;
-	while (tab[j])
+	i = 0;
+	while (tab[i])
 	{
-		printf("%s", tab[j]);
-		if (tab[j + 1])
+		printf("%s", tab[i]);
+		if (tab[i + 1])
 			printf(" ");
-		j++;
+		i++;
 	}
 }
 
-void	built_in_echo(char **tab, t_pipex *pipex)
+int	built_in_echo(char **tab)
 {
 	int	i;
 	int	space;
-	(void)pipex;
+
 	i = 0;
 	space = 0;
 	while (tab[i])
@@ -51,21 +51,19 @@ void	built_in_echo(char **tab, t_pipex *pipex)
 	print_echo(&tab[i]);
 	if (space != 1)
 		printf("\n");
+	return (0);
 }
 
 int	echo_option_n(char *str)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	if (!str || str[0] != '-' || !str[1])
-		return (0);
-	j = 1;
-	while (str[j])
+	i = 1;
+	while (str[i])
 	{
-		if (str[j] != 'n')
+		if (str[i] != 'n')
 			return (0);
-		j++;
+		i++;
 	}
 	return (1);
 }
@@ -84,7 +82,7 @@ char	*find_home(t_copyenv *lst_envp)
 	return (NULL);
 }
 
-void	built_in_cd(char **tab, t_copyenv *lst_envp)
+int	built_in_cd(char **tab, t_copyenv *lst_envp)
 {
 	int		cd;
 	char	*path;
@@ -95,5 +93,9 @@ void	built_in_cd(char **tab, t_copyenv *lst_envp)
 		path = tab[0];
 	cd = chdir(path);
 	if (cd == -1)
-		printf("cd: %s: No such file or directory\n", tab[0]);
+	{
+		perror(tab[0]);
+		return (1);
+	}
+	return (0);
 }

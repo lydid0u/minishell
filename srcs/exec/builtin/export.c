@@ -106,35 +106,40 @@ int	wrong(char *str)
 	return (str[i] != '=');
 }
 
-void	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
+int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 {
 	char	*key;
 
 	key = get_key(arg);
 	if (!key)
-		return ;
+		return (0);
 	if (wrong(arg))
 	{
-		printf("WRONG ARG [%s]\n", arg);
-		return ;
+		// #if DEBUG
+		// 	printf("WRONG ARG [%s]\n", arg);
+		// #endif	
+		return (1);
 	}
 	if (export_key_already_existing(key, arg, head))
 	{
 		free(key);
-		return ;
+		return (0);
 	}
 	create_export_node(arg, head);
 	free(key);
+	return (0);
 }
 
-void	built_in_export(char **args, t_copyenv *head)
+int	built_in_export(char **args, t_copyenv *head)
 {
 	int	i;
 
 	i = 0;
+	int (status) = 0;
 	while (args[i])
 	{
-		bt_export_loop_to_create_node(args[i], head);
+		status = bt_export_loop_to_create_node(args[i], head);
 		i++;
 	}
+	return (status);
 }

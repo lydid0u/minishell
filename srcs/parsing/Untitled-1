@@ -1,1 +1,0 @@
-ls > moha -R -l ../ > lydia | cat < Makefile |  grep > copyMakefile a | echo bonjour

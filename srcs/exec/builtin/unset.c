@@ -57,7 +57,7 @@ int	parsing_unset(char *str, t_copyenv *head)
 	return (0);
 }
 
-void	built_in_unset(char **args, t_copyenv *lst)
+int	built_in_unset(char **args, t_copyenv *lst)
 {
 	int	i;
 
@@ -67,4 +67,5 @@ void	built_in_unset(char **args, t_copyenv *lst)
 		parsing_unset(args[i], lst);
 		i++;
 	}
+	return (0);
 }
