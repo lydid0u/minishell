@@ -22,7 +22,7 @@
 #include "libft.h"
 
 static int	count_len(long int n)
-{	
+{
 	int	len;
 
 	len = 0;

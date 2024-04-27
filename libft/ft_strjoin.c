@@ -48,7 +48,7 @@ static int	ft_len(const char *str)
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
-{	
+{
 	char	*str;
 	int		len;
 

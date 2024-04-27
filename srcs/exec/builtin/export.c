@@ -31,11 +31,6 @@
 - step 4: ajouter le noeud a la fin
 */
 
-// edge case :
-// rechecker pour le chiffre que en 1e
-// FIXE LE CAS DE =B
-// petit leaks a fix encore
-
 int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 {
 	int	i;
@@ -89,8 +84,7 @@ int	create_export_node(char *str, t_copyenv *head)
 // *str			*ret
 // [a][v][i][o][n][=][m][o][h][a]
 // [=][m][o][h][a]
-
-int	wrong(char *str)
+int	wrong_args(char *str)
 {
 	int		i;
 	char	*ret;
@@ -113,7 +107,7 @@ int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 	key = get_key(arg);
 	if (!key)
 		return (0);
-	if (wrong(arg))
+	if (wrong_args(arg))
 	{
 		// #if DEBUG
 		// 	printf("WRONG ARG [%s]\n", arg);

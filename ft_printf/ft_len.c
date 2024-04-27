@@ -13,7 +13,7 @@
 #include "ft_printf.h"
 
 int	count_len(long long int n)
-{	
+{
 	int	len;
 
 	len = 0;
@@ -43,7 +43,7 @@ int	ft_strlen_printf(char *str)
 }
 
 int	count_len_u(unsigned int n)
-{	
+{
 	unsigned int	len;
 
 	len = 0;
@@ -58,7 +58,7 @@ int	count_len_u(unsigned int n)
 }
 
 int	count_base(unsigned long long int n)
-{	
+{
 	int	len;
 
 	len = 0;

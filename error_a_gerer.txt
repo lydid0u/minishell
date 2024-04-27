@@ -1,23 +1,19 @@
-- export 12=oui --> ne devrait pas export, rechecker la syntaxe (les nombres, _, etc) de ce que jexporte
-// echo jcrois jai pas le $ pour le \n
-----------------------------------------
-e"cho hola" : doit renvoyer "echo hola: command not found"
---> je renvoie hola
-*/
-- gerer exit avec un autre argument apres ? genre "exit bjr"
 ====================================================================================
 								[L][E][A][K][S]
 ====================================================================================
-
--rien pour l;instant
 
 ====================================================================================
 								[A]	[F][A][I][R][E]
 ====================================================================================
 
-09.04 -> ou j'en suis avant de partir :
+	reste a faire :
 
-- je gere pas les leaks de la tokenisation, voir ou free
-- les builtins sont FOUILLIS de zinzins,
+- here_doc
+- les signaux dans les here doc 
+- built in exit
+- le bail de export 
+- checker les leaks encore et encore
+- normer
+- invalid read sur echo $?
 
---> la je dois recup ma struct de token et trier au pipe
+- gerer exit avec un autre argument apres ? genre "exit bjr"

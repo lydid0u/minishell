@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-void	handle_sigterm(void)
-{
-	printf("\nExiting the shell.\n");
-	exit(EXIT_SUCCESS);
-}
-
 void	print_token(t_pipex *pipex)
 {
     printf("\nCommand: %s\n", pipex->token->cmd);
@@ -29,7 +23,7 @@ void	print_token(t_pipex *pipex)
     for (int i = 0; i < pipex->token->file_count; i++) 
     {
         printf("Redirection: %d\n", pipex->token->tabredir[i]);
-        printf("File: %s\n", pipex->token->tabfiles[i]);
+        printf("File: %s\n", pipex->token->files[i]);
     }
 }
 
@@ -42,6 +36,8 @@ int	main(int argc, char **argv, char **envp)
 	int				nbcmd;
 	(void)argc;
 	(void)argv;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, &ctrl_c);
 	lst_envp = create_lst(envp);
 	if (!lst_envp)
 		return (1);
@@ -72,9 +68,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		nbcmd = countword(pipex.prompt, '|');
 		quote_positif(pipex.prompt);
-		#if DEBUG
-			printf("PROMPT IS [%s]\n", pipex.prompt);
-		#endif
 		token = tokenisation(pipex.arg_cmd[0]);
 		if (nbcmd == 1 && is_builtin(token->cmd))
 		{
@@ -91,5 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		free_tab(pipex.arg_cmd);
 	}
 	free_lst(lst_envp);
+	fprintf(stderr, "exit\n"); //check ecrire sur quelle sortie ?
+	rl_clear_history();
 	return (pipex.status_code);
 }

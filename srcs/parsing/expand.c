@@ -70,18 +70,15 @@ int	get_len_of_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_')) 
+	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_'))
 		i++;
 	return (i);
 }
 
 int	total_expand(char *input, t_copyenv *lst_envp)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
+	int (i) = 0;
+	int (count) = 0;
 	while (input[i])
 	{
 		handle_single_quote(input, &i, &count);
@@ -106,18 +103,31 @@ int	total_expand(char *input, t_copyenv *lst_envp)
 	return (count);
 }
 
-char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
+void	question_mark(t_pipex *pipex, char *output, int *j)
 {
-	int		i;
-	int		j;
-	int		k;
 	char	*value;
-	char	*output;
-	char	*key;
+	int		i;
 
 	i = 0;
-	j = 0;
-	output = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
+	value = ft_itoa(pipex->status_code);
+	while (value[i])
+	{
+		output[*j] = value[i];
+		(*j)++;
+		i++;
+	}
+	free(value);
+}
+
+char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
+{
+	int		k;
+	char	*value;
+	char	*key;
+
+	int (i) = 0;
+	int (j) = 0;
+	char *(output) = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
 	if (!output)
 		return (NULL);
 	while (input[i])
@@ -132,30 +142,17 @@ char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 				break ;
 			}
 			i++;
-
-			#if DEBUG
-			printf("{%c}\n", input[i]);
-			#endif
 			if (input[i] == '?')
 			{
-				char *v = ft_itoa(pipex->status_code);
-				for (int r = 0; v[r]; r++)
-					output[j++] = v[r];
-				free(v);
+				question_mark(pipex, output, &j);
 				i++;
 				continue ;
 			}
 			key = get_key_expand(&input[i]);
 			if (!key)
 				return (NULL);
-				#if DEBUG
-			printf("key {%s}\n", key);
-				#endif
 			if (is_key_valid(key, lst_envp) != 0)
 			{
-				#if DEBUG
-					printf("ERROR WITH THE KEY {%s}\n", key);
-				#endif
 				i += get_len_of_key(key);
 				free(key);
 				continue ;
@@ -173,3 +170,61 @@ char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 	output[j] = '\0';
 	return (free(input), output);
 }
+
+/*
+char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
+{
+	int		k;
+	char	*value;
+	char	*output;
+	char	*key;
+
+	int (i) = 0;
+	int (j) = 0;
+	output = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
+	if (!output)
+		return (NULL);
+	while (input[i])
+	{
+		write_single_quote(input, output, &i, &j);
+		while (input[i] == '$')
+		{
+			if (input[i + 1] == ' ' || input[i + 1] == '\t'
+				|| input[i + 1] == '\0' || input[i + 1] == '"')
+			{
+				output[j++] = input[i++];
+				break ;
+			}
+			i++;
+			if (input[i] == '?')
+			{
+				char *v = ft_itoa(pipex->status_code);
+				for (int r = 0; v[r]; r++)
+					output[j++] = v[r];
+				free(v);
+				i++;
+				continue ;
+			}
+			key = get_key_expand(&input[i]);
+			if (!key)
+				return (NULL);
+			if (is_key_valid(key, lst_envp) != 0)
+			{
+				i += get_len_of_key(key);
+				free(key);
+				continue ;
+			}
+			value = get_value_from_key(key, lst_envp);
+			k = 0;
+			while (value[k])
+				output[j++] = value[k++];
+			i += get_len_of_key(&input[i]);
+			free(key);
+		}
+		if (input[i])
+			output[j++] = input[i++];
+	}
+	output[j] = '\0';
+	return (free(input), output);
+}
+*/

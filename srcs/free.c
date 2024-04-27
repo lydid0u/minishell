@@ -25,16 +25,32 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+void	free_lst(t_copyenv *lst)
+{
+	t_copyenv	*current;
+	t_copyenv	*nxt;
+
+	current = lst;
+	while (current)
+	{
+		nxt = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = nxt;
+	}
+}
+
 void	free_all(t_copyenv *lst_envp, t_token *tok)
 {
 	free_lst(lst_envp);
 	free_token(tok);
 }
 
-void free_token(t_token *token)
+void	free_token(t_token *token)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i < token->arg_count)
 	{
@@ -44,11 +60,11 @@ void free_token(t_token *token)
 	i = 0;
 	while (i < token->file_count)
 	{
-		free(token->tabfiles[i]);
+		free(token->files[i]);
 		i++;
 	}
 	free(token->tabargs);
-	free(token->tabfiles);
+	free(token->files);
 	free(token->tabredir);
-	free(token); 
+	free(token);
 }

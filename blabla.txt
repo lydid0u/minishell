@@ -1,0 +1,114 @@
+A gerer :
+
+- tokenisation 			: segmenter l'input et on execute partie par partie 
+
+- built in 				: commande coder dans le shell et independant de la variable d'env PATH 
+				        (ne va pas s'exuceter avec execve)
+                        — echo (option -n only) QUE ECHO OK
+                        — exit VITEFAIT
+                        — cd (qu'avec un absolute path ou un realtive (?)) OK
+                        — pwd OK
+
+- $?						: avec echo, renvoie le exit status avec errno 
+
+- redirection 				: 
+							">" ecris dans le fichier et ecrase ce quil yavait dedans
+							">>" ecris dans le fichier a la suite du texte deja present
+							"<<" + stopword = here_doc
+							"<" redirige l'entree standard, on lit mtn depuis ce fihcier la 
+
+- variable d'environnement : 
+
+- syntax error				: pipe 
+
+- signal                    : — ctrl c : affiche un nv prompt
+                              — ctrl d : quitte le shell
+                              — ctrl \ : ne fais rien (?)
+
+export a=b
+unset a=b dans l'expand
+==================================================================================================
+
+```complete_command : pipe_sequence
+
+pipe_sequence    :                    command
+                 | pipe_sequence PIPE command
+
+command          : cmd_prefix cmd_word cmd_suffix
+                 | cmd_prefix cmd_word
+                 | cmd_prefix
+                 | cmd_name cmd_suffix
+                 | cmd_name
+
+cmd_name         : WORD
+
+cmd_word         : WORD
+
+cmd_prefix       :            io_redirect
+                 | cmd_prefix io_redirect
+
+cmd_suffix       :            io_redirect
+                 | cmd_suffix io_redirect
+                 |            WORD
+                 | cmd_suffix WORD
+
+io_redirect      :           io_file
+                 | IO_NUMBER io_file
+                 |           io_here
+                 | IO_NUMBER io_here
+
+io_file          : LESS      filename
+                 | GREAT     filename
+                 | DGREAT    filename
+
+filename         : WORD
+
+io_here          : DLESS     here_end
+
+here_end         : WORD```
+
+====================================================================================
+
+- dans les "" faux gerer les $ qui appelle l'expand
+
+parser : analyse lexicale (lexer\token) puis parser le lexer 
+
+//  checker l'AST ?? notion importante mais que pr les bonus je la verrais jamais sinon donc a survoler ?
+
+===================================================================================
+
+plan d'operations :
+
+1 - recup l'input avec readline 
+
+2 - tokeniser
+
+3 - parser
+
+4 - traiter les differents path et expansions des commandes
+
+5 - redirection (rediriger puis supprimer les operateurs de la liste de parametres)
+
+6 - executer fonctions, built-in, fichier executable 
+
+
+etape de clean
+bash-5.1$ echo    >a   bon"jour $USER" 
+bash-5.1$ echo >a bonjour LBOUDJEL
+bash-5.1$ echo bonjour LBOUDJEL(et quand tecris dans la sorti cest a)
+
+tableau:
+enum ou 
+->
+commande : null
+built-in: echo
+argument [] = [bonjour, LBOUDJEL]
+redir in= entree standard
+redir out= FD sur fichier a (ECRASE SORTI STANDARD)
+
+
+PRIO DES FD 
+SORTI STANDARD
+PIPE
+FICHIER 1
+FICHIER 2

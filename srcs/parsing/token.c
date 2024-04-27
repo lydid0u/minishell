@@ -31,11 +31,10 @@ int	is_a_redirection(char *str)
 
 t_token	*allocstruct(char **tab)
 {
-	t_token *tok = malloc(sizeof(t_token));
-	int(i) = 0;
-	int(r) = 0;
-	int(a) = 0;
-
+	t_token (*tok) = malloc(sizeof(t_token));
+	int (i) = 0;
+	int (r) = 0;
+	int (a) = 0;
 	while (tab[i])
 	{
 		if (is_a_redirection(tab[i]))
@@ -48,47 +47,35 @@ t_token	*allocstruct(char **tab)
 		i++;
 	}
 	tok->tabargs = ft_calloc(sizeof(char *), a + 1);
-	tok->tabfiles = ft_calloc(sizeof(char *), r + 1);
+	tok->files = ft_calloc(sizeof(char *), r + 1);
 	tok->tabredir = ft_calloc(sizeof(int), r + 1);
 	return (tok);
 }
 
 t_token	*tokenisation(char *input)
 {
-	t_token *token;
+	char	**tab;
 
-	int r = 0;
-	int a = 0;
-	char **tab = ft_split_v2(input);
-	token = allocstruct(tab);
-
-	int i = 0;
+	int (i) = 0;
+	tab = ft_split_v2(input);
+	t_token (*tok) = allocstruct(tab);
 	while (tab[i])
 	{
 		if (is_a_redirection(tab[i]))
 		{
-			token->tabredir[r] = is_a_redirection(tab[i++]);
-			token->tabfiles[r] = suppresing_quote(ft_strdup(tab[i]));
-			quote_positif(token->tabfiles[r++]);
+			tok->tabredir[tok->file_count] = is_a_redirection(tab[i++]);
+			tok->files[tok->file_count] = suppresing_quote(ft_strdup(tab[i]));
+			quote_positif(tok->files[tok->file_count++]);
 		}
 		else
 		{
-			token->tabargs[a] = suppresing_quote(ft_strdup(tab[i]));
-			quote_positif(token->tabargs[a++]);
+			tok->tabargs[tok->arg_count] = suppresing_quote(ft_strdup(tab[i]));
+			quote_positif(tok->tabargs[tok->arg_count++]);
 		}
 		i++;
 	}
-	free_tab(tab);
-	token->cmd = token->tabargs[0];
-	token->arg_count = a;
-	token->file_count = r;
-
-#if DEBUG
-	print_tokenexec(token);
-#endif
-
-
-	return (token);
+	tok->cmd = tok->tabargs[0];
+	return (free_tab(tab), tok);
 }
 
 //------------------------------------------------------------------//

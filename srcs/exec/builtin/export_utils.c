@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_export.c                                     :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,6 +18,8 @@ char	*get_key(char *str)
 	char	*key;
 
 	i = 0;
+	if (ft_isdigit(str[0]))
+		return (NULL);
 	while (str[i] && str[i] != '=')
 		i++;
 	key = malloc((sizeof(char) * i) + 1);
@@ -40,22 +42,6 @@ void	add_node_export_back(t_copyenv *lst, t_copyenv *new_node)
 		lst = lst->next;
 	}
 	lst->next = new_node;
-}
-
-void	free_lst(t_copyenv *lst)
-{
-	t_copyenv	*current;
-	t_copyenv	*nxt;
-
-	current = lst;
-	while (current)
-	{
-		nxt = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
-		current = nxt;
-	}
 }
 
 t_copyenv	*create_node(void)

@@ -44,7 +44,7 @@ char	*copystr_v2(const char *original)
 	if (!copy)
 		return (NULL);
 	i = 0;
-	while (original[i] &&  original[i] != ' ' && original[i] != '\t')
+	while (original[i] && original[i] != ' ' && original[i] != '\t')
 	{
 		copy[i] = original[i];
 		i++;
@@ -80,9 +80,10 @@ char	**ft_fill_tab_v2(char const *s, char **tab, int len_tab)
 
 char	**ft_split_v2(char *s)
 {
-	int		len_tab = 0;
+	int		len_tab;
 	char	**tab;
 
+	len_tab = 0;
 	len_tab = countword_v2(s);
 	if (!s)
 		return (NULL);

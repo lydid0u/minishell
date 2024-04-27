@@ -36,7 +36,7 @@
 // 	for (int i = 0; i < token->file_count; i++)
 // 	{
 // 		fprintf(stderr, "Redirection: %d\n", token->tabredir[i]);
-// 		fprintf(stderr, "File: %s\n", token->tabfiles[i]);
+// 		fprintf(stderr, "File: %s\n", token->files[i]);
 // 	}
 // }
 
@@ -44,6 +44,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char	*path;
 
+	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, &backslash);
 	t_token (*mycmd) = tokenisation(pipex->arg_cmd[i]);
 	free(pipex->prompt);
 	redirection(pipex, i);
@@ -51,11 +53,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	if (handle_redirection(mycmd))
 		return (free_all(lst_envp, mycmd), exit(1));
 	if (!mycmd->cmd)
-	{
-		ft_printf("cmd not found\n");
-		free_all(lst_envp, mycmd);
-		return (exit(127));
-	}
+		return (free_all(lst_envp, mycmd), exit(127));
 	if (handle_built_in_pipex(mycmd, pipex) == 0)
 		return (free_all(lst_envp, mycmd), exit(0));
 	else
@@ -69,19 +67,6 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	return (exit(127));
 }
 
-void	ft_waitpid(t_pipex *pipex)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipex->nbr_cmd)
-	{
-		waitpid(pipex->pid[i++], &pipex->status_code, 0);
-		if (WIFEXITED(pipex->status_code))
-			pipex->status_code = WEXITSTATUS(pipex->status_code);
-	}
-}
-
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	int (i) = 0;
@@ -89,6 +74,7 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 	{
 		if (pipe(pipex->fd) == -1)
 			return (ft_printf("Error: pipe function\n"), exit(EXIT_FAILURE));
+		signal(SIGINT, SIG_IGN);
 		pipex->pid[i] = fork();
 		if (pipex->pid[i] == -1)
 			return (ft_printf("Error: fork function\n"), exit(EXIT_FAILURE));
@@ -100,10 +86,25 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 			if (i != 0)
 				close(pipex->prev);
 			pipex->prev = pipex->fd[0];
+			signal(SIGQUIT, SIG_IGN);
 		}
 		i++;
 	}
 	ft_waitpid(pipex);
+	signal(SIGINT, &ctrl_c);
+}
+
+void	ft_waitpid(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (i < pipex->nbr_cmd)
+	{
+		waitpid(pipex->pid[i++], &pipex->status_code, 0);
+		if (WIFEXITED(pipex->status_code))
+			pipex->status_code = WEXITSTATUS(pipex->status_code);
+	}
 }
 
 void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)

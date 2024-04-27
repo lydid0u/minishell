@@ -23,13 +23,15 @@ int	handle_redirection(t_token *cmd)
 	while (i < cmd->file_count)
 	{
 		if (cmd->tabredir[i] == 1)
-			fd = open(cmd->tabfiles[i], O_CREAT | O_RDWR | O_APPEND, 0666);
+			fd = open(cmd->files[i], O_CREAT | O_RDWR | O_APPEND, 0666);
 		if (cmd->tabredir[i] == 2)
-			fd = open(cmd->tabfiles[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
+			fd = open(cmd->files[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
 		if (cmd->tabredir[i] == 3)
-			fd = open(cmd->tabfiles[i], O_RDONLY);
+			fd = open(cmd->files[i], O_RDONLY);
+		// if (cmd->tabredir[i] == 4)
+		// 	// heredoc
 		if (fd == -1)
-			return (perror(cmd->tabfiles[i]), 1);
+			return (perror(cmd->files[i]), 1);
 		if (cmd->tabredir[i] == 1 || cmd->tabredir[i] == 2)
 		{
 			dup2(fd, 1);
@@ -44,9 +46,6 @@ int	handle_redirection(t_token *cmd)
 	}
 	return (0);
 }
-
-// if (ft_strcmp(redir[i], "<<") == 0)
-	//heredoc
 
 void	chevron_no_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 {

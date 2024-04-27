@@ -86,13 +86,11 @@ void	quote_positif(char *input)
 // effacer les quotes pour gerer la string plus tard par exemple dans echo
 char	*suppresing_quote(char *input)
 {
-	int		i;
-	int		j;
 	char	quote;
 	char	*output;
 
-	i = 0;
-	j = 0;
+	int (i) = 0;
+	int (j) = 0;
 	output = malloc(sizeof(char) * (ft_strlen(input)) + 1);
 	if (!output)
 		return (NULL);
