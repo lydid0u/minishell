@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2024/03/03 20:42:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/30 08:07:02 by lboudjel         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/29 17:27:52 by lboudjel          #+#    #+#             */
+/*   Updated: 2024/04/29 17:27:52 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +49,7 @@ typedef struct token
 typedef struct pipex
 {
 	t_copyenv	*envp;
+	char		**tab_env;
 	char		**args_path;
 	int			nbr_cmd;
 	char		**arg_cmd;
@@ -186,12 +184,13 @@ int			built_in_unset(char **args, t_copyenv *lst);
 //				free			//
 void		free_tab(char **tab);
 void		free_lst(t_copyenv *lst);
-void		free_all(t_copyenv *lst_envp, t_token *tok);
+void		free_all(t_pipex *pipex, t_copyenv *lst_envp, t_token *tok);
 void		free_token(t_token *token);
 
 //				signals			//
 void		backslash(int signal);
 void		ctrl_c(int signal);
-t_pipex		*starton(void);
+
+char		**copy_env_to_tab(char **env);
 
 #endif

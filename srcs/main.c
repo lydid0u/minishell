@@ -27,6 +27,23 @@ void	print_token(t_pipex *pipex)
     }
 }
 
+char	**copy_env_to_tab(char **envp)
+{
+	int (i) = 0;
+	char	**tab;
+	while (envp[i])
+		i++;
+	tab = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while(envp[i])
+	{
+		tab[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	tab[i] = '\0';
+	return (tab);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex = {0};
@@ -39,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &ctrl_c);
 	lst_envp = create_lst(envp);
+	pipex.tab_env = copy_env_to_tab(envp);
 	if (!lst_envp)
 		return (1);
 	while (1)
@@ -84,7 +102,8 @@ int	main(int argc, char **argv, char **envp)
 		free_tab(pipex.arg_cmd);
 	}
 	free_lst(lst_envp);
-	fprintf(stderr, "exit\n"); //check ecrire sur quelle sortie ?
+	free_tab(pipex.tab_env);
+	printf("exit\n"); //check ecrire sur quelle sortie ?
 	rl_clear_history();
 	return (pipex.status_code);
 }

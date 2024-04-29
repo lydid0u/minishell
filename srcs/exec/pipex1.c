@@ -51,19 +51,19 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	redirection(pipex, i);
 	free_tab(pipex->arg_cmd);
 	if (handle_redirection(mycmd))
-		return (free_all(lst_envp, mycmd), exit(1));
+		return (free_all(pipex, lst_envp, mycmd), exit(1));
 	if (!mycmd->cmd)
-		return (free_all(lst_envp, mycmd), exit(127));
+		return (free_all(pipex, lst_envp, mycmd), exit(127));
 	if (handle_built_in_pipex(mycmd, pipex) == 0)
-		return (free_all(lst_envp, mycmd), exit(0));
+		return (free_all(pipex, lst_envp, mycmd), exit(0));
 	else
 	{
 		path = access_cmd(pipex, mycmd);
 		if (path)
-			execve(path, mycmd->tabargs, NULL);
+			execve(path, mycmd->tabargs, pipex->tab_env);
 		free(path);
 	}
-	free_all(lst_envp, mycmd);
+	free_all(pipex, lst_envp, mycmd);
 	return (exit(127));
 }
 

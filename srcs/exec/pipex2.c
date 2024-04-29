@@ -35,7 +35,7 @@ char	*access_cmd(t_pipex *pipex, t_token *mycmd)
 		free(check_access);
 		i++;
 	}
-	ft_printf("command not found : %s \n", mycmd->cmd);
+	fprintf(stderr, "command not found : %s \n", mycmd->cmd);
 	return (free_tab(pipex->args_path), NULL);
 }
 
