@@ -14,9 +14,6 @@
 
 int	handle_built_in_pipex(t_token *cmd, t_pipex *pipex)
 {
-	// #if DEBUG
-	// pfrintf(stderr, "MY CMD IS [%s]\n", cmd->cmd);
-	// #endif
 	if (ft_strcmp(cmd->cmd, "export") == 0)
 		return (built_in_export(&cmd->args[1], pipex->envp), 0);
 	if (ft_strcmp(cmd->cmd, "unset") == 0)

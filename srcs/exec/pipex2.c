@@ -12,31 +12,31 @@
 
 #include "minishell.h"
 
-char	*access_cmd(t_pipex *pipex, t_token *mycmd)
+char	*access_cmd(t_pipex *pipex, t_token *token)
 {
 	int		i;
 	char	*check_access;
 
 	i = 0;
-	if (ft_strchr(mycmd->cmd, '/'))
+	if (ft_strchr(token->cmd, '/'))
 	{
-		if (access(mycmd->cmd, F_OK | X_OK) != -1)
-			return (ft_strdup(mycmd->cmd));
+		if (access(token->cmd, F_OK | X_OK) != -1)
+			return (ft_strdup(token->cmd));
 		return (NULL);
 	}
-	pipex->args_path = get_path(pipex->envp);
-	if (!pipex->args_path)
+	pipex->path = get_path(pipex->envp);
+	if (!pipex->path)
 		return (NULL);
-	while (pipex->args_path[i])
+	while (pipex->path[i])
 	{
-		check_access = ft_strjoin_slash(pipex->args_path[i], mycmd->cmd);
+		check_access = ft_strjoin_slash(pipex->path[i], token->cmd);
 		if (access(check_access, F_OK | X_OK) == 0)
-			return (free_tab(pipex->args_path), check_access);
+			return (free_tab(pipex->path), check_access);
 		free(check_access);
 		i++;
 	}
-	fprintf(stderr, "command not found : %s \n", mycmd->cmd);
-	return (free_tab(pipex->args_path), NULL);
+	fprintf(stderr, "command not found : %s \n", token->cmd);
+	return (free_tab(pipex->path), NULL);
 }
 
 char	**get_path(t_copyenv *lst_envp)

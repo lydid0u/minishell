@@ -108,12 +108,7 @@ int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 	if (!key)
 		return (0);
 	if (wrong_args(arg))
-	{
-		// #if DEBUG
-		// 	printf("WRONG ARG [%s]\n", arg);
-		// #endif
 		return (1);
-	}
 	if (export_key_already_existing(key, arg, head))
 	{
 		free(key);

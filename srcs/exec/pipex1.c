@@ -30,6 +30,11 @@
 // 	}
 // }
 
+/* child : 
+si ya un pb avec le fd de redir, si pas de cmd ou si la cmd est un builtin
+	-> on free et on exit avec le bon exit status
+sinon, on recup le path de la cmd et on execute
+*/
 
 void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
@@ -37,24 +42,24 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
-	t_token (*mycmd) = tokenisation(pipex->cmd[i]);
+	t_token (*token) = tokenisation(pipex->cmd[i]);
 	free(pipex->prompt);
 	redirection(pipex, i);
 	free_tab(pipex->cmd);
-	if (handle_redirection(mycmd))
-		return (free_all(pipex, lst_envp, mycmd), exit(1));
-	if (!mycmd->cmd)
-		return (free_all(pipex, lst_envp, mycmd), exit(127));
-	if (handle_built_in_pipex(mycmd, pipex) == 0)
-		return (free_all(pipex, lst_envp, mycmd), exit(0));
+	if (handle_redirection(token))
+		return (free_all(pipex, lst_envp, token), exit(1));
+	if (!token->cmd)
+		return (free_all(pipex, lst_envp, token), exit(127));
+	if (handle_built_in_pipex(token, pipex) == 0)
+		return (free_all(pipex, lst_envp, token), exit(0));
 	else
 	{
-		path = access_cmd(pipex, mycmd);
+		path = access_cmd(pipex, token);
 		if (path)
-			execve(path, mycmd->args, pipex->tab_env);
+			execve(path, token->args, pipex->tab_env);
 		free(path);
 	}
-	free_all(pipex, lst_envp, mycmd);
+	free_all(pipex, lst_envp, token);
 	return (exit(127));
 }
 
@@ -85,6 +90,12 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 	signal(SIGINT, &ctrl_c);
 }
 
+/* ft_waitpid : 
+
+on attend le retour du pid de chacun des child 
++ on recupere a la sortie les status code grace au syscall exit() 
+*/
+
 void	ft_waitpid(t_pipex *pipex)
 {
 	int	i;
@@ -98,16 +109,15 @@ void	ft_waitpid(t_pipex *pipex)
 	}
 }
 
-void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
+void	init_struct(t_pipex *pipex, int argc, t_copyenv *lst_envp)
 {
 	pipex->envp = lst_envp;
-	pipex->cmd = argv;
 	pipex->nbr_cmd = argc;
 }
 
 int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 {
-	init_struct(pipex, argc, pipex->cmd, lst_envp);
+	init_struct(pipex, argc, lst_envp);
 	piping_and_forking(pipex, lst_envp);
 	close(pipex->fd[0]);
 	return (1);

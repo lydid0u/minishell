@@ -78,6 +78,7 @@ token->redir_chevron[1] = 1;
 token->files[1] = "e";
 token->args[2] = "c";
 
+le fichier d sera vide et le fichier e affichera "a b c"
 */
 
 t_token	*tokenisation(char *input)
@@ -105,6 +106,7 @@ t_token	*tokenisation(char *input)
 	token->cmd = token->args[0];
 	token->arg_count = a;
 	token->file_count = r;
-	// print_tokenexec(token);
 	return (free_tab(tab), token);
 }
+
+	// print_tokenexec(token);

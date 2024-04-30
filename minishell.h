@@ -50,7 +50,7 @@ typedef struct pipex
 {
 	t_copyenv	*envp;
 	char		**tab_env;
-	char		**args_path;
+	char		**path;
 	int			nbr_cmd;
 	char		**cmd;
 	int			fd[2];
@@ -83,13 +83,14 @@ int			get_len_of_value_from_str(char *str,
 				t_copyenv *lst_envp);
 int			get_len_of_key(char *str);
 int			total_expand(char *input, t_copyenv *lst_envp);
-char		*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex);
+void		question_mark(t_pipex *pipex, char *output, int *j);
 
 //				parsing				//
 int			parsing(char *input);
 int			check_separator(char *input);
 int			double_separator(char *input, int *i);
 int			redir_n_pipe(char *input);
+char		*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex);
 
 //				quote				//
 int			check_quotes(char *input);
@@ -123,12 +124,11 @@ void		copy_envp(char **envp, t_copyenv *lst);
 void		child(t_pipex *pipex, t_copyenv *lst_envp, int i);
 void		piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp);
 void		ft_waitpid(t_pipex *pipex);
-void		init_struct(t_pipex *pipex, int argc, char **argv,
-				t_copyenv *lst_envp);
+void		init_struct(t_pipex *pipex, int argc, t_copyenv *lst_envp);
 int			exec(int argc, t_copyenv *lst_envp, t_pipex *pipex);
 
 //				pipex2				//
-char		*access_cmd(t_pipex *pipex, t_token *mycmd);
+char		*access_cmd(t_pipex *pipex, t_token *token);
 char		**get_path(t_copyenv *lst_envp);
 void		redirection(t_pipex *pipex, int i);
 

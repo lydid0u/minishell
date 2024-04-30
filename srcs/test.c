@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // //copy une str jusqua un caratere donne ou la fin dans un malloc et le renvoi
 // char	*copystr_v2(const char *original)

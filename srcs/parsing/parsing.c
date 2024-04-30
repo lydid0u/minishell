@@ -78,3 +78,55 @@ int	redir_n_pipe(char *input)
 	}
 	return (0);
 }
+
+char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
+{
+	int		k;
+	char	*value;
+	char	*key;
+
+	int (i) = 0;
+	int (j) = 0;
+	char *(output) = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
+	if (!output)
+		return (NULL);
+	while (input[i])
+	{
+		write_single_quote(input, output, &i, &j);
+		while (input[i] == '$')
+		{
+			if (input[i + 1] == ' ' || input[i + 1] == '\t'
+				|| input[i + 1] == '\0' || input[i + 1] == '"')
+			{
+				output[j++] = input[i++];
+				break ;
+			}
+			i++;
+			if (input[i] == '?')
+			{
+				question_mark(pipex, output, &j);
+				i++;
+				continue ;
+			}
+			key = get_key_expand(&input[i]);
+			if (!key)
+				return (NULL);
+			if (is_key_valid(key, lst_envp) != 0)
+			{
+				i += get_len_of_key(key);
+				free(key);
+				continue ;
+			}
+			value = get_value_from_key(key, lst_envp);
+			k = 0;
+			while (value[k])
+				output[j++] = value[k++];
+			i += get_len_of_key(&input[i]);
+			free(key);
+		}
+		if (input[i])
+			output[j++] = input[i++];
+	}
+	output[j] = '\0';
+	return (free(input), output);
+}
