@@ -41,8 +41,8 @@ typedef struct token
 	char	*cmd;
 	int		arg_count;
 	int		file_count;
-	char	**tabargs;
-	int		*tabredir;
+	char	**args;
+	int		*redir_chevron;
 	char	**files;
 }	t_token;
 
@@ -52,7 +52,7 @@ typedef struct pipex
 	char		**tab_env;
 	char		**args_path;
 	int			nbr_cmd;
-	char		**arg_cmd;
+	char		**cmd;
 	int			fd[2];
 	int			pid[1024];
 	int			prev;
@@ -105,7 +105,7 @@ int			double_pipe(char *input);
 
 //				token			//
 int			is_a_redirection(char *str);
-t_token		*allocstruct(char **tab);
+t_token		*alloc_token_struct(char **tab);
 t_token		*tokenisation(char *input);
 
 // ====================================================================
@@ -134,7 +134,7 @@ void		redirection(t_pipex *pipex, int i);
 
 //				redir_chevron		//
 int			handle_redirection(t_token *cmd);
-void		chevron_no_exec(t_pipex *pipex, t_token *token,
+void		chevron_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
 
 // ====================================================================
@@ -144,11 +144,11 @@ void		chevron_no_exec(t_pipex *pipex, t_token *token,
 //				built-in_utils		//
 int			is_builtin(char *cmd);
 void		free_handle_bt(t_pipex *pipex);
-void		free_handle_bt_no_exec(t_pipex *pipex, t_copyenv *lst_envp);
+void		free_handle_bt_no_fork(t_pipex *pipex, t_copyenv *lst_envp);
 
 //				built-in		//
 int			handle_built_in_pipex(t_token *cmd, t_pipex *pipex);
-int			handle_built_in_no_exec(t_pipex *pipex, t_token *token,
+int			handle_built_in_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
 int			built_in_pwd(void);
 int			built_in_env(t_copyenv *lst_envp);

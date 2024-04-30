@@ -55,7 +55,7 @@ void	free_token(t_token *token)
 	i = 0;
 	while (i < token->arg_count)
 	{
-		free(token->tabargs[i]);
+		free(token->args[i]);
 		i++;
 	}
 	i = 0;
@@ -64,8 +64,8 @@ void	free_token(t_token *token)
 		free(token->files[i]);
 		i++;
 	}
-	free(token->tabargs);
+	free(token->args);
 	free(token->files);
-	free(token->tabredir);
+	free(token->redir_chevron);
 	free(token);
 }

@@ -17,12 +17,12 @@ void	print_token(t_pipex *pipex)
     printf("\nCommand: %s\n", pipex->token->cmd);
     for (int i = 0; i < pipex->token->arg_count; i++) 
     {
-    	printf( "argument : %s\n", pipex->token->tabargs[i]);
+    	printf( "argument : %s\n", pipex->token->args[i]);
 	}
     printf("\n");
     for (int i = 0; i < pipex->token->file_count; i++) 
     {
-        printf("Redirection: %d\n", pipex->token->tabredir[i]);
+        printf("Redirection: %d\n", pipex->token->redir_chevron[i]);
         printf("File: %s\n", pipex->token->files[i]);
     }
 }
@@ -78,19 +78,19 @@ int	main(int argc, char **argv, char **envp)
 		if (!pipex.prompt)
 			break ;
 		pipex.prompt = suppresing_quote(pipex.prompt);
-		pipex.arg_cmd = ft_split(pipex.prompt, '|');
-		if (!pipex.arg_cmd || !pipex.arg_cmd[0])
+		pipex.cmd = ft_split(pipex.prompt, '|');
+		if (!pipex.cmd || !pipex.cmd[0])
 		{
-			free_tab(pipex.arg_cmd);
+			free_tab(pipex.cmd);
 			continue ;
 		}
 		nbcmd = countword(pipex.prompt, '|');
 		quote_positif(pipex.prompt);
-		token = tokenisation(pipex.arg_cmd[0]);
+		token = tokenisation(pipex.cmd[0]);//COMMENTAIRE
 		if (nbcmd == 1 && is_builtin(token->cmd))
 		{
 			pipex.status_code = 0;
-			chevron_no_exec(&pipex, token, lst_envp);
+			chevron_no_fork(&pipex, token, lst_envp);//COMMENTAIRE
 			free_token(token);
 		}
 		else
@@ -99,11 +99,13 @@ int	main(int argc, char **argv, char **envp)
 			exec(nbcmd, lst_envp, &pipex);
 		}
 		free(pipex.prompt);
-		free_tab(pipex.arg_cmd);
+		free_tab(pipex.cmd);
 	}
 	free_lst(lst_envp);
 	free_tab(pipex.tab_env);
-	printf("exit\n"); //check ecrire sur quelle sortie ?
+	printf("exit\n");
 	rl_clear_history();
 	return (pipex.status_code);
 }
+
+// pipex.cmd = on split au pipe -> je recupere chaque commande

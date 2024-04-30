@@ -29,95 +29,82 @@ int	is_a_redirection(char *str)
 		return (0);
 }
 
-t_token	*allocstruct(char **tab)
-{
-	t_token *tok = malloc(sizeof(t_token));
-	int(i) = 0;
-	int(r) = 0;
-	int(a) = 0;
+/* alloc_token_struct : allouer la memoire pour ma structure de token
 
+Je boucle et j'incremente mes int de chaque type pour la taille de l'alloc
+*/
+
+t_token	*alloc_token_struct(char **tab)
+{
+	t_token *(token) = malloc(sizeof(t_token));
+	int (i) = 0;
+	int (redir) = 0;
+	int (args) = 0;
 	while (tab[i])
 	{
 		if (is_a_redirection(tab[i]))
 		{
-			r++;
+			redir++;
 			i++;
 		}
 		else
-			a++;
+			args++;
 		i++;
 	}
-	tok->tabargs = ft_calloc(sizeof(char *), a + 1);
-	tok->files = ft_calloc(sizeof(char *), r + 1);
-	tok->tabredir = ft_calloc(sizeof(int), r + 1);
-	return (tok);
+	token->args = ft_calloc(sizeof(char *), args + 1);
+	token->files = ft_calloc(sizeof(char *), redir + 1);
+	token->redir_chevron = ft_calloc(sizeof(int), redir + 1);
+	return (token);
 }
+
+/* tokenisation : boucler sur ma cmd et donner un "type" a chacun des mots
+
+Dans mon input, chaque mot est soit : la commande, l'argument de la cdm, un file
+
+Le 1e mot est forcement la cmd et le mot apres une redir est forcement un file
+--> les autres mots sont donc les arguments de la commande
+
+Je split mon input et je stock chaque mot dans le tab qui lui correspond
+et j'affilie a ma redir le fichier qui lui correspond avec tab[i + 1]
+
+input : echo a > d b > e c
+
+token->cmd = "echo";
+token->args[0] = "a";
+token->redir_chevron[0] = 1; (le int 1 = '>')
+token->files[0] = "d";
+token->args[1] = "b";
+token->redir_chevron[1] = 1;
+token->files[1] = "e";
+token->args[2] = "c";
+
+*/
 
 t_token	*tokenisation(char *input)
 {
-	t_token *token;
-
-	int r = 0;
-	int a = 0;
-	char **tab = ft_split_v2(input);
-	token = allocstruct(tab);
-
-	int i = 0;
+	int (i) = 0;
+	int (a) = 0;
+	int (r) = 0;
+	char **(tab) = ft_split_v2(input);
+	t_token *(token) = alloc_token_struct(tab);
 	while (tab[i])
 	{
 		if (is_a_redirection(tab[i]))
 		{
-			token->tabredir[r] = is_a_redirection(tab[i++]);
+			token->redir_chevron[r] = is_a_redirection(tab[i++]);
 			token->files[r] = suppresing_quote(ft_strdup(tab[i]));
 			quote_positif(token->files[r++]);
 		}
 		else
 		{
-			token->tabargs[a] = suppresing_quote(ft_strdup(tab[i]));
-			quote_positif(token->tabargs[a++]);
+			token->args[a] = suppresing_quote(ft_strdup(tab[i]));
+			quote_positif(token->args[a++]);
 		}
 		i++;
 	}
-	free_tab(tab);
-	token->cmd = token->tabargs[0];
+	token->cmd = token->args[0];
 	token->arg_count = a;
 	token->file_count = r;
-
-#if DEBUG
-	print_tokenexec(token);
-#endif
-
-
-	return (token);
+	// print_tokenexec(token);
+	return (free_tab(tab), token);
 }
-
-//------------------------------------------------------------------//
-// 	// t_mycmd  *parse(pipex->redir[i])
-// mycmd->cmd
-// mycmd->args
-// mycmd->filename
-// mycmd->types
-//
-
-// 	redir[r++] = tab[i + 1]
-// 	args[a++] = tab[i]
-/*
-boucler sur les cmd et en faire un tab d'args et des que je vois une redirection
-je dis que ca va avec en faisant :
-
-input : echo "oui" > a | cat Makefile 
-
-devient : 
-
-pipex.cmd[0] = echo "oui" > non
-pipex.cmd[1] = cat Makefile 
-
-et pipex.cmd[0] deviendra :
-
-mot[0] = echo
-mot[1] = oui
-mot[2] = >
-mot[3] = non
-
-et j'affilie a '>' le fichier non en faisant mot[i + 1]
-*/

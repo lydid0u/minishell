@@ -103,6 +103,7 @@ int	total_expand(char *input, t_copyenv *lst_envp)
 	return (count);
 }
 
+
 void	question_mark(t_pipex *pipex, char *output, int *j)
 {
 	char	*value;

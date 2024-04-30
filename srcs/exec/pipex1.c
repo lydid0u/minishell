@@ -14,31 +14,22 @@
 
 #include "minishell.h"
 
-// INPUT : cat a | < b cat | cat > c | cat c
-/*
-
-	1) je prend ma string et je split au pipe
-	2) je check dans la string si ya redirection > si oui,
-	jouvre le fd/le cree tout ca
-	>  si non, salam
-	3) je dup2 le dernier
-*/
-
 // void	print_tokenexec(t_token *token)
 // {
 // 	fprintf(stderr, "PRINT TOKEN IN EXEC\n");
 // 	fprintf(stderr, "Command: %s\n", token->cmd);
 // 	for (int i = 1; i < token->arg_count; i++)
 // 	{
-// 		fprintf(stderr, "argument : %s\n", token->tabargs[i]);
+// 		fprintf(stderr, "argument : %s\n", token->args[i]);
 // 	}
 // 	fprintf(stderr, "\n");
 // 	for (int i = 0; i < token->file_count; i++)
 // 	{
-// 		fprintf(stderr, "Redirection: %d\n", token->tabredir[i]);
+// 		fprintf(stderr, "Redirection: %d\n", token->redir_chevron[i]);
 // 		fprintf(stderr, "File: %s\n", token->files[i]);
 // 	}
 // }
+
 
 void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
@@ -46,10 +37,10 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
-	t_token (*mycmd) = tokenisation(pipex->arg_cmd[i]);
+	t_token (*mycmd) = tokenisation(pipex->cmd[i]);
 	free(pipex->prompt);
 	redirection(pipex, i);
-	free_tab(pipex->arg_cmd);
+	free_tab(pipex->cmd);
 	if (handle_redirection(mycmd))
 		return (free_all(pipex, lst_envp, mycmd), exit(1));
 	if (!mycmd->cmd)
@@ -60,7 +51,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	{
 		path = access_cmd(pipex, mycmd);
 		if (path)
-			execve(path, mycmd->tabargs, pipex->tab_env);
+			execve(path, mycmd->args, pipex->tab_env);
 		free(path);
 	}
 	free_all(pipex, lst_envp, mycmd);
@@ -110,13 +101,13 @@ void	ft_waitpid(t_pipex *pipex)
 void	init_struct(t_pipex *pipex, int argc, char **argv, t_copyenv *lst_envp)
 {
 	pipex->envp = lst_envp;
-	pipex->arg_cmd = argv;
+	pipex->cmd = argv;
 	pipex->nbr_cmd = argc;
 }
 
 int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
 {
-	init_struct(pipex, argc, pipex->arg_cmd, lst_envp);
+	init_struct(pipex, argc, pipex->cmd, lst_envp);
 	piping_and_forking(pipex, lst_envp);
 	close(pipex->fd[0]);
 	return (1);

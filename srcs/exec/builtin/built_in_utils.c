@@ -39,7 +39,7 @@ void	free_handle_bt(t_pipex *pipex)
 	exit(EXIT_SUCCESS);
 }
 
-void	free_handle_bt_no_exec(t_pipex *pipex, t_copyenv *lst_envp)
+void	free_handle_bt_no_fork(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	free(pipex->prompt);
 	free_lst(pipex->envp);
