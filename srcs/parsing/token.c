@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2024/03/25 04:02:22 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/03/30 07:06:06 by lboudjel         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/30 20:29:05 by lboudjel          #+#    #+#             */
+/*   Updated: 2024/04/30 20:29:05 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +77,22 @@ token->args[2] = "c";
 
 le fichier d sera vide et le fichier e affichera "a b c"
 */
+
+void	print_tokenexec(t_token *token)
+{
+	fprintf(stderr, "PRINT TOKEN IN EXEC\n");
+	fprintf(stderr, "Command: %s\n", token->cmd);
+	for (int i = 0; i < token->arg_count; i++)
+	{
+		fprintf(stderr, "argument : %s\n", token->args[i]);
+	}
+	fprintf(stderr, "\n");
+	for (int i = 0; i < token->file_count; i++)
+	{
+		fprintf(stderr, "Redirection: %d\n", token->redir_chevron[i]);
+		fprintf(stderr, "File: %s\n", token->files[i]);
+	}
+}
 
 t_token	*tokenisation(char *input)
 {

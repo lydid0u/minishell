@@ -87,6 +87,11 @@ int	built_in_cd(char **tab, t_copyenv *lst_envp)
 	int		cd;
 	char	*path;
 
+	if (tab[0] && tab[1])
+	{
+		fprintf(stderr, "cd: too many arguments\n");
+		return (1);
+	}
 	if (tab[0] == NULL)
 		path = find_home(lst_envp);
 	else

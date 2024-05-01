@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 02:41:15 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/04/29 18:17:00 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/01 02:41:33 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,4 @@ void	free_handle_bt_no_fork(t_pipex *pipex, t_copyenv *lst_envp)
 	free(pipex->prompt);
 	free_lst(pipex->envp);
 	free_lst(lst_envp);
-	exit(EXIT_SUCCESS);
 }

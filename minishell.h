@@ -15,16 +15,18 @@
 
 # include "./ft_printf/ft_printf.h"
 # include "./libft/libft.h"
-# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <unistd.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
-# include <unistd.h>
+# include <errno.h>
 
 # define SYNTAXERROR "bash: syntax error near unexpected token `%s"
 # define DEBUG 0
@@ -59,6 +61,8 @@ typedef struct pipex
 	int			here_doc;
 	char		*stop_word;
 	char		*prompt;
+	int			in;
+	int			out;
 	int			status_code;
 	t_token		*token;
 }	t_pipex;
@@ -147,7 +151,7 @@ void		free_handle_bt(t_pipex *pipex);
 void		free_handle_bt_no_fork(t_pipex *pipex, t_copyenv *lst_envp);
 
 //				built-in		//
-int			handle_built_in_pipex(t_token *cmd, t_pipex *pipex);
+int			handle_built_in_pipex(t_token *token, t_pipex *pipex, t_copyenv *lst_envp);
 int			handle_built_in_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
 int			built_in_pwd(void);
@@ -159,6 +163,11 @@ int			built_in_echo(char **str);
 int			echo_option_n(char *str);
 char		*find_home(t_copyenv *lst_envp);
 int			built_in_cd(char **tab, t_copyenv *lst_envp);
+
+//				exit		//
+int			ft_isnumber(char *str);
+int			ft_exit_args_is_valid(char *args);
+int			ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork);
 
 //				export_utils	//
 char		*get_key(char *str);
@@ -193,4 +202,6 @@ void		ctrl_c(int signal);
 
 char		**copy_env_to_tab(char **env);
 
+
+void	free_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork);
 #endif

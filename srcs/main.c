@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-// void	print_token(t_pipex *pipex)
-// {
-//     printf("\nCommand: %s\n", pipex->token->cmd);
-//     for (int i = 0; i < pipex->token->arg_count; i++) 
-//     {
-//     	printf( "argument : %s\n", pipex->token->args[i]);
-// 	}
-//     printf("\n");
-//     for (int i = 0; i < pipex->token->file_count; i++) 
-//     {
-//         printf("Redirection: %d\n", pipex->token->redir_chevron[i]);
-//         printf("File: %s\n", pipex->token->files[i]);
-//     }
-// }
-
 char	**copy_env_to_tab(char **envp)
 {
 	char	**tab;

@@ -34,9 +34,9 @@ int	handle_redirection(t_token *cmd)
 	while (i < cmd->file_count)
 	{
 		if (cmd->redir_chevron[i] == 1)
-			fd = open(cmd->files[i], O_CREAT | O_RDWR | O_APPEND, 0666);
-		if (cmd->redir_chevron[i] == 2)
 			fd = open(cmd->files[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
+		if (cmd->redir_chevron[i] == 2)
+			fd = open(cmd->files[i], O_CREAT | O_RDWR | O_APPEND, 0666);
 		if (cmd->redir_chevron[i] == 3)
 			fd = open(cmd->files[i], O_RDONLY);
 		// if (cmd->redir_chevron[i] == 4)
@@ -67,23 +67,20 @@ le main process, puis je remet stdin et stdout a leur place avec dup2
 
 void	chevron_no_fork(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 {
-	int	in;
-	int	out;
-
-	in = dup(0);
-	out = dup(1);
+	pipex->in = dup(0);
+	pipex->out = dup(1);
 	if (handle_redirection(token))
 	{
-		dup2(out, 1);
-		dup2(in, 0);
-		close(in);
-		close(out);
+		dup2(pipex->out, 1);
+		dup2(pipex->in, 0);
+		close(pipex->in);
+		close(pipex->out);
 		pipex->status_code = 1;
 		return ;
 	}
 	pipex->status_code = handle_built_in_no_fork(pipex, token, lst_envp);
-	dup2(out, 1);
-	dup2(in, 0);
-	close(in);
-	close(out);
+	dup2(pipex->out, 1);
+	dup2(pipex->in, 0);
+	close(pipex->in);
+	close(pipex->out);
 }

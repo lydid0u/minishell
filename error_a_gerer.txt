@@ -10,15 +10,10 @@
 - here_doc
 - les signaux dans les here doc 
 
-- built in exit
-- gerer exit avec un autre argument apres ? genre "exit bjr"
-
 exit status :
 - quand j'execute un dossier -> je dois renvoyer 126 (acutellememt 127)
 - quand j'export un truc qui doit pas/peux pas s'export -> je dois renvoyer 0 (acutellememt 1)
-- vla les bails sur exit avec un autre argument 
 
-
-1e check si jai les droits sur le ficher avec acces x_ok f_ok
+- 1e check : si jai les droits sur le ficher avec acces x_ok f_ok
 s_isdir -> retour 1 c'est un dossier 
 sinn cmd not found

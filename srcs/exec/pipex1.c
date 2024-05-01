@@ -14,21 +14,27 @@
 
 #include "minishell.h"
 
-// void	print_tokenexec(t_token *token)
-// {
-// 	fprintf(stderr, "PRINT TOKEN IN EXEC\n");
-// 	fprintf(stderr, "Command: %s\n", token->cmd);
-// 	for (int i = 1; i < token->arg_count; i++)
-// 	{
-// 		fprintf(stderr, "argument : %s\n", token->args[i]);
-// 	}
-// 	fprintf(stderr, "\n");
-// 	for (int i = 0; i < token->file_count; i++)
-// 	{
-// 		fprintf(stderr, "Redirection: %d\n", token->redir_chevron[i]);
-// 		fprintf(stderr, "File: %s\n", token->files[i]);
-// 	}
-// }
+
+
+int		ft_status(t_token *token, char *path)
+{
+	(void)path;
+	struct stat fileStat;
+	stat(token->cmd, &fileStat);
+
+	
+    // if (S_ISDIR(fileStat.st_mode))
+	// {
+	// 	fprintf(stderr, "%s\n", strerror(errno));
+	// 	return (126);
+	// }
+	// if (ft_strchr(token->cmd, '/'))
+	// {
+	// 	if (access(token->cmd, F_OK | X_OK) == -1)
+	// 		return (126);
+	// }
+	return (127);
+}
 
 /* child : 
 si ya un pb avec le fd de redir, si pas de cmd ou si la cmd est un builtin
@@ -39,6 +45,7 @@ sinon, on recup le path de la cmd et on execute
 void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char	*path;
+	int		status_exit;
 
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
@@ -50,7 +57,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 		return (free_all(pipex, lst_envp, token), exit(1));
 	if (!token->cmd)
 		return (free_all(pipex, lst_envp, token), exit(127));
-	if (handle_built_in_pipex(token, pipex) == 0)
+	if (handle_built_in_pipex(token, pipex, lst_envp) == 0)
 		return (free_all(pipex, lst_envp, token), exit(0));
 	else
 	{
@@ -59,8 +66,9 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 			execve(path, token->args, pipex->tab_env);
 		free(path);
 	}
+	status_exit = ft_status(token, path);
 	free_all(pipex, lst_envp, token);
-	return (exit(127));
+	return (exit(status_exit));
 }
 
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
