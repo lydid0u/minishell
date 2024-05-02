@@ -70,7 +70,7 @@ int	get_len_of_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_'))
+	while (key[i] && (ft_isalnum(key[i]) || key[i] == '_' || key[i] == '?'))
 		i++;
 	return (i);
 }

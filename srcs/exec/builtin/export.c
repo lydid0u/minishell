@@ -86,19 +86,54 @@ int	create_export_node(char *str, t_copyenv *head)
 // [=][m][o][h][a]
 int	wrong_args(char *str)
 {
-	int		i;
-	char	*ret;
+	int		(i) = 0;
+	// char	*ret;
 
-	i = 0;
-	ret = ft_strchr(str, '=');
-	if (!ret)
+	if (isdigit(str[0]))
+	{
+		// printf("ASdasd\n");
 		return (1);
-	*ret = '\0';
-	while ((str[i] && (ft_isalnum(str[i]) || str[i] == '_')))
+	}
+	while (str[i])
+	{
+		if (str[i] == '=')
+			break ;
+	 	if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '?')
+		{
+			// printf("str[%i] = %c\n", i, str[i]);
+			return (1);
+		}
 		i++;
-	*ret = '=';
-	return (str[i] != '=');
+	}
+	return (0);
 }
+
+	// i = 0;
+	// ret = ft_strchr(str, '=');
+	// if (!ret)
+	// 	return (1);
+	// *ret = '\0';
+	// while ((str[i] && (ft_isalnum(str[i]) || str[i] == '_')))
+	// 	i++;
+	// *ret = '=';
+	// return (str[i] != '=');
+/*
+		export return status
+
+	{export hello} = 0
+	{export A-} = 1
+	{export HELLO=123 A} = 0
+	{export hello world} = 0
+	{export HELLO-=123} = 1
+	{export =} = 1
+	export 123 = 1
+
+	-->
+	key invalid = 1
+	pas de value = 0
+	2 value = 0
+
+*/
 
 int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 {
@@ -106,9 +141,7 @@ int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 
 	key = get_key(arg);
 	if (!key)
-		return (0);
-	if (wrong_args(arg))
-		return (1);
+		return (fprintf(stderr, " not a valid identifier\n"), 1);
 	if (export_key_already_existing(key, arg, head))
 	{
 		free(key);
@@ -125,10 +158,13 @@ int	built_in_export(char **args, t_copyenv *head)
 
 	i = 0;
 	int (status) = 0;
+	int (error) = 0;
 	while (args[i])
 	{
 		status = bt_export_loop_to_create_node(args[i], head);
+		if (status)
+			error = 1;
 		i++;
 	}
-	return (status);
+	return (error);
 }

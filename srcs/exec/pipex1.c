@@ -14,25 +14,21 @@
 
 #include "minishell.h"
 
-
-
 int		ft_status(t_token *token, char *path)
 {
 	(void)path;
 	struct stat fileStat;
 	stat(token->cmd, &fileStat);
-
-	
-    // if (S_ISDIR(fileStat.st_mode))
-	// {
-	// 	fprintf(stderr, "%s\n", strerror(errno));
-	// 	return (126);
-	// }
-	// if (ft_strchr(token->cmd, '/'))
-	// {
-	// 	if (access(token->cmd, F_OK | X_OK) == -1)
-	// 		return (126);
-	// }
+	if (ft_strncmp(token->cmd, "./", 2) && S_ISDIR(fileStat.st_mode))
+	{
+		// fprintf(stderr, "\n");
+		return (127);
+	}
+    else if (S_ISDIR(fileStat.st_mode))
+	{
+		fprintf(stderr, "%s: Is a directory\n", token->cmd);
+		return (126);
+	}
 	return (127);
 }
 

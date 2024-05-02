@@ -184,7 +184,7 @@ int			built_in_export(char **args, t_copyenv *lst);
 
 //				unset			//
 int			parsing_unset(char *str, t_copyenv *head);
-int			built_in_unset(char **args, t_copyenv *lst);
+int			built_in_unset(char **args, t_copyenv **lst);
 
 // ====================================================================
 // 

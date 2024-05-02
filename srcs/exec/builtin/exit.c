@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 00:50:32 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/01 06:16:17 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:40:03 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,10 @@ void	free_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
 		close(pipex->out);
 		free(pipex->prompt);
 		free_tab(pipex->cmd);
-		free_tab(pipex->tab_env);
-		free_lst(lst_envp);
-		free_token(token);
 	}
-	if (fork == 1)
-	{
-		free_tab(pipex->tab_env);
-		free_lst(lst_envp);
-		free_token(token);
-	}
+	free_tab(pipex->tab_env);
+	free_lst(lst_envp);
+	free_token(token);
 }
 
 // arg[0] = exit

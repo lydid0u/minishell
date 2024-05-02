@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/03/25 04:03:20 by lboudjel          #+#    #+#             */
 /*   Updated: 2024/03/25 23:55:00 by lboudjel         ###   ########.fr       */
 /*                                                                            */
@@ -12,13 +15,14 @@
 
 #include "minishell.h"
 
+
 char	*get_key(char *str)
 {
-	int		i;
-	char	*key;
+	int i;
+	char *key;
 
 	i = 0;
-	if (ft_isdigit(str[0]))
+	if (wrong_args(str))
 		return (NULL);
 	while (str[i] && str[i] != '=')
 		i++;
@@ -46,7 +50,7 @@ void	add_node_export_back(t_copyenv *lst, t_copyenv *new_node)
 
 t_copyenv	*create_node(void)
 {
-	t_copyenv	*node;
+	t_copyenv *node;
 
 	node = malloc(sizeof(t_copyenv));
 	if (!node)
