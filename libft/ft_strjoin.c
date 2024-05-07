@@ -16,7 +16,7 @@
 
 #include "libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+char	*ft_strcatx(char *dest, const char *src)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -57,8 +57,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL || s2 == NULL || str == NULL)
 		return (NULL);
 	str[0] = '\0';
-	str = ft_strcat(str, s1);
-	str = ft_strcat(str, s2);
+	str = ft_strcatx(str, s1);
+	str = ft_strcatx(str, s2);
 	return (str);
 }
 

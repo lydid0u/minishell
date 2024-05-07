@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:39:55 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/01 04:19:53 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/04 22:32:21 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	if (tab)
 	{
-		free(tab[i]);
-		i++;
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
 	}
-	free(tab);
 }
 
 void	free_lst(t_copyenv *lst)

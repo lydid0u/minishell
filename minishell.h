@@ -124,6 +124,7 @@ int			nbr_of_element_in_envp(char **envp);
 t_copyenv	*create_lst(char **envp);
 void		copy_envp(char **envp, t_copyenv *lst);
 
+
 //				pipex1				//
 void		child(t_pipex *pipex, t_copyenv *lst_envp, int i);
 void		piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp);
@@ -132,7 +133,7 @@ void		init_struct(t_pipex *pipex, int argc, t_copyenv *lst_envp);
 int			exec(int argc, t_copyenv *lst_envp, t_pipex *pipex);
 
 //				pipex2				//
-char		*access_cmd(t_pipex *pipex, t_token *token);
+char		*access_cmd(t_pipex *pipex, t_token *token, int *flag);
 char		**get_path(t_copyenv *lst_envp);
 void		redirection(t_pipex *pipex, int i);
 
@@ -184,7 +185,7 @@ int			built_in_export(char **args, t_copyenv *lst);
 
 //				unset			//
 int			parsing_unset(char *str, t_copyenv *head);
-int			built_in_unset(char **args, t_copyenv **lst);
+int			built_in_unset(char **args, t_copyenv *lst);
 
 // ====================================================================
 // 
@@ -200,7 +201,7 @@ void		free_token(t_token *token);
 void		backslash(int signal);
 void		ctrl_c(int signal);
 
-char		**copy_env_to_tab(char **env);
+char		**copy_env_to_tab( t_copyenv *lst_envp);
 
 
 void	free_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork);

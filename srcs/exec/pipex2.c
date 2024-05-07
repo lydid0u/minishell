@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*access_cmd(t_pipex *pipex, t_token *token)
+char	*access_cmd(t_pipex *pipex, t_token *token, int *flag)
 {
 	int		i;
 	char	*check_access;
@@ -36,6 +36,7 @@ char	*access_cmd(t_pipex *pipex, t_token *token)
 		i++;
 	}
 	fprintf(stderr, "%s: command not found\n", token->cmd);
+	(*flag) = 1;
 	return (free_tab(pipex->path), NULL);
 }
 

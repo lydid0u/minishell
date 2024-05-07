@@ -14,20 +14,37 @@
 
 #include "minishell.h"
 
-int		ft_status(t_token *token, char *path)
+int ft_status(t_token *token, char *path)
 {
-	(void)path;
-	struct stat fileStat;
-	stat(token->cmd, &fileStat);
-	if (ft_strncmp(token->cmd, "./", 2) && S_ISDIR(fileStat.st_mode))
-	{
-		// fprintf(stderr, "\n");
-		return (127);
+    (void)path;
+    struct stat file;
+    stat(token->cmd, &file);
+	// printf("{%s}\n", token->cmd);
+    if ((!(ft_strncmp(token->cmd, "./", 2)) || !(ft_strncmp(token->cmd, "/", 1))) && S_ISDIR(file.st_mode))
+    {
+		fprintf(stderr, "%s: Is a directory\n", token->cmd);
+		return (126);
 	}
-    else if (S_ISDIR(fileStat.st_mode))
+    else if (S_ISDIR(file.st_mode))
 	{
 		fprintf(stderr, "%s: Is a directory\n", token->cmd);
 		return (126);
+	}
+	else if (!(ft_strncmp(token->cmd, "./", 2)))
+	{
+		if (access(token->cmd, F_OK) == 0 && access(token->cmd, X_OK) == -1)
+			return (perror(token->cmd), 126);
+		if (access(token->cmd, F_OK) == -1)
+			perror(token->cmd);
+		return (127);
+	}
+	else if (!(ft_strncmp(token->cmd, "/", 1)))
+	{
+		if (access(token->cmd, F_OK) == -1)
+		{
+			fprintf(stderr, "%s: No such file or directory\n", token->cmd);
+		}
+		return (127);
 	}
 	return (127);
 }
@@ -42,6 +59,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char	*path;
 	int		status_exit;
+	int (flag) = 0;
 
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
@@ -57,12 +75,16 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 		return (free_all(pipex, lst_envp, token), exit(0));
 	else
 	{
-		path = access_cmd(pipex, token);
+		pipex->tab_env = copy_env_to_tab(lst_envp);
+		path = access_cmd(pipex, token, &flag);
 		if (path)
 			execve(path, token->args, pipex->tab_env);
 		free(path);
 	}
-	status_exit = ft_status(token, path);
+	if (flag == 1)
+		status_exit = 127;
+	else
+		status_exit = ft_status(token, path);
 	free_all(pipex, lst_envp, token);
 	return (exit(status_exit));
 }
@@ -103,13 +125,33 @@ on attend le retour du pid de chacun des child
 void	ft_waitpid(t_pipex *pipex)
 {
 	int	i;
+	int flag;
 
 	i = 0;
+	flag = 0;
 	while (i < pipex->nbr_cmd)
 	{
 		waitpid(pipex->pid[i++], &pipex->status_code, 0);
 		if (WIFEXITED(pipex->status_code))
+		{
 			pipex->status_code = WEXITSTATUS(pipex->status_code);
+		}
+		else if (WIFSIGNALED(pipex->status_code) && WTERMSIG(pipex->status_code) == SIGQUIT)
+		{
+			if (!flag)
+			{
+				flag = 1;
+				fprintf(stderr, "Quit (core dumped)\n");
+			}
+		}
+		else
+		{
+			if (!flag)
+			{
+				flag = 1;
+				fprintf(stderr, "\n");
+			}
+		}
 	}
 }
 

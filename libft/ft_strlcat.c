@@ -40,6 +40,21 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	return (i + ft__strlen(src));
 }
 
+void	ft_strcat(char *dest, const char *src)
+{
+	size_t	i;
+	size_t	j;
+
+	j = 0;
+	i = ft__strlen(dest);
+	while (src[j])
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+}
+
 /*size_t	ft_strlcat(char *dest, char *src, size_t size)
 {
 	unsigned int	i;

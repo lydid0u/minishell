@@ -12,7 +12,6 @@
 
 exit status :
 - quand j'execute un dossier -> je dois renvoyer 126 (acutellememt 127)
-- quand j'export un truc qui doit pas/peux pas s'export -> je dois renvoyer 0 (acutellememt 1)
 
 - 1e check : si jai les droits sur le ficher avec acces x_ok f_ok
 s_isdir -> retour 1 c'est un dossier 

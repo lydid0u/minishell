@@ -25,6 +25,7 @@ int		ft_isprint(int c);
 int		ft_atoi(const char *str);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
+void	ft_strcat(char *dest, const char *src);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 void	ft_bzero(void *s, size_t n);

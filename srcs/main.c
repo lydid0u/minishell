@@ -12,19 +12,28 @@
 
 #include "minishell.h"
 
-char	**copy_env_to_tab(char **envp)
+char	**copy_env_to_tab( t_copyenv *lst_envp)
 {
 	char	**tab;
 
 	int (i) = 0;
-	while (envp[i])
+	t_copyenv (*head) = lst_envp;
+	while (head)
+	{
+		head = head->next;
 		i++;
+	}
 	tab = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (envp[i])
+	head = lst_envp;
+	while (head)
 	{
-		tab[i] = ft_strdup(envp[i]);
+		tab[i] = malloc(ft_strlen(head->key) + 1 + ft_strlen(head->value) + 1);
+		ft_strcpy(tab[i], head->key);
+		ft_strcat(tab[i], "=");
+		ft_strcat(tab[i], head->value);
 		i++;
+		head = head->next;
 	}
 	tab[i] = '\0';
 	return (tab);
@@ -39,15 +48,18 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	//isatty();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &ctrl_c);
 	t_copyenv *(lst_envp) = create_lst(envp);
-	pipex.tab_env = copy_env_to_tab(envp);
-	if (!lst_envp)
-		return (1);
+	// if (!lst_envp)
+		// return (1);m
+	pipex.tab_env = NULL;
+	// int i = 0;
 	while (1)
 	{
 		prompt = readline("minishell> ");
+		// prompt = ft_strdup("unset SHELL");
 		if (!prompt)
 			break ;
 		if (!*prompt)
