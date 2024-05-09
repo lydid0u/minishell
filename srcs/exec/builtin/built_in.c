@@ -31,7 +31,7 @@ int	handle_built_in_pipex(t_token *token, t_pipex *pipex, t_copyenv *lst_envp)
 	if (ft_strcmp(token->cmd, "exit") == 0)
 	{
 		status = ft_exit(pipex, token, lst_envp, 1);
-		return(status);
+		return (status);
 	}
 	return (1);
 }
@@ -55,7 +55,7 @@ int	handle_built_in_no_fork(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 	if (ft_strcmp(token->cmd, "exit") == 0)
 	{
 		status = ft_exit(pipex, token, lst_envp, 0);
-		return(status);
+		return (status);
 	}
 	return (0);
 }

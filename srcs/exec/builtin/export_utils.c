@@ -15,11 +15,10 @@
 
 #include "minishell.h"
 
-
 char	*get_key(char *str)
 {
-	int i;
-	char *key;
+	int		i;
+	char	*key;
 
 	i = 0;
 	if (wrong_args(str))
@@ -50,7 +49,7 @@ void	add_node_export_back(t_copyenv *lst, t_copyenv *new_node)
 
 t_copyenv	*create_node(void)
 {
-	t_copyenv *node;
+	t_copyenv	*node;
 
 	node = malloc(sizeof(t_copyenv));
 	if (!node)

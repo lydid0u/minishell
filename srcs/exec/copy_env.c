@@ -74,13 +74,10 @@ t_copyenv	*create_lst(char **envp)
 
 void	copy_envp(char **envp, t_copyenv *lst)
 {
-	int			i;
-	int			j;
-	int			v;
-	t_copyenv	*current;
-
-	i = 0;
-	current = lst;
+	int (j) = 0;
+	int (v) = 0;
+	int (i) = 0;
+	t_copyenv *(current) = lst;
 	while (envp[i] && current)
 	{
 		j = 0;
@@ -90,7 +87,7 @@ void	copy_envp(char **envp, t_copyenv *lst)
 			current->value = ft_strdup("/bin/zsh");
 			current = current->next;
 			i++;
-			continue;
+			continue ;
 		}
 		j += (ft_strlen(current->key) + 1);
 		current->value = malloc((sizeof(char) * ft_strlen(envp[i])) + 1);

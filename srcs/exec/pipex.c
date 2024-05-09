@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*		                                                                    */
 /*                                                        :::      ::::::::   */
 /*   pipex1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -14,41 +14,6 @@
 
 #include "minishell.h"
 
-int ft_status(t_token *token, char *path)
-{
-    (void)path;
-    struct stat file;
-    stat(token->cmd, &file);
-	// printf("{%s}\n", token->cmd);
-    if ((!(ft_strncmp(token->cmd, "./", 2)) || !(ft_strncmp(token->cmd, "/", 1))) && S_ISDIR(file.st_mode))
-    {
-		fprintf(stderr, "%s: Is a directory\n", token->cmd);
-		return (126);
-	}
-    else if (S_ISDIR(file.st_mode))
-	{
-		fprintf(stderr, "%s: Is a directory\n", token->cmd);
-		return (126);
-	}
-	else if (!(ft_strncmp(token->cmd, "./", 2)))
-	{
-		if (access(token->cmd, F_OK) == 0 && access(token->cmd, X_OK) == -1)
-			return (perror(token->cmd), 126);
-		if (access(token->cmd, F_OK) == -1)
-			perror(token->cmd);
-		return (127);
-	}
-	else if (!(ft_strncmp(token->cmd, "/", 1)))
-	{
-		if (access(token->cmd, F_OK) == -1)
-		{
-			fprintf(stderr, "%s: No such file or directory\n", token->cmd);
-		}
-		return (127);
-	}
-	return (127);
-}
-
 /* child : 
 si ya un pb avec le fd de redir, si pas de cmd ou si la cmd est un builtin
 	-> on free et on exit avec le bon exit status
@@ -59,8 +24,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char	*path;
 	int		status_exit;
-	int (flag) = 0;
 
+	int (flag) = 0;
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
 	t_token (*token) = tokenisation(pipex->cmd[i]);
@@ -84,7 +49,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	if (flag == 1)
 		status_exit = 127;
 	else
-		status_exit = ft_status(token, path);
+		status_exit = ft_status(token);
 	free_all(pipex, lst_envp, token);
 	return (exit(status_exit));
 }
@@ -92,6 +57,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	int (i) = 0;
+	here_doc(pipex, pipex->token, lst_envp, pipex->prompt);
 	while (i < pipex->nbr_cmd)
 	{
 		if (pipe(pipex->fd) == -1)
@@ -124,19 +90,15 @@ on attend le retour du pid de chacun des child
 
 void	ft_waitpid(t_pipex *pipex)
 {
-	int	i;
-	int flag;
-
-	i = 0;
-	flag = 0;
+	int (i) = 0;
+	int (flag) = 0;
 	while (i < pipex->nbr_cmd)
 	{
 		waitpid(pipex->pid[i++], &pipex->status_code, 0);
 		if (WIFEXITED(pipex->status_code))
-		{
 			pipex->status_code = WEXITSTATUS(pipex->status_code);
-		}
-		else if (WIFSIGNALED(pipex->status_code) && WTERMSIG(pipex->status_code) == SIGQUIT)
+		else if (WIFSIGNALED(pipex->status_code)
+			&& WTERMSIG(pipex->status_code) == SIGQUIT)
 		{
 			if (!flag)
 			{

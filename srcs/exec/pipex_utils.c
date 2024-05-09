@@ -63,3 +63,32 @@ void	redirection(t_pipex *pipex, int i)
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
 }
+
+int	ft_status(t_token *token)
+{
+	struct stat	file;
+
+	stat(token->cmd, &file);
+	if ((!(ft_strncmp(token->cmd, "./", 2))
+			|| !(ft_strncmp(token->cmd, "/", 1))) && S_ISDIR(file.st_mode))
+	{
+		return (fprintf(stderr, "%s: Is a directory\n", token->cmd), 126);
+	}
+	else if (S_ISDIR(file.st_mode))
+		return (fprintf(stderr, "%s: Is a directory\n", token->cmd), 126);
+	else if (!(ft_strncmp(token->cmd, "./", 2)))
+	{
+		if (access(token->cmd, F_OK) == 0 && access(token->cmd, X_OK) == -1)
+			return (perror(token->cmd), 126);
+		if (access(token->cmd, F_OK) == -1)
+			perror(token->cmd);
+		return (127);
+	}
+	else if (!(ft_strncmp(token->cmd, "/", 1)))
+	{
+		if (access(token->cmd, F_OK) == -1)
+			fprintf(stderr, "%s: No such file or directory\n", token->cmd);
+		return (127);
+	}
+	return (127);
+}

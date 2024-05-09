@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 00:50:32 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/02 18:40:03 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:05:53 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ unsigned long long	ft_atoi_exit(const char *str)
 	{
 		result = result * 10 + (str[i++] - '0');
 		if (result > 9223372036854775808ULL)
-			return 9223372036854775808ULL;
+			return (9223372036854775808ULL);
 	}
 	return ((unsigned char)(result * sign));
 }
@@ -85,7 +85,8 @@ int	ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
 		}
 		else
 		{
-			fprintf(stderr, "exit: %s: numeric argument required\n", token->args[1]);
+			fprintf(stderr, "exit: %s: numeric argument required\n",
+				token->args[1]);
 			free_exit(pipex, token, lst_envp, fork);
 			exit(2);
 		}
@@ -94,11 +95,11 @@ int	ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
 	{
 		if (!ft_exit_args_is_valid(token->args[1]))
 		{
-			fprintf(stderr, "minishell: exit: %s: numeric argument required\n", token->args[1]);
+			fprintf(stderr, "minishell: exit: %s: numeric argument required\n",
+				token->args[1]);
 			exit(2);
 		}
-		fprintf(stderr, "exit: too many arguments\n");
-		return(1);
+		return (fprintf(stderr, "exit: too many arguments\n"), 1);
 	}
 }
 

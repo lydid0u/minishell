@@ -46,6 +46,7 @@ size_t	ft__strlen(const char *str);
 int		ft_strlen(char *str);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 int		ft_tolower(int c);
+int		ft_isspace(int c);
 int		ft_toupper(int c);
 char	*ft_itoa(int n);
 char	*ft_strjoin_slash(char *s1, char *s2);

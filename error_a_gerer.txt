@@ -9,10 +9,3 @@
 	reste a faire :
 - here_doc
 - les signaux dans les here doc 
-
-exit status :
-- quand j'execute un dossier -> je dois renvoyer 126 (acutellememt 127)
-
-- 1e check : si jai les droits sur le ficher avec acces x_ok f_ok
-s_isdir -> retour 1 c'est un dossier 
-sinn cmd not found

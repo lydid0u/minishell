@@ -86,23 +86,17 @@ int	create_export_node(char *str, t_copyenv *head)
 // [=][m][o][h][a]
 int	wrong_args(char *str)
 {
-	int		(i) = 0;
-	// char	*ret;
+	int		i;
 
+	i = 0;
 	if (isdigit(str[0]))
-	{
-		// printf("ASdasd\n");
 		return (1);
-	}
 	while (str[i])
 	{
 		if (str[i] == '=')
 			break ;
-	 	if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '?')
-		{
-			// printf("str[%i] = %c\n", i, str[i]);
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '?')
 			return (1);
-		}
 		i++;
 	}
 	return (0);

@@ -91,7 +91,6 @@
 // 	}
 // }
 
-
 int	parsing_unset(char *str, t_copyenv *head)
 {
 	t_copyenv	*lst;
@@ -100,10 +99,10 @@ int	parsing_unset(char *str, t_copyenv *head)
 	lst = head;
 	while (lst)
 	{
-		if (ft_strcmp(str, lst->key) == 0)// && ft_strcmp(str, "SHELL") != 0)
+		if (ft_strcmp(str, lst->key) == 0)
 		{
-			// if (ft_strcmp(str, "SHELL") == 0)
-			// 	return (0);
+			if (ft_strcmp(str, "SHELL") == 0)
+				return (0);
 			if (prev)
 				prev->next = lst->next;
 			else
