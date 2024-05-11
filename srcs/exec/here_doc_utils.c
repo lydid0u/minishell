@@ -77,10 +77,14 @@ void	free_heredoc(t_pipex *pipex)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (!pipex->nbr_heredoc)
 		return ;
-	while (++i < pipex->nbr_heredoc)
+	while (i < pipex->nbr_heredoc)
+	{
+		printf("la\n");
 		free(&pipex->heredoc[i].stop_word);
+		i++;
+	}
 	free(pipex->heredoc);
 }

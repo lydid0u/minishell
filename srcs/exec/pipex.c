@@ -25,14 +25,15 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	char	*path;
 	int		status_exit;
 
+	t_token (*token) = tokenisation(pipex->cmd[i]);
 	int (flag) = 0;
+	here_doc(pipex, token, lst_envp, pipex->cmd[i]);
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
-	t_token (*token) = tokenisation(pipex->cmd[i]);
 	free(pipex->prompt);
 	redirection(pipex, i);
 	free_tab(pipex->cmd);
-	if (handle_redirection(token))
+	if (handle_redirection(token, pipex->heredoc, pipex))
 		return (free_all(pipex, lst_envp, token), exit(1));
 	if (!token->cmd)
 		return (free_all(pipex, lst_envp, token), exit(127));
@@ -57,7 +58,6 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 {
 	int (i) = 0;
-	here_doc(pipex, pipex->token, lst_envp, pipex->prompt);
 	while (i < pipex->nbr_cmd)
 	{
 		if (pipe(pipex->fd) == -1)

@@ -68,7 +68,8 @@ int	ft_status(t_token *token)
 {
 	struct stat	file;
 
-	stat(token->cmd, &file);
+	if (stat(token->cmd, &file) == -1) 
+        return (perror(token->cmd), 127);
 	if ((!(ft_strncmp(token->cmd, "./", 2))
 			|| !(ft_strncmp(token->cmd, "/", 1))) && S_ISDIR(file.st_mode))
 	{
@@ -91,4 +92,31 @@ int	ft_status(t_token *token)
 		return (127);
 	}
 	return (127);
+}
+
+char	**copy_env_to_tab( t_copyenv *lst_envp)
+{
+	char	**tab;
+
+	int (i) = 0;
+	t_copyenv (*head) = lst_envp;
+	while (head)
+	{
+		head = head->next;
+		i++;
+	}
+	tab = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	head = lst_envp;
+	while (head)
+	{
+		tab[i] = malloc(ft_strlen(head->key) + 1 + ft_strlen(head->value) + 1);
+		ft_strcpy(tab[i], head->key);
+		ft_strcat(tab[i], "=");
+		ft_strcat(tab[i], head->value);
+		i++;
+		head = head->next;
+	}
+	tab[i] = '\0';
+	return (tab);
 }

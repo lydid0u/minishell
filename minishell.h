@@ -142,15 +142,16 @@ char		*access_cmd(t_pipex *pipex, t_token *token, int *flag);
 char		**get_path(t_copyenv *lst_envp);
 void		redirection(t_pipex *pipex, int i);
 int			ft_status(t_token *token);
+char		**copy_env_to_tab(t_copyenv *lst_envp);
 
 //				redir_chevron		//
-int			handle_redirection(t_token *cmd);
+int			handle_redirection(t_token *token, t_heredoc *heredoc, t_pipex *pipex);
 void		chevron_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
+int			get_here_doc(t_heredoc *heredoc, t_pipex *pipex, char *str);
 
 //				here_doc			//
-t_heredoc	*here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
-				char *str);
+void	here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, char *str);
 
 //				here_doc_utils		//
 int			get_len_word(char *str);
@@ -219,6 +220,6 @@ void		free_token(t_token *token);
 //				signals			//
 void		backslash(int signal);
 void		ctrl_c(int signal);
+t_pipex		*starton(void);
 
-char		**copy_env_to_tab( t_copyenv *lst_envp);
 #endif

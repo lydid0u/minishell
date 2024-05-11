@@ -30,3 +30,10 @@ void	ctrl_c(int signal)
 		rl_redisplay();
 	}
 }
+
+t_pipex	*starton(void)
+{
+	static t_pipex	pipex;
+
+	return (&pipex);
+}

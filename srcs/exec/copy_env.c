@@ -82,13 +82,13 @@ void	copy_envp(char **envp, t_copyenv *lst)
 	{
 		j = 0;
 		current->key = get_key(envp[i]);
-		if (ft_strcmp(current->key, "SHELL") == 0)
-		{
-			current->value = ft_strdup("/bin/zsh");
-			current = current->next;
-			i++;
-			continue ;
-		}
+		// if (ft_strcmp(current->key, "SHELL") == 0)
+		// {
+		// 	current->value = ft_strdup("/bin/zsh");
+		// 	current = current->next;
+		// 	i++;
+		// 	continue ;
+		// }
 		j += (ft_strlen(current->key) + 1);
 		current->value = malloc((sizeof(char) * ft_strlen(envp[i])) + 1);
 		if (!current->value)
