@@ -70,6 +70,12 @@ int	create_export_node(char *str, t_copyenv *head)
 	{
 		node_export->key = key;
 		i += (ft_strlen(key) + 1);
+		if (str[i - 1] != '=')
+		{
+			free(node_export);
+			free(key);
+			return (0);
+		}
 		node_export->value = malloc((sizeof(char) * ft_strlen(&str[i])) + 1);
 		if (!node_export)
 			return (1);
@@ -135,7 +141,7 @@ int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 
 	key = get_key(arg);
 	if (!key)
-		return (fprintf(stderr, " not a valid identifier\n"), 1);
+		return (ft_printf("%s: not a valid identifier\n", arg), 1);
 	if (export_key_already_existing(key, arg, head))
 	{
 		free(key);

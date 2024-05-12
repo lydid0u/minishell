@@ -89,7 +89,7 @@ int	built_in_cd(char **tab, t_copyenv *lst_envp)
 
 	if (tab[0] && tab[1])
 	{
-		fprintf(stderr, "cd: too many arguments\n");
+		ft_printf("cd: too many arguments\n");
 		return (1);
 	}
 	if (tab[0] == NULL)

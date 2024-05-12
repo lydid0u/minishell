@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*		                                                                    */
 /*                                                        :::      ::::::::   */
-/*   pipex1.c                                           :+:      :+:    :+:   */
+/*   pipex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -27,7 +27,6 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 
 	t_token (*token) = tokenisation(pipex->cmd[i]);
 	int (flag) = 0;
-	here_doc(pipex, token, lst_envp, pipex->cmd[i]);
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
 	free(pipex->prompt);
@@ -47,9 +46,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 			execve(path, token->args, pipex->tab_env);
 		free(path);
 	}
-	if (flag == 1)
-		status_exit = 127;
-	else
+	status_exit = 127;
+	if (flag != 1)
 		status_exit = ft_status(token);
 	free_all(pipex, lst_envp, token);
 	return (exit(status_exit));
@@ -79,6 +77,7 @@ void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
 		i++;
 	}
 	ft_waitpid(pipex);
+	close_heredoc(pipex);
 	signal(SIGINT, &ctrl_c);
 }
 
@@ -103,7 +102,7 @@ void	ft_waitpid(t_pipex *pipex)
 			if (!flag)
 			{
 				flag = 1;
-				fprintf(stderr, "Quit (core dumped)\n");
+				ft_printf("Quit (core dumped)\n");
 			}
 		}
 		else
@@ -111,7 +110,7 @@ void	ft_waitpid(t_pipex *pipex)
 			if (!flag)
 			{
 				flag = 1;
-				fprintf(stderr, "\n");
+				ft_printf("\n");
 			}
 		}
 	}

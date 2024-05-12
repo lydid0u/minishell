@@ -15,7 +15,7 @@
 
 void	ft_putchar(char c)
 {
-	write (1, &c, 1);
+	write (2, &c, 1);
 }
 
 int	ft_putstr(const char *str)
@@ -35,7 +35,7 @@ void	ft_putnbr(int nb)
 {
 	if (nb == -2147483648)
 	{
-		write(1, "-2147483648", 11);
+		write(2, "-2147483648", 11);
 	}
 	else if (nb < 0)
 	{

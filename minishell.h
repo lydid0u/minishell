@@ -145,19 +145,22 @@ int			ft_status(t_token *token);
 char		**copy_env_to_tab(t_copyenv *lst_envp);
 
 //				redir_chevron		//
-int			handle_redirection(t_token *token, t_heredoc *heredoc, t_pipex *pipex);
+int			handle_redirection(t_token *token, t_heredoc *heredoc,
+				t_pipex *pipex);
 void		chevron_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
 int			get_here_doc(t_heredoc *heredoc, t_pipex *pipex, char *str);
 
 //				here_doc			//
-void	here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, char *str);
+void		here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
+				char *str);
 
 //				here_doc_utils		//
 int			get_len_word(char *str);
 char		*get_word(char *str);
 int			count_here_doc(char *str);
 void		free_heredoc(t_pipex *pipex);
+void		close_heredoc(t_pipex *pipex);
 
 // ====================================================================
 // 						[B][U][I][L][T] [I][N]
@@ -188,6 +191,8 @@ int			ft_exit_args_is_valid(char *args);
 int			ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
 				int fork);
 void		free_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
+				int fork);
+int			exit_one_arg(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
 				int fork);
 
 //				export_utils	//

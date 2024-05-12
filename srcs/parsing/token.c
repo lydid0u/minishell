@@ -78,22 +78,6 @@ token->args[2] = "c";
 le fichier d sera vide et le fichier e affichera "a b c"
 */
 
-void	print_tokenexec(t_token *token)
-{
-	fprintf(stderr, "PRINT TOKEN IN EXEC\n");
-	fprintf(stderr, "Command: %s\n", token->cmd);
-	for (int i = 0; i < token->arg_count; i++)
-	{
-		fprintf(stderr, "argument : %s\n", token->args[i]);
-	}
-	fprintf(stderr, "\n");
-	for (int i = 0; i < token->file_count; i++)
-	{
-		fprintf(stderr, "Redirection: %d\n", token->redir_chevron[i]);
-		fprintf(stderr, "File: %s\n", token->files[i]);
-	}
-}
-
 t_token	*tokenisation(char *input)
 {
 	int (i) = 0;
@@ -121,5 +105,20 @@ t_token	*tokenisation(char *input)
 	token->file_count = r;
 	return (free_tab(tab), token);
 }
-
 	// print_tokenexec(token);
+
+// void	print_tokenexec(t_token *token)
+// {
+// 	printf("PRINT TOKEN IN EXEC\n");
+// 	printf("Command: %s\n", token->cmd);
+// 	for (int i = 0; i < token->arg_count; i++)
+// 	{
+// 		printf("argument : %s\n", token->args[i]);
+// 	}
+// 	printf("\n");
+// 	for (int i = 0; i < token->file_count; i++)
+// 	{
+// 		printf("Redirection: %d\n", token->redir_chevron[i]);
+// 		printf("File: %s\n", token->files[i]);
+// 	}
+// }

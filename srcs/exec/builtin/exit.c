@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 00:50:32 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/09 17:05:53 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/12 20:57:21 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,36 +70,44 @@ int	ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
 
 	if (!token->args[1])
 	{
-		fprintf(stdout, "exit\n");
+		printf("exit\n");
 		free_exit(pipex, token, lst_envp, fork);
 		exit(0);
 	}
 	if (!token->args[2])
 	{
-		if (ft_exit_args_is_valid(token->args[1]))
-		{
-			fprintf(stdout, "exit\n");
-			status = ft_exit_args_is_valid(token->args[1]);
-			free_exit(pipex, token, lst_envp, fork);
-			exit(status);
-		}
-		else
-		{
-			fprintf(stderr, "exit: %s: numeric argument required\n",
-				token->args[1]);
-			free_exit(pipex, token, lst_envp, fork);
-			exit(2);
-		}
+		status = exit_one_arg(pipex, token, lst_envp, fork);
+		exit(status);
 	}
 	else
 	{
 		if (!ft_exit_args_is_valid(token->args[1]))
 		{
-			fprintf(stderr, "minishell: exit: %s: numeric argument required\n",
+			ft_printf("minishell: exit: %s: numeric argument required\n",
 				token->args[1]);
 			exit(2);
 		}
-		return (fprintf(stderr, "exit: too many arguments\n"), 1);
+		return (ft_printf("exit: too many arguments\n"), 1);
+	}
+}
+
+int	exit_one_arg(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
+{
+	int	status;
+
+	if (ft_exit_args_is_valid(token->args[1]))
+	{
+		printf("exit\n");
+		status = ft_exit_args_is_valid(token->args[1]);
+		free_exit(pipex, token, lst_envp, fork);
+		return (status);
+	}
+	else
+	{
+		ft_printf("exit: %s: numeric argument required\n",
+			token->args[1]);
+		free_exit(pipex, token, lst_envp, fork);
+		return (2);
 	}
 }
 

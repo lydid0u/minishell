@@ -35,17 +35,17 @@ int	handle_redirection(t_token *token, t_heredoc *heredoc, t_pipex *pipex)
 	{
 		if (token->redir_chevron[i] == 1)
 			fd = open(token->files[i], O_CREAT | O_RDWR | O_TRUNC, 0666);
-		if (token->redir_chevron[i] == 2)
+		else if (token->redir_chevron[i] == 2)
 			fd = open(token->files[i], O_CREAT | O_RDWR | O_APPEND, 0666);
-		if (token->redir_chevron[i] == 3)
+		else if (token->redir_chevron[i] == 3)
 			fd = open(token->files[i], O_RDONLY);
-		if (token->redir_chevron[i] == 4)
+		else if (token->redir_chevron[i] == 4)
 			fd = get_here_doc(heredoc, pipex, token->files[i]);
 		if (fd == -1)
 			return (perror(token->files[i]), 1);
 		if (token->redir_chevron[i] == 1 || token->redir_chevron[i] == 2)
 			dup2(fd, 1);
-		if (token->redir_chevron[i] == 3 || token->redir_chevron[i] == 4)
+		else if (token->redir_chevron[i] == 3 || token->redir_chevron[i] == 4)
 			dup2(fd, 0);
 		if (token->redir_chevron[i] != 4)
 			close(fd);
@@ -65,7 +65,6 @@ void	chevron_no_fork(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 {
 	pipex->in = dup(0);
 	pipex->out = dup(1);
-	here_doc(pipex, token, lst_envp, pipex->cmd[0]);
 	if (handle_redirection(token, pipex->heredoc, pipex))
 	{
 		dup2(pipex->out, 1);

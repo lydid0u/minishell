@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:39:55 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/04 22:32:21 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:38:57 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	free_all(t_pipex *pipex, t_copyenv *lst_envp, t_token *tok)
 	free_lst(lst_envp);
 	free_tab(pipex->tab_env);
 	free_token(tok);
+	free_heredoc(pipex);
 }
 
 void	free_token(t_token *token)
