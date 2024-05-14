@@ -20,18 +20,22 @@ si ya un pb avec le fd de redir, si pas de cmd ou si la cmd est un builtin
 sinon, on recup le path de la cmd et on execute
 */
 
+void	free_n_redir_child(t_pipex *pipex, int i)
+{
+	free(pipex->prompt);
+	free_tab(pipex->cmd);
+	redirection(pipex, i);
+}
+
 void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
-	char	*path;
-	int		status_exit;
-
+	char *(path);
+	int (status_exit);
 	t_token (*token) = tokenisation(pipex->cmd[i]);
 	int (flag) = 0;
 	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, &backslash);
-	free(pipex->prompt);
-	redirection(pipex, i);
-	free_tab(pipex->cmd);
+	free_n_redir_child(pipex, i);
 	if (handle_redirection(token, pipex->heredoc, pipex))
 		return (free_all(pipex, lst_envp, token), exit(1));
 	if (!token->cmd)
@@ -49,8 +53,7 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	status_exit = 127;
 	if (flag != 1)
 		status_exit = ft_status(token);
-	free_all(pipex, lst_envp, token);
-	return (exit(status_exit));
+	return (free_all(pipex, lst_envp, token), exit(status_exit));
 }
 
 void	piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp)
@@ -110,21 +113,15 @@ void	ft_waitpid(t_pipex *pipex)
 			if (!flag)
 			{
 				flag = 1;
-				ft_printf("\n");
+				// ft_printf("\n");
 			}
 		}
 	}
 }
 
-void	init_struct(t_pipex *pipex, int argc, t_copyenv *lst_envp)
+int	exec(t_copyenv *lst_envp, t_pipex *pipex)
 {
 	pipex->envp = lst_envp;
-	pipex->nbr_cmd = argc;
-}
-
-int	exec(int argc, t_copyenv *lst_envp, t_pipex *pipex)
-{
-	init_struct(pipex, argc, lst_envp);
 	piping_and_forking(pipex, lst_envp);
 	close(pipex->fd[0]);
 	return (1);

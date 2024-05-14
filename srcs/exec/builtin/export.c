@@ -55,15 +55,10 @@ int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 
 int	create_export_node(char *str, t_copyenv *head)
 {
-	int			i;
-	int			j;
-	t_copyenv	*node_export;
-	char		*key;
-
-	i = 0;
-	j = 0;
-	node_export = create_node();
-	key = get_key(str);
+	int (i) = 0;
+	int (j) = 0;
+	t_copyenv *(node_export) = create_node();
+	char *(key) = get_key(str);
 	if (!key)
 		return (1);
 	while (str[i])
@@ -108,30 +103,32 @@ int	wrong_args(char *str)
 	return (0);
 }
 
-	// i = 0;
-	// ret = ft_strchr(str, '=');
-	// if (!ret)
-	// 	return (1);
-	// *ret = '\0';
-	// while ((str[i] && (ft_isalnum(str[i]) || str[i] == '_')))
-	// 	i++;
-	// *ret = '=';
-	// return (str[i] != '=');
 /*
-		export return status
+export return status
 
-	{export hello} = 0
-	{export A-} = 1
-	{export HELLO=123 A} = 0
-	{export hello world} = 0
-	{export HELLO-=123} = 1
-	{export =} = 1
-	export 123 = 1
+{export hello} = 0
+{export A-} = 1
+{export HELLO=123 A} = 0
+{export hello world} = 0
+{export HELLO-=123} = 1
+{export =} = 1
+export 123 = 1
 
-	-->
-	key invalid = 1
-	pas de value = 0
-	2 value = 0
+-->
+key invalid = 1
+pas de value = 0
+2 value = 0
+
+good()
+{
+	return c is AlphaNumeric || c is _
+}
+
+
+si !good(str) avant le =
+	status error
+si pas de =
+	status ok
 
 */
 

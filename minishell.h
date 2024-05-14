@@ -92,7 +92,7 @@ char		*get_value_from_key(char *key, t_copyenv *lst_envp);
 int			get_len_of_value_from_str(char *str,
 				t_copyenv *lst_envp);
 int			get_len_of_key(char *str);
-int			total_expand(char *input, t_copyenv *lst_envp);
+int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i);
 void		question_mark(t_pipex *pipex, char *output, int *j);
 
 //				parsing				//
@@ -134,8 +134,7 @@ void		copy_envp(char **envp, t_copyenv *lst);
 void		child(t_pipex *pipex, t_copyenv *lst_envp, int i);
 void		piping_and_forking(t_pipex *pipex, t_copyenv *lst_envp);
 void		ft_waitpid(t_pipex *pipex);
-void		init_struct(t_pipex *pipex, int argc, t_copyenv *lst_envp);
-int			exec(int argc, t_copyenv *lst_envp, t_pipex *pipex);
+int			exec(t_copyenv *lst_envp, t_pipex *pipex);
 
 //				pipex_utils				//
 char		*access_cmd(t_pipex *pipex, t_token *token, int *flag);

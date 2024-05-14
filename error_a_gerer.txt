@@ -7,5 +7,7 @@
 ====================================================================================
 
 	reste a faire :
-- here_doc
-- les signaux dans les here doc 
+chechker si quand espece, espace et tab
+exit 1f343 c'est faux
+echo $!!! -> $!!!
+/n dans ^C

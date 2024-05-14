@@ -75,17 +75,27 @@ int	get_len_of_key(char *key)
 	return (i);
 }
 
-int	total_expand(char *input, t_copyenv *lst_envp)
+void	i_and_count_plus_plus(int *i, int *count, int i_plus, int count_plus)
 {
-	int (i) = 0;
+	(*i) += i_plus;
+	(*count) += count_plus;
+}
+
+int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
+{
 	int (count) = 0;
+	char *(value) = ft_itoa(pipex->status_code);
 	while (input[i])
 	{
 		handle_single_quote(input, &i, &count);
 		while (input[i] == '$')
 		{
-			i++;
-			count++;
+			i_and_count_plus_plus(&i, &count, 1, 1);
+			if (input[i] == '?')
+			{
+				i_and_count_plus_plus(&i, &count, 1, ft_strlen(value));
+				continue ;
+			}
 			if (is_key_valid(&input[i], lst_envp))
 			{
 				i += get_len_of_key(&input[i]);
@@ -95,12 +105,9 @@ int	total_expand(char *input, t_copyenv *lst_envp)
 			i += get_len_of_key(&input[i]);
 		}
 		if (input[i])
-		{
-			i++;
-			count++;
-		}
+			i_and_count_plus_plus(&i, &count, 1, 1);
 	}
-	return (count);
+	return (free(value), count);
 }
 
 void	question_mark(t_pipex *pipex, char *output, int *j)
@@ -118,61 +125,3 @@ void	question_mark(t_pipex *pipex, char *output, int *j)
 	}
 	free(value);
 }
-
-/*
-char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
-{
-	int		k;
-	char	*value;
-	char	*output;
-	char	*key;
-
-	int (i) = 0;
-	int (j) = 0;
-	output = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
-	if (!output)
-		return (NULL);
-	while (input[i])
-	{
-		write_single_quote(input, output, &i, &j);
-		while (input[i] == '$')
-		{
-			if (input[i + 1] == ' ' || input[i + 1] == '\t'
-				|| input[i + 1] == '\0' || input[i + 1] == '"')
-			{
-				output[j++] = input[i++];
-				break ;
-			}
-			i++;
-			if (input[i] == '?')
-			{
-				char *v = ft_itoa(pipex->status_code);
-				for (int r = 0; v[r]; r++)
-					output[j++] = v[r];
-				free(v);
-				i++;
-				continue ;
-			}
-			key = get_key_expand(&input[i]);
-			if (!key)
-				return (NULL);
-			if (is_key_valid(key, lst_envp) != 0)
-			{
-				i += get_len_of_key(key);
-				free(key);
-				continue ;
-			}
-			value = get_value_from_key(key, lst_envp);
-			k = 0;
-			while (value[k])
-				output[j++] = value[k++];
-			i += get_len_of_key(&input[i]);
-			free(key);
-		}
-		if (input[i])
-			output[j++] = input[i++];
-	}
-	output[j] = '\0';
-	return (free(input), output);
-}
-*/

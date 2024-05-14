@@ -79,72 +79,25 @@ int	redir_n_pipe(char *input)
 	return (0);
 }
 
-// char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
-// {
-// 	int		k;
-// 	char	*value;
-// 	char	*key;
-
-// 	int (i) = 0;
-// 	int (j) = 0;
-// 	char *(output) = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
-// 	if (!output)
-// 		return (NULL);
-// 	while (input[i])
-// 	{
-// 		write_single_quote(input, output, &i, &j);
-// 		while (input[i] == '$')
-// 		{
-// 			if (input[i + 1] == ' ' || input[i + 1] == '\t'
-// 				|| input[i + 1] == '\0' || input[i + 1] == '"')
-// 			{
-// 				output[j++] = input[i++];
-// 				break ;
-// 			}
-// 			i++;
-// 			if (input[i] == '?')
-// 			{
-// 				question_mark(pipex, output, &j);
-// 				i++;
-// 				continue ;
-// 			}
-// 			key = get_key_expand(&input[i]);
-// 			if (!key)
-// 				return (NULL);
-// 			if (is_key_valid(key, lst_envp) != 0)
-// 			{
-// 				i += get_len_of_key(key);
-// 				free(key);
-// 				continue ;
-// 			}
-// 			value = get_value_from_key(key, lst_envp);
-// 			k = 0;
-// 			while (value[k])
-// 				output[j++] = value[k++];
-// 			i += get_len_of_key(&input[i]);
-// 			free(key);
-// 		}
-// 		if (input[i])
-// 			output[j++] = input[i++];
-// 	}
-// 	output[j] = '\0';
-// 	return (free(input), output);
-// }
-
-
-// (*tab)[0] = INPUT
-// (*tab)[1] = OUTPUT
+// (tab)[0] = INPUT
+// (tab)[1] = OUTPUT
 static int	handle_dollars(char *tab[2], int *i, int *j, t_pipex *pipex, t_copyenv *lst_envp)
 {
-	char *value;
-	char *key;
-	int k;
+	char	*value;
+	char	*key;
+	int		k;
+
 	if (ft_strchr(" \t\"\0", tab[0][(*i) + 1]))
 	{
 		tab[1][(*j)++] = tab[0][(*i)++];
 		return (1);
 	}
 	(*i)++;
+	// if (!ft_isalpha(tab[0][(*i)]) && tab[0][(*i)] != '_')
+	// {
+	// 	tab[1][(*j)++] = tab[0][(*i)];
+	// 	return (2);
+	// }
 	if (tab[0][(*i)] == '?')
 	{
 		question_mark(pipex, tab[1], j);
@@ -171,20 +124,18 @@ static int	handle_dollars(char *tab[2], int *i, int *j, t_pipex *pipex, t_copyen
 
 char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 {
-
 	int (i) = 0;
 	int (j) = 0;
-	char *(output) = malloc(sizeof(char) * (total_expand(input, lst_envp)) + 1);
-	if (!output)
+	int (res) = 0;
+	char *(out) = malloc(sizeof(char) * (total_expand(input, lst_envp, pipex, 0)) + 1);
+	if (!out)
 		return (NULL);
 	while (input[i])
 	{
-		write_single_quote(input, output, &i, &j);
+		write_single_quote(input, out, &i, &j);
 		while (input[i] == '$')
 		{
-			int res = handle_dollars((char *[]){input, output}, &i, &j, pipex, lst_envp);
-			if (res == 0)
-				return (0);
+			res = handle_dollars((char *[]){input, out}, &i, &j, pipex, lst_envp);
 			if (res == 1)
 				break ;
 			if (res == 2)
@@ -192,8 +143,8 @@ char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 			if (res == 3)
 				return (NULL);
 		}
-		if (input[i])
-			output[j++] = input[i++];
+		if (input[i] && input[i] != '\'')
+			out[j++] = input[i++];
 	}
-	return (output[j] = '\0', free(input), output);
+	return (out[j] = '\0', free(input), out);
 }
