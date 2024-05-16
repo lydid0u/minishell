@@ -36,13 +36,15 @@ unsigned long long	ft_atoi_exit(const char *str)
 		if (result > 9223372036854775808ULL)
 			return (9223372036854775808ULL);
 	}
+	if (str[i] && !ft_isdigit(str[i]))
+		return (9223372036854775808ULL);
 	return ((unsigned char)(result * sign));
 }
 
 int	ft_exit_args_is_valid(char *args)
 {
-	if (ft_atoi(args))
-		return (ft_atoi(args));
+	if (ft_atoi_exit(args))
+		return (ft_atoi_exit(args));
 	else
 		return (0);
 }
@@ -85,7 +87,7 @@ int	ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, int fork)
 		{
 			ft_printf("minishell: exit: %s: numeric argument required\n",
 				token->args[1]);
-			exit(2);
+			exit(4);
 		}
 		return (ft_printf("exit: too many arguments\n"), 1);
 	}

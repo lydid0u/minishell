@@ -22,24 +22,6 @@ int	parsing(char *input)
 	return (0);
 }
 
-int	check_separator(char *input)
-{
-	int	len;
-
-	len = ft_strlen(input) - 1;
-	if (pipe_in_first(input))
-		return (ft_printf(SYNTAXERROR, "|'\n"), 1);
-	if (pipe_in_last(input, len))
-		return (ft_printf(SYNTAXERROR, "|'\n"), 1);
-	if (redir_in_last(input, len))
-		return (ft_printf(SYNTAXERROR, "redirection'\n"), 1);
-	if (double_pipe(input))
-		return (ft_printf(SYNTAXERROR, "||'\n"), 1);
-	if (redir_n_pipe(input))
-		return (ft_printf(SYNTAXERROR, "double separator'\n"), 1);
-	return (0);
-}
-
 int	double_separator(char *input, int *i)
 {
 	while (input[(*i)])
@@ -81,61 +63,54 @@ int	redir_n_pipe(char *input)
 
 // (tab)[0] = INPUT
 // (tab)[1] = OUTPUT
-static int	handle_dollars(char *tab[2], int *i, int *j, t_pipex *pipex, t_copyenv *lst_envp)
+int	handle_dollars(char *tab[2], int *i, int *j, t_copyenv *lst_envp)
 {
-	char	*value;
-	char	*key;
-	int		k;
-
+	char *(value);
+	char *(key);
+	int (k) = 0;
+	t_pipex *(pipex) = starton();
 	if (ft_strchr(" \t\"\0", tab[0][(*i) + 1]))
 	{
 		tab[1][(*j)++] = tab[0][(*i)++];
 		return (1);
 	}
 	(*i)++;
-	// if (!ft_isalpha(tab[0][(*i)]) && tab[0][(*i)] != '_')
-	// {
-	// 	tab[1][(*j)++] = tab[0][(*i)];
-	// 	return (2);
-	// }
 	if (tab[0][(*i)] == '?')
 	{
 		question_mark(pipex, tab[1], j);
-		(*i)++;
-		return (2);
+		return ((*i)++, 2);
 	}
 	key = get_key_expand(&tab[0][(*i)]);
 	if (!key)
 		return (3);
 	if (is_key_valid(key, lst_envp) != 0)
-	{
-		(*i) += get_len_of_key(key);
-		free(key);
-		return (2);
-	}
+		return ((*i) += get_len_of_key(key), free(key), 2);
 	value = get_value_from_key(key, lst_envp);
-	k = 0;
 	while (value[k])
 		tab[1][(*j)++] = value[k++];
-	(*i) += get_len_of_key(&tab[0][(*i)]);
-	free(key);
-	return (0);
+	return ((*i) += get_len_of_key(&tab[0][(*i)]), free(key), 0);
 }
 
-char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
+	// if (!ft_isalpha(tab[0][(*i)]) && tab[0][(*i)] != '_')
+	// {
+	// 	tab[1][(*j)++] = tab[0][(*i)];
+	// 	return (2);
+	// }
+
+char	*final_string(char *in, t_copyenv *lst_envp, t_pipex *pipex, int res)
 {
 	int (i) = 0;
 	int (j) = 0;
-	int (res) = 0;
-	char *(out) = malloc(sizeof(char) * (total_expand(input, lst_envp, pipex, 0)) + 1);
+	char *(out) = malloc(sizeof(char) * (total_expand(in, lst_envp,
+					pipex, 0)) + 1);
 	if (!out)
 		return (NULL);
-	while (input[i])
+	while (in[i])
 	{
-		write_single_quote(input, out, &i, &j);
-		while (input[i] == '$')
+		write_single_quote(in, out, &i, &j);
+		while (in[i] == '$')
 		{
-			res = handle_dollars((char *[]){input, out}, &i, &j, pipex, lst_envp);
+			res = handle_dollars((char *[]){in, out}, &i, &j, lst_envp);
 			if (res == 1)
 				break ;
 			if (res == 2)
@@ -143,8 +118,10 @@ char	*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex)
 			if (res == 3)
 				return (NULL);
 		}
-		if (input[i] && input[i] != '\'')
-			out[j++] = input[i++];
+		if (in[i] == '\'')
+			continue ;
+		if (in[i])
+			out[j++] = in[i++];
 	}
-	return (out[j] = '\0', free(input), out);
+	return (out[j] = '\0', free(in), out);
 }

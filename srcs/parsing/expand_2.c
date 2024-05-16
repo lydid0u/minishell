@@ -32,7 +32,7 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 {
 	if (input[*i] && input[*i] == '\'')
 	{
-	printf("entree[i] %s\n", &input[*i]);
+		printf("entree[i] %s\n", &input[*i]);
 		output[*j] = input[*i];
 		(*i)++;
 		(*j)++;
@@ -45,7 +45,7 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 		output[*j] = input[*i];
 		(*i)++;
 		(*j)++;
-	printf("input[i] %s\n", &input[*i]);
+		printf("input[i] %s\n", &input[*i]);
 	}
 }
 
@@ -82,4 +82,20 @@ char	*get_key_expand(char *str)
 	}
 	key[j] = '\0';
 	return (key);
+}
+
+void	question_mark(t_pipex *pipex, char *output, int *j)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	value = ft_itoa(pipex->status_code);
+	while (value[i])
+	{
+		output[*j] = value[i];
+		(*j)++;
+		i++;
+	}
+	free(value);
 }

@@ -23,6 +23,24 @@
 		if tab[i] == CHEVRON && tab[i + 1] == CHEVRON ou PIPE
 */
 
+int	check_separator(char *input)
+{
+	int	len;
+
+	len = ft_strlen(input) - 1;
+	if (pipe_in_first(input))
+		return (ft_printf(SYNTAXERROR, "|'\n"), 1);
+	if (pipe_in_last(input, len))
+		return (ft_printf(SYNTAXERROR, "|'\n"), 1);
+	if (redir_in_last(input, len))
+		return (ft_printf(SYNTAXERROR, "redirection'\n"), 1);
+	if (double_pipe(input))
+		return (ft_printf(SYNTAXERROR, "||'\n"), 1);
+	if (redir_n_pipe(input))
+		return (ft_printf(SYNTAXERROR, "double separator'\n"), 1);
+	return (0);
+}
+
 int	pipe_in_first(char *input)
 {
 	int	i;

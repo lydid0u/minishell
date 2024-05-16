@@ -92,7 +92,7 @@ void	free_heredoc(t_pipex *pipex)
 }
 
 void	close_heredoc(t_pipex *pipex)
-{	
+{
 	int	i;
 
 	i = 0;

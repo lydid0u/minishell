@@ -109,19 +109,3 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 	}
 	return (free(value), count);
 }
-
-void	question_mark(t_pipex *pipex, char *output, int *j)
-{
-	char	*value;
-	int		i;
-
-	i = 0;
-	value = ft_itoa(pipex->status_code);
-	while (value[i])
-	{
-		output[*j] = value[i];
-		(*j)++;
-		i++;
-	}
-	free(value);
-}

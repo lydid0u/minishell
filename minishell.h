@@ -86,21 +86,25 @@ void		handle_single_quote(char *input, int *i, int *count);
 void		write_single_quote(char *input, char *output, int *i, int *j);
 int			is_key_valid(char *key, t_copyenv *lst_envp);
 char		*get_key_expand(char *str);
+void		question_mark(t_pipex *pipex, char *output, int *j);
 
 //				expand				//
 char		*get_value_from_key(char *key, t_copyenv *lst_envp);
 int			get_len_of_value_from_str(char *str,
 				t_copyenv *lst_envp);
 int			get_len_of_key(char *str);
-int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i);
-void		question_mark(t_pipex *pipex, char *output, int *j);
+void		i_and_count_plus_plus(int *i, int *count, int i_plus,
+				int count_plus);
+int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex,
+				int i);
 
 //				parsing				//
 int			parsing(char *input);
-int			check_separator(char *input);
 int			double_separator(char *input, int *i);
 int			redir_n_pipe(char *input);
-char		*final_string(char *input, t_copyenv *lst_envp, t_pipex *pipex);
+int			handle_dollars(char *tab[2], int *i, int *j, t_copyenv *lst_envp);
+char		*final_string(char *in, t_copyenv *lst_envp, t_pipex *pipex,
+				int res);
 
 //				quote				//
 int			check_quotes(char *input);
@@ -109,6 +113,7 @@ void		quote_positif(char *input);
 char		*suppresing_quote(char *input);
 
 //				syntax_error		//
+int			check_separator(char *input);
 int			pipe_in_first(char *input);
 int			pipe_in_last(char *input, int i);
 int			redir_in_last(char *input, int i);

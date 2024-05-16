@@ -108,16 +108,17 @@ void	ft_waitpid(t_pipex *pipex)
 				ft_printf("Quit (core dumped)\n");
 			}
 		}
-		else
-		{
-			if (!flag)
-			{
-				flag = 1;
-				// ft_printf("\n");
-			}
-		}
 	}
 }
+
+// else
+// {
+// 	if (!flag)
+// 	{
+// 		flag = 1;
+// 		// ft_printf("\n");
+// 	}
+// }
 
 int	exec(t_copyenv *lst_envp, t_pipex *pipex)
 {

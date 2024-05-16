@@ -15,7 +15,7 @@
 int	main_parsing(char *prompt, t_pipex *pipex, t_copyenv *lst_envp)
 {
 	add_history(prompt);
-	pipex->prompt = final_string(prompt, lst_envp, pipex);
+	pipex->prompt = final_string(prompt, lst_envp, pipex, 0);
 	if (parsing(pipex->prompt))
 	{
 		pipex->status_code = 2;
