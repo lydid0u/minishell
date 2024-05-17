@@ -102,7 +102,7 @@ int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex,
 int			parsing(char *input);
 int			double_separator(char *input, int *i);
 int			redir_n_pipe(char *input);
-int			handle_dollars(char *tab[2], int *i, int *j, t_copyenv *lst_envp);
+int			handle_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp, t_pipex *pipex);
 char		*final_string(char *in, t_copyenv *lst_envp, t_pipex *pipex,
 				int res);
 
@@ -182,6 +182,7 @@ int			handle_built_in_no_fork(t_pipex *pipex, t_token *token,
 				t_copyenv *lst_envp);
 int			built_in_pwd(void);
 int			built_in_env(t_copyenv *lst_envp);
+void		update_pwd(t_copyenv *lst_envp);
 
 //				echo_and_cd		//
 void		print_echo(char **tab);

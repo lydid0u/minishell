@@ -7,10 +7,6 @@
 ====================================================================================
 
 	reste a faire :
-echo $!!! -> $!!!
 $USER$USER" '$USER' " ERREUR JE DOIS renvoyer 'lydia' pour le 3e USER
-
-fd qui reste ouvert quand je cat mon here doc a travers un pipe
-probleme avec la maniere dont je gere le $ et ce qui y suit :  $@ me dit : @ command not found
-
 /n dans ^C
+130 sur echo $? ^C 

@@ -102,5 +102,6 @@ int	built_in_cd(char **tab, t_copyenv *lst_envp)
 		perror(tab[0]);
 		return (1);
 	}
+	update_pwd(lst_envp);
 	return (0);
 }

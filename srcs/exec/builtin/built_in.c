@@ -83,3 +83,22 @@ int	built_in_env(t_copyenv *lst_envp)
 	}
 	return (0);
 }
+
+void	update_pwd(t_copyenv *lst_envp)
+{
+	t_copyenv	*current;
+	char		cwd[1024];
+
+	current = lst_envp;
+	while (current)
+	{
+		if (ft_strcmp(current->key, "PWD") == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(getcwd(cwd, sizeof(cwd)));
+			return ;
+		}
+		current = current->next;
+	}
+	return ;
+}
