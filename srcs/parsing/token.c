@@ -45,6 +45,9 @@ t_token	*alloc_token_struct(char **tab)
 			args++;
 		i++;
 	}
+	token->i = 0;
+	token->a = 0;
+	token->r = 0;
 	token->args = ft_calloc(sizeof(char *), args + 1);
 	token->files = ft_calloc(sizeof(char *), redir + 1);
 	token->redir_chevron = ft_calloc(sizeof(int), redir + 1);
@@ -77,37 +80,32 @@ le fichier d sera vide et le fichier e affichera "a b c"
 
 t_token	*tokenisation(char *input)
 {
-	int (i) = 0;
-	int (a) = 0;
-	int (r) = 0;
 	char **(tab) = ft_split_v2(input);
-	t_token *(token) = alloc_token_struct(tab);
-	while (tab[i])
+	t_token *(tok) = alloc_token_struct(tab);
+	while (tab[tok->i])
 	{
-		if (is_a_redirection(tab[i]))
+		if (is_a_redirection(tab[tok->i]))
 		{
-			token->redir_chevron[r] = is_a_redirection(tab[i]);
-			i++;
-			if (tab[i])
+			tok->redir_chevron[tok->r] = is_a_redirection(tab[tok->i]);
+			tok->i++;
+			if (tab[tok->i])
 			{
-				token->files[r] = suppresing_quote(ft_strdup(tab[i]));
-				quote_positif(token->files[r++]);
+				tok->files[tok->r] = suppresing_quote(ft_strdup(tab[tok->i]));
+				quote_positif(tok->files[tok->r++]);
 			}
 		}
 		else
 		{
-			token->args[a] = suppresing_quote(ft_strdup(tab[i]));
-			quote_positif(token->args[a++]);
+			tok->args[tok->a] = suppresing_quote(ft_strdup(tab[tok->i]));
+			quote_positif(tok->args[tok->a++]);
 		}
-		if (tab[i])
-			i++;
+		if (tab[tok->i])
+			tok->i++;
 	}
-	token->cmd = token->args[0];
-	token->arg_count = a;
-	token->file_count = r;
-	return (free_tab(tab), token);
+	tok->cmd = tok->args[0];
+	tok->arg_count = tok->a;
+	return (tok->file_count = tok->r, free_tab(tab), tok);
 }
-	// print_tokenexec(token);
 
 // void	print_tokenexec(t_token *token)
 // {

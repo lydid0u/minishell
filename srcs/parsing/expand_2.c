@@ -12,41 +12,6 @@
 
 #include "minishell.h"
 
-void	handle_single_quote(char *input, int *i, int *count)
-{
-	if (input[*i] && input[*i] == '\'')
-	{
-		(*i)++;
-		(*count)++;
-		while (input[*i] && input[*i] != '\'')
-		{
-			(*i)++;
-			(*count)++;
-		}
-		(*i)++;
-		(*count)++;
-	}
-}
-
-void	write_single_quote(char *input, char *output, int *i, int *j)
-{
-	if (input[*i] && input[*i] == '\'')
-	{
-		output[*j] = input[*i];
-		(*i)++;
-		(*j)++;
-		while (input[*i] && input[*i] != '\'')
-		{
-			output[*j] = input[*i];
-			(*i)++;
-			(*j)++;
-		}
-		output[*j] = input[*i];
-		(*i)++;
-		(*j)++;
-	}
-}
-
 int	is_key_valid(char *key, t_copyenv *lst_envp)
 {
 	char	*key_env;
@@ -96,4 +61,42 @@ void	question_mark(t_pipex *pipex, char *output, int *j)
 		i++;
 	}
 	free(value);
+}
+
+void	i_and_count_plus_plus(int *i, int *count, int i_plus, int count_plus)
+{
+	(*i) += i_plus;
+	(*count) += count_plus;
+}
+
+int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
+{
+	int (count) = 0;
+	char *(value) = ft_itoa(pipex->status_code);
+	int (res) = 0;
+	while (input[i])
+	{
+		handle_single_quote(input, &i, &count);
+		handle_double_quote(input, &i, &count, value);
+		while (input[i] == '$')
+		{
+			if (input[i + 1] == '\0' || input[i + 1] == '"')
+			{
+				i++;
+				break ;
+			}
+			res = handle_dollar(input, &i, &count, value, lst_envp);
+			if (res == 1)
+				break ;
+			if (res == 2)
+				continue ;
+			if (res == 3)
+				return (0);
+		}
+		if (input[i] == '\'')
+			continue ;
+		if (input[i])
+			i_and_count_plus_plus(&i, &count, 1, 1);
+	}
+	return (free(value), count);
 }

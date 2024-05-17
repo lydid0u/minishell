@@ -31,10 +31,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 {
 	char *(path);
 	int (status_exit);
-	t_token (*token) = tokenisation(pipex->cmd[i]);
 	int (flag) = 0;
-	signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT, &backslash);
+	t_token (*token) = tokenisation(pipex->cmd[i]);
 	free_n_redir_child(pipex, i);
 	if (handle_redirection(token, pipex->heredoc, pipex))
 		return (free_all(pipex, lst_envp, token), exit(1));

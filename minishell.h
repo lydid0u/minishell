@@ -43,6 +43,9 @@ typedef struct token
 	char	*cmd;
 	int		arg_count;
 	int		file_count;
+	int		i;
+	int		a;
+	int		r;
 	char	**args;
 	int		*redir_chevron;
 	char	**files;
@@ -82,27 +85,36 @@ char		*add_spaces(char *input);
 int			count_token(char *input);
 
 //				expand_2				//
-void		handle_single_quote(char *input, int *i, int *count);
-void		write_single_quote(char *input, char *output, int *i, int *j);
 int			is_key_valid(char *key, t_copyenv *lst_envp);
 char		*get_key_expand(char *str);
 void		question_mark(t_pipex *pipex, char *output, int *j);
+void		i_and_count_plus_plus(int *i, int *count, int i_plus,
+				int count_plus);
+int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex,
+				int i);
 
 //				expand				//
 char		*get_value_from_key(char *key, t_copyenv *lst_envp);
 int			get_len_of_value_from_str(char *str,
 				t_copyenv *lst_envp);
 int			get_len_of_key(char *str);
-void		i_and_count_plus_plus(int *i, int *count, int i_plus,
-				int count_plus);
-int			total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex,
-				int i);
+int			write_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+int			while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+
+//				handle_quote				//
+void		handle_single_quote(char *input, int *i, int *count);
+void		write_single_quote(char *input, char *output, int *i, int *j);
+void		handle_double_quote(char *input, int *i, int *count, char *value);
+void		write_double_quote(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+int			handle_dollar(char *input, int *i, int *count, char *value, t_copyenv *lst_envp);
 
 //				parsing				//
 int			parsing(char *input);
 int			double_separator(char *input, int *i);
 int			redir_n_pipe(char *input);
-int			handle_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp, t_pipex *pipex);
 char		*final_string(char *in, t_copyenv *lst_envp, t_pipex *pipex,
 				int res);
 
@@ -123,7 +135,6 @@ int			double_pipe(char *input);
 int			is_a_redirection(char *str);
 t_token		*alloc_token_struct(char **tab);
 t_token		*tokenisation(char *input);
-
 // ====================================================================
 // 							[E][X][E][C]
 // ====================================================================
@@ -192,13 +203,13 @@ char		*find_home(t_copyenv *lst_envp);
 int			built_in_cd(char **tab, t_copyenv *lst_envp);
 
 //				exit		//
-int			ft_exit_args_is_valid(char *args);
+int			ft_exit_args_is_valid(char *args, int *flag);
 int			ft_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
 				int fork);
 void		free_exit(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
 				int fork);
 int			exit_one_arg(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
-				int fork);
+				int *fork_flag[2]);
 
 //				export_utils	//
 char		*get_key(char *str);

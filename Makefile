@@ -19,11 +19,13 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	main.c free.c signals.c \
-					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c parsing/expand.c \
-					parsing/expand_2.c parsing/parsing.c parsing/token.c \
-					exec/pipex.c exec/pipex_utils.c exec/builtin/export.c exec/copy_env.c exec/redir_chevron.c \
-					exec/builtin/unset.c exec/builtin/export_utils.c exec/builtin/built_in.c exec/here_doc.c \
-					exec/builtin/echo_and_cd.c exec/builtin/built_in_utils.c exec/builtin/exit.c exec/here_doc_utils.c\
+					parsing/quote.c parsing/addspaces.c parsing/syntax_error.c \
+					parsing/expand.c parsing/expand_2.c parsing/parsing.c \
+					parsing/token.c parsing/handle_quote.c parsing/dollar.c \
+					exec/pipex.c exec/pipex_utils.c exec/builtin/export.c exec/copy_env.c \
+					exec/redir_chevron.c exec/builtin/unset.c exec/builtin/export_utils.c \
+					exec/builtin/built_in.c exec/here_doc.c exec/builtin/echo_and_cd.c \
+					exec/builtin/built_in_utils.c exec/builtin/exit.c exec/here_doc_utils.c \
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
@@ -41,7 +43,7 @@ ${NAME} : ${DIR_OBJS} ${OBJS}
 		${MAKE} -C ${LIBFT}
 		${MAKE} -C ${PRINTF}
 		${CC} ${OBJS} ${HEAD} -o ${NAME} ${FT_LIBFT} -lreadline ${FT_PRINTF}
-		@echo "\033[31;5mminishell du salaaaaaaaaam\033[0m"
+		@echo "\033[31;5mminishell\033[0m"
 
 ${OBJS} : ${DIR_OBJS}/%.o : ${DIR_SRCS}/%.c
 	${CC} ${CFLAGS} ${HEAD} -c $< -o $@

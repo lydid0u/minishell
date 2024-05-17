@@ -64,91 +64,25 @@ int	redir_n_pipe(char *input)
 
 // (tab)[0] = INPUT
 // (tab)[1] = OUTPUT
-int	handle_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
-	t_pipex *pipex)
-{
-	char *(value);
-	char *(key);
-	int (k) = 0;
-	if (tab[0][(*i_j[0]) + 1] == '?')
-	{
-		(*i_j[0])++;
-		question_mark(pipex, tab[1], i_j[1]);
-		return ((*i_j[0])++, 2);
-	}
-	else if (!ft_isalnum(tab[0][(*i_j[0]) + 1]) && tab[0][(*i_j[0]) + 1] != '_')
-		return (1);
-	(*i_j[0])++;
-	key = get_key_expand(&tab[0][(*i_j[0])]);
-	if (!key)
-		return (3);
-	if (is_key_valid(key, lst_envp) != 0)
-		return ((*i_j[0]) += get_len_of_key(key), free(key), 2);
-	value = get_value_from_key(key, lst_envp);
-	while (value[k])
-		tab[1][(*i_j[1])++] = value[k++];
-	return ((*i_j[0]) += get_len_of_key(&tab[0][(*i_j[0])]), free(key), 0);
-}
-
-void	write_double_quote(char *input, char *output, int *i, int *j, t_copyenv *envp, t_pipex *pipex)
-{
-	int (res) = 0;
-	if (input[*i] && input[*i] == '\"')
-	{
-		output[*j] = input[*i];
-		(*i)++;
-		(*j)++;
-		while (input[*i] && input[*i] != '"')
-		{
-			if (input[*i] == '$')
-			{
-				res = handle_dollars((char *[]){input, output}, (int *[]){i, j},
-					envp, pipex);
-				if (res == 1)
-					break ;
-				if (res == 2)
-					continue ;
-				if (res == 3)
-					return ;
-			}
-			else
-			{
-				output[*j] = input[*i];
-				(*i)++;
-				(*j)++;
-			}
-		}
-		output[*j] = input[*i];
-		(*i)++;
-		(*j)++;
-	}
-}
-
+// (*i_j)[0] = i
+// (*i_j)[1] = j
 char	*final_string(char *in, t_copyenv *envp, t_pipex *pipex, int res)
 {
 	int (i) = 0;
 	int (j) = 0;
-	// char *(out) = malloc(sizeof(char) * (total_expand(in, envp, pipex, 0)) + 1);
-	char *(out) = malloc(sizeof(char) * (10000) + 1);
+	char *(out) = malloc(sizeof(char) * (total_expand(in, envp, pipex, 0)) + 1);
+	printf("total expand : %i\n", total_expand(in, envp, pipex, 0));
 	if (!out)
 		return (NULL);
 	while (in[i])
 	{
 		write_single_quote(in, out, &i, &j);
-		write_double_quote(in, out, &i, &j, envp, pipex);
-		while (in[i] == '$')
-		{
-			if (in[i + 1] == '\0')
-				break ;
-			res = handle_dollars((char *[]){in, out}, (int *[]){&i, &j},
-					envp, pipex);
-			if (res == 1)
-				break ;
-			if (res == 2)
-				continue ;
-			if (res == 3)
-				return (NULL);
-		}
+		write_double_quote((char *[]){in, out}, (int *[]){&i, &j},
+			envp, pipex);
+		res = while_dollar((char *[]){in, out}, (int *[]){&i, &j},
+				envp, pipex);
+		if (res == 3)
+			return (NULL);
 		if (in[i] == '\'')
 			continue ;
 		if (in[i])
