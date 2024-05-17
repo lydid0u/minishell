@@ -40,10 +40,7 @@ t_token	*alloc_token_struct(char **tab)
 	while (tab[i])
 	{
 		if (is_a_redirection(tab[i]))
-		{
 			redir++;
-			i++;
-		}
 		else
 			args++;
 		i++;
@@ -89,16 +86,21 @@ t_token	*tokenisation(char *input)
 	{
 		if (is_a_redirection(tab[i]))
 		{
-			token->redir_chevron[r] = is_a_redirection(tab[i++]);
-			token->files[r] = suppresing_quote(ft_strdup(tab[i]));
-			quote_positif(token->files[r++]);
+			token->redir_chevron[r] = is_a_redirection(tab[i]);
+			i++;
+			if (tab[i])
+			{
+				token->files[r] = suppresing_quote(ft_strdup(tab[i]));
+				quote_positif(token->files[r++]);
+			}
 		}
 		else
 		{
 			token->args[a] = suppresing_quote(ft_strdup(tab[i]));
 			quote_positif(token->args[a++]);
 		}
-		i++;
+		if (tab[i])
+			i++;
 	}
 	token->cmd = token->args[0];
 	token->arg_count = a;

@@ -19,6 +19,7 @@ int	parsing(char *input)
 	quote_negatif(input);
 	if (check_separator(input))
 		return (1);
+	quote_positif(input);
 	return (0);
 }
 
@@ -76,10 +77,7 @@ int	handle_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 		return ((*i_j[0])++, 2);
 	}
 	else if (!ft_isalnum(tab[0][(*i_j[0]) + 1]) && tab[0][(*i_j[0]) + 1] != '_')
-	{
-		tab[1][(*i_j[1])++] = tab[0][(*i_j[0])++];
 		return (1);
-	}
 	(*i_j[0])++;
 	key = get_key_expand(&tab[0][(*i_j[0])]);
 	if (!key)
@@ -92,18 +90,56 @@ int	handle_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 	return ((*i_j[0]) += get_len_of_key(&tab[0][(*i_j[0])]), free(key), 0);
 }
 
+void	write_double_quote(char *input, char *output, int *i, int *j, t_copyenv *envp, t_pipex *pipex)
+{
+	int (res) = 0;
+	if (input[*i] && input[*i] == '\"')
+	{
+		output[*j] = input[*i];
+		(*i)++;
+		(*j)++;
+		while (input[*i] && input[*i] != '"')
+		{
+			if (input[*i] == '$')
+			{
+				res = handle_dollars((char *[]){input, output}, (int *[]){i, j},
+					envp, pipex);
+				if (res == 1)
+					break ;
+				if (res == 2)
+					continue ;
+				if (res == 3)
+					return ;
+			}
+			else
+			{
+				output[*j] = input[*i];
+				(*i)++;
+				(*j)++;
+			}
+		}
+		output[*j] = input[*i];
+		(*i)++;
+		(*j)++;
+	}
+}
+
 char	*final_string(char *in, t_copyenv *envp, t_pipex *pipex, int res)
 {
 	int (i) = 0;
 	int (j) = 0;
-	char *(out) = malloc(sizeof(char) * (total_expand(in, envp, pipex, 0)) + 1);
+	// char *(out) = malloc(sizeof(char) * (total_expand(in, envp, pipex, 0)) + 1);
+	char *(out) = malloc(sizeof(char) * (10000) + 1);
 	if (!out)
 		return (NULL);
 	while (in[i])
 	{
 		write_single_quote(in, out, &i, &j);
+		write_double_quote(in, out, &i, &j, envp, pipex);
 		while (in[i] == '$')
 		{
+			if (in[i + 1] == '\0')
+				break ;
 			res = handle_dollars((char *[]){in, out}, (int *[]){&i, &j},
 					envp, pipex);
 			if (res == 1)
@@ -118,5 +154,6 @@ char	*final_string(char *in, t_copyenv *envp, t_pipex *pipex, int res)
 		if (in[i])
 			out[j++] = in[i++];
 	}
-	return (out[j] = '\0', free(in), out);
+	out[j] = '\0';
+	return (free(in), out);
 }

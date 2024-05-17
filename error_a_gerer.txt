@@ -7,6 +7,5 @@
 ====================================================================================
 
 	reste a faire :
-$USER$USER" '$USER' " ERREUR JE DOIS renvoyer 'lydia' pour le 3e USER
-/n dans ^C
 130 sur echo $? ^C 
+exit 0 : argument required blabla

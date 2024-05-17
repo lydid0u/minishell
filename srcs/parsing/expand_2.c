@@ -30,7 +30,6 @@ void	handle_single_quote(char *input, int *i, int *count)
 
 void	write_single_quote(char *input, char *output, int *i, int *j)
 {
-	// printf("entree[i] %s\n", &input[*i]);
 	if (input[*i] && input[*i] == '\'')
 	{
 		output[*j] = input[*i];
@@ -38,7 +37,6 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 		(*j)++;
 		while (input[*i] && input[*i] != '\'')
 		{
-			// printf("while[i] %s\n", &input[*i]);
 			output[*j] = input[*i];
 			(*i)++;
 			(*j)++;
@@ -46,7 +44,6 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 		output[*j] = input[*i];
 		(*i)++;
 		(*j)++;
-		// printf("input[i] %s\n", &input[*i]);
 	}
 }
 

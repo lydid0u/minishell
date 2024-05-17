@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:35:45 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/12 20:43:41 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/17 04:35:16 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ static char	*open_here_doc(int i, t_pipex *pipex)
 	{
 		line = readline(">");
 		if (!line || !ft_strcmp(line, pipex->heredoc[i].stop_word))
+		{
+			printf("bash: warning: here-document at line 0 delimited by end-of-file (wanted `%s')", pipex->heredoc[i].stop_word);
 			break ;
+		}
 		ft_putendl_fd(line, pipex->heredoc[i].hd_pipe[1]);
 		free(line);
 	}

@@ -90,12 +90,17 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 		handle_single_quote(input, &i, &count);
 		while (input[i] == '$')
 		{
-			i_and_count_plus_plus(&i, &count, 1, 1);
-			if (input[i] == '?')
+			if (input[i + 1] == '?')
 			{
-				i_and_count_plus_plus(&i, &count, 1, ft_strlen(value));
+				i_and_count_plus_plus(&i, &count, 2, ft_strlen(value));
 				continue ;
 			}
+			else if (!ft_isalnum(input[i + 1]) && input[i] != '_')
+			{
+				i_and_count_plus_plus(&i, &count, 2, 2);
+				break ;
+			}
+			i_and_count_plus_plus(&i, &count, 1, 1);
 			if (is_key_valid(&input[i], lst_envp))
 			{
 				i += get_len_of_key(&input[i]);
@@ -104,6 +109,8 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 			count += get_len_of_value_from_str(&input[i], lst_envp);
 			i += get_len_of_key(&input[i]);
 		}
+		if (input[i] == '\'')
+			continue ;
 		if (input[i])
 			i_and_count_plus_plus(&i, &count, 1, 1);
 	}

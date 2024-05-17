@@ -15,13 +15,14 @@
 int	main_parsing(char *prompt, t_pipex *pipex, t_copyenv *lst_envp)
 {
 	add_history(prompt);
-	pipex->prompt = final_string(prompt, lst_envp, pipex, 0);
-	if (parsing(pipex->prompt))
+	if (parsing(prompt))
 	{
 		pipex->status_code = 2;
-		free(pipex->prompt);
+		free(prompt);
 		return (2);
 	}
+	pipex->prompt = final_string(prompt, lst_envp, pipex, 0);
+	quote_negatif(pipex->prompt);
 	pipex->prompt = add_spaces(pipex->prompt);
 	if (!pipex->prompt)
 		return (1);
@@ -34,8 +35,8 @@ int	main_parsing(char *prompt, t_pipex *pipex, t_copyenv *lst_envp)
 		return (2);
 	}
 	pipex->nbr_cmd = countword(pipex->prompt, '|');
-	here_doc(pipex, NULL, lst_envp, pipex->prompt);
 	quote_positif(pipex->prompt);
+	here_doc(pipex, NULL, lst_envp, pipex->prompt);
 	return (0);
 }
 
