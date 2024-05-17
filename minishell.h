@@ -106,7 +106,7 @@ int			while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 //				handle_quote				//
 void		handle_single_quote(char *input, int *i, int *count);
 void		write_single_quote(char *input, char *output, int *i, int *j);
-void		handle_double_quote(char *input, int *i, int *count, char *value);
+void		handle_double_quote(char *input, int *i, int *count, char *value, t_copyenv *lst_envp);
 void		write_double_quote(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 				t_pipex *pipex);
 int			handle_dollar(char *input, int *i, int *count, char *value, t_copyenv *lst_envp);

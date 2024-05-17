@@ -74,3 +74,38 @@ int	get_len_of_key(char *key)
 		i++;
 	return (i);
 }
+
+int	is_key_valid(char *key, t_copyenv *lst_envp)
+{
+	char	*key_env;
+
+	key = get_key_expand(key);
+	while (lst_envp)
+	{
+		key_env = get_key_expand(lst_envp->key);
+		if (strcmp(key, key_env) == 0)
+			return (free(key_env), free(key), 0);
+		lst_envp = lst_envp->next;
+		free(key_env);
+	}
+	return (free(key), 1);
+}
+
+char	*get_key_expand(char *str)
+{
+	int		i;
+	int		j;
+	char	*key;
+
+	i = 0;
+	j = 0;
+	key = malloc(sizeof(char) * (get_len_of_key(str) + 1));
+	if (!key)
+		return (NULL);
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
+	{
+		key[j++] = str[i++];
+	}
+	key[j] = '\0';
+	return (key);
+}

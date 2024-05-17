@@ -47,7 +47,8 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 	}
 }
 
-void	handle_double_quote(char *input, int *i, int *count, char *value)
+void	handle_double_quote(char *input, int *i, int *count, char *value,
+	t_copyenv *lst_envp)
 {
 	if (input[*i] && input[*i] == '\"')
 	{
@@ -63,6 +64,16 @@ void	handle_double_quote(char *input, int *i, int *count, char *value)
 					i_and_count_plus_plus(i, count, 2, ft_strlen(value));
 					continue ;
 				}
+				else if (!ft_isalnum(input[(*i) + 1]) && input[(*i)] != '_')
+					break ;
+				i_and_count_plus_plus(i, count, 1, 1);
+				if (is_key_valid(&input[(*i)], lst_envp))
+				{
+					(*i) += get_len_of_key(&input[(*i)]);
+					continue ;
+				}
+				(*count) += get_len_of_value_from_str(&input[(*i)], lst_envp);
+				(*i) += get_len_of_key(&input[(*i)]);
 			}
 			else
 				i_and_count_plus_plus(i, count, 1, 1);

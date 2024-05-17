@@ -71,7 +71,6 @@ char	*final_string(char *in, t_copyenv *envp, t_pipex *pipex, int res)
 	int (i) = 0;
 	int (j) = 0;
 	char *(out) = malloc(sizeof(char) * (total_expand(in, envp, pipex, 0)) + 1);
-	printf("total expand : %i\n", total_expand(in, envp, pipex, 0));
 	if (!out)
 		return (NULL);
 	while (in[i])

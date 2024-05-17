@@ -1,2 +1,0 @@
-	reste a faire :
-130 sur echo $? ^C 

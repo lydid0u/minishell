@@ -22,12 +22,16 @@ void	backslash(int signal)
 
 void	ctrl_c(int signal)
 {
+	t_pipex	*pipex;
+
 	if (signal == SIGINT)
 	{
+		pipex = starton();
 		ft_printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		pipex->status_code = 130;
 	}
 }
 
