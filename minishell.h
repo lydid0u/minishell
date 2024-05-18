@@ -84,9 +84,24 @@ typedef struct pipex
 char		*add_spaces(char *input);
 int			count_token(char *input);
 
+//				count_expand				//
+void		handle_single_quote(char *input, int *i, int *count);
+int			count_double_quote(char *tab[2], int *i, int *count,
+				t_copyenv *lst_envp);
+void		handle_double_quote(char *tab[2], int *i, int *count,
+				t_copyenv *lst_envp);
+
+//				dollar				//
+int			handle_dollar(char *in_value[2], int *i, int *count,
+				t_copyenv *lst_envp);
+int			write_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+int			while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+int			count_while_dollar(char *tab[2], int *i, int *count,
+				t_copyenv *lst_envp);
+
 //				expand_2				//
-int			is_key_valid(char *key, t_copyenv *lst_envp);
-char		*get_key_expand(char *str);
 void		question_mark(t_pipex *pipex, char *output, int *j);
 void		i_and_count_plus_plus(int *i, int *count, int i_plus,
 				int count_plus);
@@ -98,18 +113,8 @@ char		*get_value_from_key(char *key, t_copyenv *lst_envp);
 int			get_len_of_value_from_str(char *str,
 				t_copyenv *lst_envp);
 int			get_len_of_key(char *str);
-int			write_dollars(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
-				t_pipex *pipex);
-int			while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
-				t_pipex *pipex);
-
-//				handle_quote				//
-void		handle_single_quote(char *input, int *i, int *count);
-void		write_single_quote(char *input, char *output, int *i, int *j);
-void		handle_double_quote(char *input, int *i, int *count, char *value, t_copyenv *lst_envp);
-void		write_double_quote(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
-				t_pipex *pipex);
-int			handle_dollar(char *input, int *i, int *count, char *value, t_copyenv *lst_envp);
+int			is_key_valid(char *key, t_copyenv *lst_envp);
+char		*get_key_expand(char *str);
 
 //				parsing				//
 int			parsing(char *input);
@@ -135,6 +140,12 @@ int			double_pipe(char *input);
 int			is_a_redirection(char *str);
 t_token		*alloc_token_struct(char **tab);
 t_token		*tokenisation(char *input);
+
+//				write_quote				//
+void		write_single_quote(char *input, char *output, int *i, int *j);
+void		write_double_quote(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
+				t_pipex *pipex);
+
 // ====================================================================
 // 							[E][X][E][C]
 // ====================================================================

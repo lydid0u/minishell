@@ -96,11 +96,14 @@ int	built_in_cd(char **tab, t_copyenv *lst_envp)
 		path = find_home(lst_envp);
 	else
 		path = tab[0];
-	cd = chdir(path);
-	if (cd == -1)
+	if (path)
 	{
-		perror(tab[0]);
-		return (1);
+		cd = chdir(path);
+		if (cd == -1)
+		{
+			perror(tab[0]);
+			return (1);
+		}
 	}
 	update_pwd(lst_envp);
 	return (0);

@@ -6,30 +6,31 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 21:54:41 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/17 21:55:08 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:46:35 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_dollar(char *input, int *i, int *count, char *value,
-	t_copyenv *lst_envp)
+//in_value[0] = input
+//in_value[1] = value
+int	handle_dollar(char *in_value[2], int *i, int *count, t_copyenv *lst_envp)
 {
-	if (input[(*i) + 1] == '?')
+	if (in_value[0][(*i) + 1] == '?')
 	{
-		i_and_count_plus_plus(i, count, 2, ft_strlen(value));
+		i_and_count_plus_plus(i, count, 2, ft_strlen(in_value[1]));
 		return (2);
 	}
-	else if (!ft_isalnum(input[(*i) + 1]) && input[(*i)] != '_')
+	else if (!ft_isalnum(in_value[0][(*i) + 1]) && in_value[0][(*i)] != '_')
 		return (1);
 	i_and_count_plus_plus(i, count, 1, 1);
-	if (is_key_valid(&input[(*i)], lst_envp))
+	if (is_key_valid(&in_value[0][(*i)], lst_envp))
 	{
-		(*i) += get_len_of_key(&input[(*i)]);
+		(*i) += get_len_of_key(&in_value[0][(*i)]);
 		return (2);
 	}
-	(*count) += get_len_of_value_from_str(&input[(*i)], lst_envp);
-	(*i) += get_len_of_key(&input[(*i)]);
+	(*count) += get_len_of_value_from_str(&in_value[0][(*i)], lst_envp);
+	(*i) += get_len_of_key(&in_value[0][(*i)]);
 	return (0);
 }
 
@@ -78,6 +79,31 @@ int	while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 		}
 		res = write_dollars((char *[]){tab[0], tab[1]},
 				(int *[]){&(*i_j[0]), &(*i_j[1])}, lst_envp, pipex);
+		if (res == 1)
+			break ;
+		if (res == 2)
+			continue ;
+		if (res == 3)
+			break ;
+	}
+	return (res);
+}
+
+int	count_while_dollar(char *tab[2], int *i, int *count, t_copyenv *lst_envp)
+{
+	int	res;
+
+	res = 0;
+	while (tab[0][(*i)] == '$')
+	{
+		if (tab[0][(*i) + 1] == '\0' || tab[0][(*i) + 1] == '"')
+			break ;
+		if (tab[0][(*i) + 1] == '"')
+		{
+			(*i)++;
+			break ;
+		}
+		res = handle_dollar((char *[]){tab[0], tab[1]}, i, count, lst_envp);
 		if (res == 1)
 			break ;
 		if (res == 2)

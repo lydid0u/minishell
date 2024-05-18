@@ -42,24 +42,11 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 	while (input[i])
 	{
 		handle_single_quote(input, &i, &count);
-		handle_double_quote(input, &i, &count, value, lst_envp);
-		while (input[i] == '$')
-		{
-			if (input[i + 1] == '\0' || input[i + 1] == '"')
-				break ;
-			if (input[i + 1] == '"')
-			{
-				i++;
-				break ;
-			}
-			res = handle_dollar(input, &i, &count, value, lst_envp);
-			if (res == 1)
-				break ;
-			if (res == 2)
-				continue ;
-			if (res == 3)
-				return (0);
-		}
+		handle_double_quote((char *[]){input, value}, &i, &count, lst_envp);
+		res = count_while_dollar((char *[]){input, value}, &i,
+				&count, lst_envp);
+		if (res == 3)
+			return (0);
 		if (input[i] == '\'')
 			continue ;
 		if (input[i])
@@ -67,3 +54,37 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 	}
 	return (free(value), count);
 }
+
+// int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
+// {
+// 	int (count) = 0;
+// 	char *(value) = ft_itoa(pipex->status_code);
+// 	int (res) = 0;
+// 	while (input[i])
+// 	{
+// 		handle_single_quote(input, &i, &count);
+// 		handle_double_quote((char *[]){input, value}, &i, &count, lst_envp);
+// 		while (input[i] == '$')
+// 		{
+// 			if (input[i + 1] == '\0' || input[i + 1] == '"')
+// 				break ;
+// 			if (input[i + 1] == '"')
+// 			{
+// 				i++;
+// 				break ;
+// 			}
+// 			res = handle_dollar((char *[]){input, value}, &i, &count, lst_envp);
+// 			if (res == 1)
+// 				break ;
+// 			if (res == 2)
+// 				continue ;
+// 			if (res == 3)
+// 				return (0);
+// 		}
+// 		if (input[i] == '\'')
+// 			continue ;
+// 		if (input[i])
+// 			i_and_count_plus_plus(&i, &count, 1, 1);
+// 	}
+// 	return (free(value), count);
+// }

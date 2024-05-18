@@ -1,32 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quote.c                                     :+:      :+:    :+:   */
+/*   write_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:37:56 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/17 21:54:38 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:32:05 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_single_quote(char *input, int *i, int *count)
-{
-	if (input[*i] && input[*i] == '\'')
-	{
-		(*i)++;
-		(*count)++;
-		while (input[*i] && input[*i] != '\'')
-		{
-			(*i)++;
-			(*count)++;
-		}
-		(*i)++;
-		(*count)++;
-	}
-}
 
 void	write_single_quote(char *input, char *output, int *i, int *j)
 {
@@ -44,42 +28,6 @@ void	write_single_quote(char *input, char *output, int *i, int *j)
 		output[*j] = input[*i];
 		(*i)++;
 		(*j)++;
-	}
-}
-
-void	handle_double_quote(char *input, int *i, int *count, char *value,
-	t_copyenv *lst_envp)
-{
-	if (input[*i] && input[*i] == '\"')
-	{
-		i_and_count_plus_plus(i, count, 1, 1);
-		while (input[*i] && input[*i] != '\"')
-		{
-			if (input[*i] == '$' && input[*i + 1] == '"')
-				break ;
-			if (input[*i] == '$')
-			{
-				if (input[*i + 1] == '?')
-				{
-					i_and_count_plus_plus(i, count, 2, ft_strlen(value));
-					continue ;
-				}
-				else if (!ft_isalnum(input[(*i) + 1]) && input[(*i)] != '_')
-					break ;
-				i_and_count_plus_plus(i, count, 1, 1);
-				if (is_key_valid(&input[(*i)], lst_envp))
-				{
-					(*i) += get_len_of_key(&input[(*i)]);
-					continue ;
-				}
-				(*count) += get_len_of_value_from_str(&input[(*i)], lst_envp);
-				(*i) += get_len_of_key(&input[(*i)]);
-			}
-			else
-				i_and_count_plus_plus(i, count, 1, 1);
-		}
-		if (input[*i])
-			i_and_count_plus_plus(i, count, 1, 1);
 	}
 }
 

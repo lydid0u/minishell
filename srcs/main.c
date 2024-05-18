@@ -93,8 +93,8 @@ int	mini_main(t_pipex *pipex, t_copyenv *lst_envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// if (!isatty(0))
-	// 	return (1);
+	if (!isatty(0))
+		return (1);
 	(void)argc;
 	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
