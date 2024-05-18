@@ -28,8 +28,8 @@ int	handle_dollar(char *input, int *i, int *count, char *value,
 		(*i) += get_len_of_key(&input[(*i)]);
 		return (2);
 	}
-	count += get_len_of_value_from_str(&input[(*i)], lst_envp);
-	i += get_len_of_key(&input[(*i)]);
+	(*count) += get_len_of_value_from_str(&input[(*i)], lst_envp);
+	(*i) += get_len_of_key(&input[(*i)]);
 	return (0);
 }
 
@@ -69,7 +69,9 @@ int	while_dollar(char *tab[2], int *i_j[2], t_copyenv *lst_envp,
 	res = 0;
 	while (tab[0][(*i_j[0])] == '$')
 	{
-		if (tab[0][(*i_j[0]) + 1] == '\0' || tab[0][(*i_j[0]) + 1] == '"')
+		if (tab[0][(*i_j[0]) + 1] == '\0')
+			break ;
+		else if (tab[0][(*i_j[0]) + 1] == '"')
 		{
 			(*i_j[0])++;
 			break ;

@@ -102,16 +102,15 @@ static void	child_hd(t_pipex *pipex, t_copyenv *lst_envp)
 
 void	here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, char *str)
 {
-	int		i;
-	int		pid;
-
-	i = 0;
+	int (pid);
+	int (i) = 0;
 	pipex->nbr_heredoc = count_here_doc(str);
 	if (!pipex->nbr_heredoc)
 		return ;
 	pipex->heredoc = ft_calloc(sizeof(t_heredoc), pipex->nbr_heredoc);
 	if (!pipex->heredoc)
 		return ;
+	quote_positif(str);
 	get_stop_word(pipex->heredoc, token, str);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();

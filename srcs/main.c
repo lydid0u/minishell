@@ -35,8 +35,8 @@ int	main_parsing(char *prompt, t_pipex *pipex, t_copyenv *lst_envp)
 		return (2);
 	}
 	pipex->nbr_cmd = countword(pipex->prompt, '|');
-	quote_positif(pipex->prompt);
 	here_doc(pipex, NULL, lst_envp, pipex->prompt);
+	quote_positif(pipex->prompt);
 	return (0);
 }
 

@@ -46,6 +46,8 @@ int	total_expand(char *input, t_copyenv *lst_envp, t_pipex *pipex, int i)
 		while (input[i] == '$')
 		{
 			if (input[i + 1] == '\0' || input[i + 1] == '"')
+				break ;
+			if (input[i + 1] == '"')
 			{
 				i++;
 				break ;
