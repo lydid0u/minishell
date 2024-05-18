@@ -32,6 +32,8 @@ void	child(t_pipex *pipex, t_copyenv *lst_envp, int i)
 	char *(path);
 	int (status_exit);
 	int (flag) = 0;
+	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, &backslash);
 	t_token (*token) = tokenisation(pipex->cmd[i]);
 	free_n_redir_child(pipex, i);
 	if (handle_redirection(token, pipex->heredoc, pipex))
@@ -99,8 +101,8 @@ void	ft_waitpid(t_pipex *pipex)
 			pipex->status_code = WEXITSTATUS(pipex->status_code);
 		if (WTERMSIG(pipex->status_code) == 2)
 		{
-			pipex->status_code = 130;
 			ft_printf("\n");
+			pipex->status_code = 130;
 		}
 		else if (WIFSIGNALED(pipex->status_code)
 			&& WTERMSIG(pipex->status_code) == SIGQUIT)
