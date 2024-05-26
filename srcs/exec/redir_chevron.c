@@ -61,7 +61,7 @@ et pas "perdre" les vrais sorties vu que ya pas de fork et que tout se passe dan
 le main process, puis je remet stdin et stdout a leur place avec dup2
 */
 
-void	chevron_no_fork(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
+void	chevron_no_fork(t_pipex *pipex, t_token *token, t_copyenv **lst_envp)
 {
 	pipex->in = dup(0);
 	pipex->out = dup(1);

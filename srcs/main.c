@@ -48,7 +48,7 @@ void	free_n_leave(t_pipex *pipex, t_copyenv *lst_envp)
 	rl_clear_history();
 }
 
-void	main_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
+void	main_exec(t_pipex *pipex, t_token *token, t_copyenv **lst_envp)
 {
 	if (pipex->nbr_cmd == 1 && is_builtin(token->cmd))
 	{
@@ -59,11 +59,11 @@ void	main_exec(t_pipex *pipex, t_token *token, t_copyenv *lst_envp)
 	else
 	{
 		free_token(token);
-		exec(lst_envp, pipex);
+		exec(*lst_envp, pipex);
 	}
 }
 
-int	mini_main(t_pipex *pipex, t_copyenv *lst_envp)
+int	mini_main(t_pipex *pipex, t_copyenv **lst_envp)
 {
 	t_token	*token;
 	char	*prompt;
@@ -76,7 +76,7 @@ int	mini_main(t_pipex *pipex, t_copyenv *lst_envp)
 			break ;
 		if (!*prompt)
 			continue ;
-		ret = main_parsing(prompt, pipex, lst_envp);
+		ret = main_parsing(prompt, pipex, *lst_envp);
 		if (ret == 1)
 			break ;
 		if (ret == 2)
@@ -87,7 +87,7 @@ int	mini_main(t_pipex *pipex, t_copyenv *lst_envp)
 		free_tab(pipex->cmd);
 		free_heredoc(pipex);
 	}
-	free_n_leave(pipex, lst_envp);
+	free_n_leave(pipex, *lst_envp);
 	return (pipex->status_code);
 }
 
@@ -101,9 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, &ctrl_c);
 	t_pipex *(pipex) = starton();
 	t_copyenv *(lst_envp) = create_lst(envp);
-	if (!lst_envp)
-		return (1);
-	mini_main(pipex, lst_envp);
+	mini_main(pipex, &lst_envp);
 	return (0);
 }
 

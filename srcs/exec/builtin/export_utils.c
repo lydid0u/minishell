@@ -38,13 +38,19 @@ char	*get_key(char *str)
 	return (key);
 }
 
-void	add_node_export_back(t_copyenv *lst, t_copyenv *new_node)
+void	add_node_export_back(t_copyenv **lst, t_copyenv *new_node)
 {
-	while (lst->next)
+	t_copyenv *(current) = *lst;
+	if (!lst || !*lst)
 	{
-		lst = lst->next;
+		*(lst) = new_node;
+		return ;
 	}
-	lst->next = new_node;
+	while (current->next)
+	{
+		current = current->next;
+	}
+	current->next = new_node;
 }
 
 t_copyenv	*create_node(void)

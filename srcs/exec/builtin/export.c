@@ -53,7 +53,7 @@ int	export_key_already_existing(char *key, char *str, t_copyenv *head)
 	return (0);
 }
 
-int	create_export_node(char *str, t_copyenv *head)
+int	create_export_node(char *str, t_copyenv **head)
 {
 	int (i) = 0;
 	int (j) = 0;
@@ -132,14 +132,14 @@ si pas de =
 
 */
 
-int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
+int	bt_export_loop_to_create_node(char *arg, t_copyenv **head)
 {
 	char	*key;
 
 	key = get_key(arg);
 	if (!key)
 		return (ft_printf("%s: not a valid identifier\n", arg), 1);
-	if (export_key_already_existing(key, arg, head))
+	if (export_key_already_existing(key, arg, *head))
 	{
 		free(key);
 		return (0);
@@ -149,7 +149,7 @@ int	bt_export_loop_to_create_node(char *arg, t_copyenv *head)
 	return (0);
 }
 
-int	built_in_export(char **args, t_copyenv *head)
+int	built_in_export(char **args, t_copyenv **head)
 {
 	int	i;
 

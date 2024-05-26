@@ -174,7 +174,7 @@ char		**copy_env_to_tab(t_copyenv *lst_envp);
 int			handle_redirection(t_token *token, t_heredoc *heredoc,
 				t_pipex *pipex);
 void		chevron_no_fork(t_pipex *pipex, t_token *token,
-				t_copyenv *lst_envp);
+				t_copyenv **lst_envp);
 int			get_here_doc(t_heredoc *heredoc, t_pipex *pipex, char *str);
 
 //				here_doc			//
@@ -201,7 +201,7 @@ void		free_handle_bt_no_fork(t_pipex *pipex, t_copyenv *lst_envp);
 int			handle_built_in_pipex(t_token *token, t_pipex *pipex,
 				t_copyenv *lst_envp);
 int			handle_built_in_no_fork(t_pipex *pipex, t_token *token,
-				t_copyenv *lst_envp);
+				t_copyenv **lst_envp);
 int			built_in_pwd(void);
 int			built_in_env(t_copyenv *lst_envp);
 void		update_pwd(t_copyenv *lst_envp);
@@ -224,16 +224,16 @@ int			exit_one_arg(t_pipex *pipex, t_token *token, t_copyenv *lst_envp,
 
 //				export_utils	//
 char		*get_key(char *str);
-void		add_node_export_back(t_copyenv *lst,
+void		add_node_export_back(t_copyenv **lst,
 				t_copyenv *new_node);
 t_copyenv	*create_node(void);
 
 //				export      	//
 int			export_key_already_existing(char *key, char *str, t_copyenv *head);
-int			create_export_node(char *str, t_copyenv *head);
+int			create_export_node(char *str, t_copyenv **head);
 int			wrong_args(char *str);
-int			bt_export_loop_to_create_node(char *arg, t_copyenv *head);
-int			built_in_export(char **args, t_copyenv *lst);
+int			bt_export_loop_to_create_node(char *arg, t_copyenv **head);
+int			built_in_export(char **args, t_copyenv **lst);
 
 //				unset			//
 int			parsing_unset(char *str, t_copyenv *head);

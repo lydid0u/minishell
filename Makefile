@@ -53,10 +53,6 @@ $(DIR_OBJS):
 	mkdir -p objs/exec
 	mkdir -p objs/parsing
 
-leaks : all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore.txt   ./minishell
-#--trace-children=yes
-
 clean :
 	${RM} ${OBJS} 
 	make clean -C libft
@@ -73,7 +69,7 @@ re : fclean all
 
 -include $(DEPS)
 
-.PHONY : all clean fclean leaks re
+.PHONY : all clean fclean re
 
 # CDFLAGS 		= -MMD -MP
 # MAKEFLAGS		=	--no-print-directory
