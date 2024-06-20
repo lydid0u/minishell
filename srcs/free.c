@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:39:55 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/12 19:38:57 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:51:41 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_lst(t_copyenv *lst)
 		free(current);
 		current = nxt;
 	}
+	free(current);
 }
 
 void	free_all(t_pipex *pipex, t_copyenv *lst_envp, t_token *tok)
@@ -50,6 +51,7 @@ void	free_all(t_pipex *pipex, t_copyenv *lst_envp, t_token *tok)
 	free_tab(pipex->tab_env);
 	free_token(tok);
 	free_heredoc(pipex);
+	rl_clear_history();
 }
 
 void	free_token(t_token *token)

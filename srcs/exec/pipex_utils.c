@@ -115,6 +115,6 @@ char	**copy_env_to_tab(t_copyenv *lst_envp)
 		i++;
 		head = head->next;
 	}
-	tab[i] = '\0';
+	tab[i] = NULL;
 	return (tab);
 }

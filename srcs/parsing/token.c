@@ -107,18 +107,20 @@ t_token	*tokenisation(char *input)
 	return (tok->file_count = tok->r, free_tab(tab), tok);
 }
 
-// void	print_tokenexec(t_token *token)
-// {
-// 	printf("PRINT TOKEN IN EXEC\n");
-// 	printf("Command: %s\n", token->cmd);
-// 	for (int i = 0; i < token->arg_count; i++)
-// 	{
-// 		printf("argument : %s\n", token->args[i]);
-// 	}
-// 	printf("\n");
-// 	for (int i = 0; i < token->file_count; i++)
-// 	{
-// 		printf("Redirection: %d\n", token->redir_chevron[i]);
-// 		printf("File: %s\n", token->files[i]);
-// 	}
-// }
+/*
+void	print_tokenexec(t_token *token)
+{
+	printf("PRINT TOKEN IN EXEC\n");
+	printf("Command: %s\n", token->cmd);
+	for (int i = 0; i < token->arg_count; i++)
+	{
+		printf("argument : %s\n", token->args[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < token->file_count; i++)
+	{
+		printf("Redirection: %d\n", token->redir_chevron[i]);
+		printf("File: %s\n", token->files[i]);
+	}
+}
+*/

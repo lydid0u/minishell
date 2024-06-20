@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex *(pipex) = starton();
 	t_copyenv *(lst_envp) = create_lst(envp);
 	mini_main(pipex, &lst_envp);
-	return (0);
+	return (pipex->status_code);
 }
 
 // pipex->cmd = on split au pipe -> je recupere chaque commande

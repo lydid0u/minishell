@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:19:08 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/12 20:49:30 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:29:35 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ int	count_here_doc(char *str)
 			}
 		}
 		i++;
+	}
+	if (nb >= 17)
+	{
+		ft_printf("bash: maximum here-document count exceeded\n");
+		return (0);
 	}
 	return (nb);
 }

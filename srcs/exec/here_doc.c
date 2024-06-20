@@ -6,7 +6,7 @@
 /*   By: lboudjel <lboudjel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:35:45 by lboudjel          #+#    #+#             */
-/*   Updated: 2024/05/17 18:55:40 by lboudjel         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:30:12 by lboudjel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*open_here_doc(int i, t_pipex *pipex)
 		line = readline(">");
 		if (!line)
 		{
-			printf("bash: here-document delimited by end-of-file (wanted `%s')",
+			printf("bash: here-doc delimited by end-of-file (wanted `%s')\n",
 				pipex->heredoc[i].stop_word);
 			break ;
 		}
@@ -80,6 +80,7 @@ static void	exit_hd(int sig)
 		free(pipex->path);
 		free(pipex->prompt);
 		free_lst(pipex->envp);
+		free_tab(pipex->tab_env);
 		exit(130);
 	}
 }
@@ -113,6 +114,7 @@ void	here_doc(t_pipex *pipex, t_token *token, t_copyenv *lst_envp, char *str)
 	quote_positif(str);
 	get_stop_word(pipex->heredoc, token, str);
 	signal(SIGINT, SIG_IGN);
+	pipex->envp = lst_envp;
 	pid = fork();
 	if (pid == 0)
 		child_hd(pipex, lst_envp);

@@ -3,6 +3,7 @@
 		"type_traits": "c",
 		"random": "c",
 		"minishell.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"ft_printf.h": "c"
 	}
 }

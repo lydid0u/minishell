@@ -99,11 +99,6 @@ void	ft_waitpid(t_pipex *pipex)
 		waitpid(pipex->pid[i++], &pipex->status_code, 0);
 		if (WIFEXITED(pipex->status_code))
 			pipex->status_code = WEXITSTATUS(pipex->status_code);
-		if (WTERMSIG(pipex->status_code) == 2)
-		{
-			ft_printf("\n");
-			pipex->status_code = 130;
-		}
 		else if (WIFSIGNALED(pipex->status_code)
 			&& WTERMSIG(pipex->status_code) == SIGQUIT)
 		{
